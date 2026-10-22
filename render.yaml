@@ -1,0 +1,9 @@
+# Render 블루프린트: 대시보드에서 New + → Blueprint → 이 저장소를 고르면 아래 설정으로 자동 배포됩니다.
+services:
+  - type: web
+    name: lumina-city
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
