@@ -4,7 +4,9 @@
 const http = require('http'), fs = require('fs'), path = require('path');
 const { WebSocketServer } = require('ws');
 
-const PORT = +process.env.PORT || 3000, PUB = path.join(__dirname, 'public');
+const PORT = +process.env.PORT || 3000;
+// the files this server hands out, all next to it (no folders, so uploading them anywhere is a plain drag-and-drop)
+const FILES = { '/': 'index.html', '/index.html': 'index.html', '/models/manifest.json': 'manifest.json', '/models/xevo.glb.txt': 'xevo.glb.txt' };
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.json': 'application/json', '.txt': 'text/plain; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.glb': 'model/gltf-binary' };
 const TOPIC = /^[a-z][a-z0-9_.-]{0,47}$/, ROOM = /^[a-z0-9][a-z0-9_.-]{0,47}$/;
 const MAX_ROOM = 64, MAX_TOTAL = 600, MAX_DATA = 4096;
@@ -14,12 +16,14 @@ const server = http.createServer((req, res) => {
   let p;
   try { p = decodeURIComponent((req.url || '/').split('?')[0]); } catch (e) { res.writeHead(400); return res.end(); }
   if (p === '/health') { res.writeHead(200, { 'Content-Type': 'text/plain' }); return res.end('ok ' + clients.size); }
-  if (p === '/') p = '/index.html';
-  const f = path.normalize(path.join(PUB, p));
-  if (!f.startsWith(PUB + path.sep) && f !== PUB) { res.writeHead(403); return res.end(); }
+  const name = FILES[p];
+  if (!name) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('not found'); }
+  // next to this file, or in public/ (either layout works)
+  const here = path.join(__dirname, name), pub = path.join(__dirname, 'public', name.endsWith('index.html') ? name : path.join('models', name));
+  const f = fs.existsSync(here) ? here : pub;
   fs.readFile(f, (err, data) => {
     if (err) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('not found'); }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(f).toLowerCase()] || 'application/octet-stream', 'Cache-Control': p === '/index.html' ? 'no-cache' : 'public, max-age=3600' });
+    res.writeHead(200, { 'Content-Type': MIME[path.extname(f).toLowerCase()] || 'application/octet-stream', 'Cache-Control': name === 'index.html' ? 'no-cache' : 'public, max-age=3600' });
     res.end(data);
   });
 });
