@@ -205,7 +205,7 @@ body.touch .only-desk{display:none}
 .legend{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;color:#dfe4e9}
 .legend li{display:flex;gap:10px;align-items:baseline}
 .dot{flex:none;width:10px;height:10px;border-radius:50%;transform:translateY(1px)}
-.dot.c{background:#35e8ff}.dot.a{background:#9fd9ff}.dot.h{background:#ff5a3d}.dot.o{background:#f4f4f2}.dot.p{background:var(--deal)}.dot.k{background:#ff3df2}.dot.y{background:var(--mark)}.dot.b{background:var(--cop)}.dot.g{background:var(--cash)}.dot.r{background:var(--heat)}
+.dot.c{background:#35e8ff}.dot.a{background:#9fd9ff}.dot.h{background:#ff5a3d}.dot.w{background:#ff9fd0}.dot.o{background:#f4f4f2}.dot.p{background:var(--deal)}.dot.k{background:#ff3df2}.dot.y{background:var(--mark)}.dot.b{background:var(--cop)}.dot.g{background:var(--cash)}.dot.r{background:var(--heat)}
 #pause,#mapview,#nogl{display:grid;place-items:center;background:rgba(4,6,10,.78);padding:calc(20px + var(--st)) 16px calc(20px + var(--sb))}
 .menu{display:flex;flex-direction:column;gap:10px;min-width:min(300px,86vw)}
 .menu h2{margin:0 0 6px;font:400 44px/1 var(--f-display);transform:skewX(-8deg)}
@@ -326,6 +326,19 @@ body.touch.racing #tr{display:none}
 #heist-bar{height:6px;margin-top:8px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
 #heist-bar i{display:block;height:100%;width:0;background:#ff5a3d;transition:width .2s linear}
 body.touch #heist-prog{top:19%;font-size:13px}
+/* clothing store */
+.ward-ov{place-items:center start;background:linear-gradient(90deg,rgba(4,6,10,.86) 0,rgba(4,6,10,.86) 42%,rgba(4,6,10,.1) 60%)}
+.ward-panel{width:min(520px,100%);background:rgba(10,8,16,.6);border-color:rgba(255,159,208,.35)}
+.ward-eyebrow{color:#ff9fd0}
+.go.ward{background:#ff9fd0;color:#2a0a1c;box-shadow:0 5px 0 #8e3f6a}
+.go.ward:active{box-shadow:0 2px 0 #8e3f6a}
+.ward-rows{display:flex;flex-direction:column;gap:9px}
+.ward-row{display:flex;align-items:center;gap:10px}.ward-row>span{flex:0 0 68px;font-size:13px;color:var(--dim)}
+.ward-cells{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0}
+.ward-cells .sw{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.25);padding:0;cursor:pointer}
+.ward-cells .sw.on{border-color:#fff;box-shadow:0 0 0 2px #ff9fd0}
+.ward-step{padding:6px 10px}.ward-val{min-width:72px;text-align:center;font-size:14px;color:#eef2f6}
+@media (max-width:640px){.ward-ov{background:rgba(4,6,10,.72);place-items:center}.ward-panel{width:100%}}
 /* online */
 #net{font-size:15px;color:#9fe9ff}
 #chatlog{position:absolute;left:calc(18px + var(--sl));bottom:calc(150px + var(--sb));display:flex;flex-direction:column;gap:4px;max-width:min(420px,60vw);pointer-events:none}
@@ -342,6 +355,10 @@ body.touch #heist-prog{top:19%;font-size:13px}
 .net-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:#dfe4e9;max-height:160px;overflow:auto}.net-list b{color:#9fe9ff}
 .net-chat{height:200px;overflow:auto;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:rgba(0,0,0,.3);font-size:13.5px;line-height:1.5;color:#eef2f6}.net-chat b{color:#9fe9ff;margin-right:4px}.net-chat .sys{color:var(--dim)}
 #net-note.bad{color:#ff9a86}
+.gang-colors .sw{width:24px;height:24px}.gang-colors .sw[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px #9fe9ff}
+#gangs{position:absolute;left:50%;top:calc(76px + var(--st));transform:translateX(-50%);display:flex;align-items:baseline;gap:10px;padding:6px 14px;border-radius:4px;background:rgba(6,9,13,.6);font-size:22px;white-space:nowrap;pointer-events:none}
+#gangs span{display:inline-flex;align-items:baseline;gap:6px}#gangs i{font:400 12px var(--f-body);color:var(--dim)}#gangs em{font-style:normal;font-size:13px;color:var(--dim)}
+body.touch #gangs{top:calc(58px + var(--st));font-size:17px;padding:4px 10px}
 #t-chat{display:none;left:calc(206px + var(--sl));bottom:calc(118px + var(--sb));width:44px;height:44px;font-size:18px}
 body.touch.online #t-chat{display:grid}
 body.touch #chatlog{left:auto;right:calc(12px + var(--sr));top:calc(150px + var(--st));bottom:auto;max-width:min(300px,44vw);align-items:flex-end}
@@ -454,6 +471,7 @@ body.touch .cl{font-size:12.5px}
     <div id="kills" class="ol" hidden></div>
     <div id="net" class="ol" hidden></div>
   </div>
+  <div id="gangs" class="ol" hidden></div>
   <div id="chatlog" aria-live="polite"></div>
   <div id="chatbar" hidden><input id="chatin" type="text" maxlength="120" placeholder="메시지 (Enter 보내기 · Esc 닫기)" autocomplete="off"></div>
   <div id="feed" aria-live="polite"></div>
@@ -491,7 +509,7 @@ body.touch .cl{font-size:12.5px}
     <button class="tb" id="t-brake" data-k="brake">후진</button>
     <button class="tb" id="t-hand" data-k="hand">드리프트</button>
     <button class="tb" id="t-nitro" data-k="nitro">니트로</button>
-    <button class="tb" id="t-steal" data-k="steal">탈취</button>
+    <button class="tb" id="t-steal" data-k="steal">승하차</button>
     <button class="tb" id="t-cam" data-k="cam">시점</button>
     <button class="tb" id="t-fire" data-k="fire">사격</button>
     <button class="tb" id="t-arm" data-k="arm">총</button>
@@ -511,7 +529,6 @@ body.touch .cl{font-size:12.5px}
       <button id="start" class="go" disabled>도시 만드는 중…</button>
       <button id="snd" class="ghost" aria-pressed="true">사운드 켜짐</button>
       <button id="qbtn" class="ghost">화질 자동</button>
-      <button id="godbtn" class="ghost" aria-pressed="false">무적 모드 꺼짐</button>
     </div>
     <p id="t-save" class="savenote" data-s="wait" aria-live="polite">저장 확인 중…</p>
   </div>
@@ -520,7 +537,7 @@ body.touch .cl{font-size:12.5px}
     <dl class="keys only-desk">
       <dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd>가속 · 핸들 · 브레이크/후진</dd>
       <dt><kbd>Space</kbd><kbd>Shift</kbd></dt><dd>드리프트 · 니트로</dd>
-      <dt><kbd>F</kbd><kbd>R</kbd></dt><dd>옆 차 탈취 · 뒤집힌 차 복구</dd>
+      <dt><kbd>F</kbd><kbd>R</kbd></dt><dd>옆 차 타기 · 차가 없으면 내리기(걷기 W/S, 달리기 Shift, 점프 Space) · 차 복구</dd>
       <dt><kbd>G</kbd><kbd>E</kbd></dt><dd>총 꺼내기 · 사격 (마우스로 조준해 클릭)</dd>
       <dt><kbd>Q</kbd><kbd>1~9</kbd></dt><dd>무기 바꾸기</dd>
       <dt><kbd>T</kbd><kbd>X</kbd><kbd>B</kbd><kbd>Z</kbd></dt><dd>슬로모 · 점프 · 충격파 · EMP</dd>
@@ -528,12 +545,13 @@ body.touch .cl{font-size:12.5px}
       <dt><kbd>C</kbd><kbd>M</kbd><kbd>H</kbd></dt><dd>시점 · 전체 지도 · 경적</dd>
       <dt><kbd>N</kbd><kbd>P</kbd></dt><dd>라디오 · 일시정지</dd>
     </dl>
-    <p class="only-touch" style="margin:0;color:#dfe4e9">왼쪽 버튼으로 핸들, 오른쪽 버튼으로 가속·후진·드리프트·니트로. 멈춘 채로 다른 차 옆에서 <b>탈취</b>를 누르면 그 차를 뺏습니다. 빈 화면을 끌면 카메라가 돌고, 능력 버튼으로 슬로모·점프·충격파·EMP를 씁니다. 레이더를 누르면 전체 지도가 열립니다.</p>
+    <p class="only-touch" style="margin:0;color:#dfe4e9">왼쪽 버튼으로 핸들, 오른쪽 버튼으로 가속·후진·드리프트·니트로. 멈춘 채로 다른 차 옆에서 <b>승하차</b>를 누르면 그 차를 뺏고, 옆에 차가 없으면 내려서 걸어다닙니다. 빈 화면을 끌면 카메라가 돌고, 능력 버튼으로 슬로모·점프·충격파·EMP를 씁니다. 레이더를 누르면 전체 지도가 열립니다.</p>
     <h2>도시 안내</h2>
     <ul class="legend">
       <li><i class="dot y"></i><span>노란 빛기둥: 배달 의뢰</span></li>
       <li><i class="dot b"></i><span>파란 빛기둥: 정비소 (색은 그대로 수리, 수배 해제)</span></li>
-      <li><i class="dot p"></i><span>보라 빛기둥: 자동차 대리점 · 차 뽑기</span></li>
+      <li><i class="dot p"></i><span>보라 빛기둥: 자동차 대리점 — 전시장 · 내 차고 · 튜닝 · <b>차 뽑기(모든 차는 여기서만)</b></span></li>
+      <li><i class="dot w"></i><span>분홍 빛기둥(3번가 남쪽): 의류점 — 옷·머리·모자 꾸미기 · <b>F</b>로 차에서 내려 걸어다닐 수 있습니다</span></li>
       <li><i class="dot k"></i><span>분홍 빛기둥: 해변 카지노</span></li>
       <li><i class="dot r"></i><span>빨간 빛기둥: 총포사</span></li>
       <li><i class="dot c"></i><span>청록 빛기둥: 서쪽 해변 헬기장</span></li>
@@ -554,7 +572,7 @@ body.touch .cl{font-size:12.5px}
       <div id="shop-cash" class="ol">$0</div>
     </div>
     <div id="shop-tabs" class="tabs" role="tablist">
-      <button class="tab" data-tab="buy" role="tab">판매</button><button class="tab" data-tab="garage" role="tab">내 차고</button><button class="tab" data-tab="tune" role="tab">튜닝</button><button class="tab" data-tab="gacha" role="tab">차 뽑기</button>
+      <button class="tab" data-tab="buy" role="tab">전시장</button><button class="tab" data-tab="garage" role="tab">내 차고</button><button class="tab" data-tab="tune" role="tab">튜닝</button><button class="tab" data-tab="gacha" role="tab">차 뽑기</button>
     </div>
     <div id="view-buy" class="shop-view">
       <div id="shop-list" class="shop-list" role="listbox" aria-label="판매 차량"></div>
@@ -588,7 +606,7 @@ body.touch .cl{font-size:12.5px}
       <p class="shop-note">튜닝은 차마다 따로 저장되고 클라우드 세이브에도 같이 올라갑니다. 엔진은 최고속·가속, 타이어는 접지·조향, 브레이크는 제동, 장갑은 내구도, 니트로는 부스트 세기와 회복 속도를 올립니다.</p>
     </div>
     <div id="view-gacha" class="shop-view" hidden>
-      <div class="gacha-banner"><b class="ol">럭키 카 뽑기</b><span>신화 등급 <em>하이퍼카 · 루미나 X</em>는 뽑기에서만 나옵니다.</span></div>
+      <div class="gacha-banner"><b class="ol">럭키 카 뽑기</b><span>모든 차는 뽑기에서만 나옵니다. <em>초월</em>: 워헤드 · 제트 / <em>신화</em>: 하이퍼카 · 루미나 X 에보 · 볼트</span></div>
       <p id="gacha-pity" class="gacha-pity"></p>
       <div class="actions"><button id="pull1" class="go deal"></button><button id="pull10" class="go gold"></button></div>
       <div id="gacha-result" class="gacha-result" aria-live="polite"></div>
@@ -767,8 +785,12 @@ body.touch .cl{font-size:12.5px}
       <div class="net-col">
         <label class="net-row"><span>닉네임</span><input id="net-nick" type="text" maxlength="12" autocomplete="off"><button id="net-nick-save" class="ghost">저장</button></label>
         <label class="net-row"><span>방 이름</span><input id="net-room" type="text" maxlength="48" placeholder="예: friends-01" autocomplete="off" autocapitalize="off"><button id="net-join" class="ghost">들어가기</button><button id="net-lobby" class="ghost">로비로</button></label>
-        <p class="shop-note">방 이름을 정해 친구에게 알려주면 그 방 사람끼리만 보입니다. 비워 두면 로비 — 이 페이지를 연 모든 사람과 같은 도시입니다. 친구는 공유 메뉴에서 <b>이메일로 초대</b>(참여자 이상)해야 접속·채팅·공격이 됩니다.</p>
+        <p class="shop-note">방 이름을 정해 친구에게 알려주면 그 방 사람끼리만 보입니다. 비워 두면 로비 — 이 페이지를 연 모든 사람과 같은 도시입니다. 친구는 공유 메뉴에서 <b>이메일로 초대</b>해야 접속됩니다 (공개 링크로는 혼자 플레이). 서로 쏘고 들이받고 로켓으로 날릴 수 있고, 상대를 터뜨리면 <b>$5,000,000</b>.</p>
         <p id="net-note" class="shop-note"></p>
+        <h3 class="net-h">갱</h3>
+        <label class="net-row"><span>갱 이름</span><input id="net-gang" type="text" maxlength="8" placeholder="예: 레드" autocomplete="off"><button id="net-gang-join" class="ghost">갱 만들기 · 가입</button><button id="net-gang-leave" class="ghost">탈퇴</button></label>
+        <div class="net-row"><span>갱 색</span><div id="net-gang-colors" class="swatches gang-colors" role="radiogroup" aria-label="갱 색"></div></div>
+        <ul id="net-gang-score" class="net-list"></ul>
         <h3 class="net-h">접속한 사람</h3>
         <ul id="net-list" class="net-list"></ul>
       </div>
@@ -782,6 +804,18 @@ body.touch .cl{font-size:12.5px}
   </div>
 </section>
 
+<section id="wardrobe" class="overlay menu-ov ward-ov" hidden>
+  <div class="menu-panel heli-panel ward-panel" role="dialog" aria-label="의류점">
+    <div class="shop-head">
+      <div><p class="eyebrow ward-eyebrow">Lumina Threads</p><h2 class="ol">의류점</h2></div>
+    </div>
+    <p class="heli-desc">색을 누르면 바로 갈아입습니다. 전부 무료. 옷차림과 이름은 저장되고, 온라인에서 친구들에게 이 모습과 이름표로 보입니다.</p>
+    <label class="net-row ward-name"><span>이름</span><input id="ward-name" type="text" maxlength="12" autocomplete="off" placeholder="다른 사람에게 보이는 이름"><button id="ward-name-save" class="ghost">저장</button></label>
+    <div id="ward-rows" class="ward-rows"></div>
+    <div class="actions"><button class="go ward" data-close>이대로 나가기</button><button id="ward-random" class="ghost">랜덤</button><button id="ward-undo" class="ghost">들어올 때 옷으로</button></div>
+  </div>
+</section>
+
 <section id="pause" class="overlay" hidden>
   <div class="menu">
     <h2 class="ol">일시정지</h2>
@@ -790,7 +824,6 @@ body.touch .cl{font-size:12.5px}
     <button id="p-reset">차량 복구 (제자리에 다시 세우기)</button>
     <button id="p-quit" hidden>레이스 그만두기</button>
     <button id="p-sound">사운드 끄기</button>
-    <button id="p-god">무적 모드: 꺼짐</button>
     <button id="p-minealert">지뢰 폭발 알림: 꺼짐</button>
     <button id="p-online">온라인</button>
     <button id="p-ctrl">조작: 자동 감지</button>
@@ -3969,7 +4002,7 @@ function spawnTraffic(pv, minD, maxD, forceKey, anyView) {
   }
   return null;
 }
-function makeWreck(v) { const a = { v, mode: 'wreck', t: 0 }; v.ai = a; traffic.push(a); }
+function makeWreck(v) { if (v.walker) { v.dispose(); return; } const a = { v, mode: 'wreck', t: 0 }; v.ai = a; traffic.push(a); }
 
 function updateTraffic(dt, pv) {
   for (let k = traffic.length - 1; k >= 0; k--) {
@@ -3980,7 +4013,7 @@ function updateTraffic(dt, pv) {
       a.t += dt;
       if (v.speed > 0.05 || !v.onGround) { v.update(dt, NOINPUT); v.sync(dt); }
       if (v.dead && Math.random() < dt * 6) burst(v.x + rnd(-1, 1), v.y + 1.2, v.z + rnd(-1, 1), 'smoke', 1, 0.5);
-      if (a.t > 25 && dp > 120) { v.dispose(); traffic.splice(k, 1); }
+      if (a.t > 25 && dp > 120 && !a.mine) { v.dispose(); traffic.splice(k, 1); }
       continue;
     }
     if (v.dead) { a.mode = 'wreck'; a.t = 0; continue; }
@@ -4017,7 +4050,7 @@ function updateTraffic(dt, pv) {
   }
   if ((spawnClock -= dt) <= 0) {
     spawnClock = 0.2;
-    if (traffic.length < TRAFFIC_MAX) { if (!(nearRoute(pv.x, pv.z, 60) && offGrid(pv.x, pv.z) && spawnHwCar(pv))) spawnTraffic(pv, 70, DESPAWN - 40); }
+    if (traffic.length < TRAFFIC_MAX && !G.inside) { if (!(nearRoute(pv.x, pv.z, 60) && offGrid(pv.x, pv.z) && spawnHwCar(pv))) spawnTraffic(pv, 70, DESPAWN - 40); }
   }
 }
 let spawnClock = 0;
@@ -4319,7 +4352,7 @@ function updatePeds(dt, cars, pv) {
     p.m.position.set(p.x, p.y + bob, p.z);
     p.m.rotation.set(p.rx, p.h, upright ? Math.sin(p.ph) * 0.07 : 0, 'YXZ');
   }
-  if ((pedClock -= dt) <= 0) { pedClock = 0.15; if (peds.length < PED_MAX) spawnPed(pv); }
+  if ((pedClock -= dt) <= 0) { pedClock = 0.15; if (peds.length < PED_MAX && !G.inside) spawnPed(pv); }
 }
 let pedClock = 0;
 /* ================= police helicopter (3+ stars) ================= */
@@ -4940,22 +4973,14 @@ function ownedCar() { return G.garage[clamp(G.carIdx | 0, 0, G.garage.length - 1
 function spawnOwned(at) { const c = ownedCar(), v = new Vehicle(c.key, c.color, true, c.trim, c.neon, c.tune, c.parts); v.owned = true; v.place(at.x, at.z, at.h, at.y); return v; }
 // your own ride: 60% less damage, heals itself after a few quiet seconds; god mode takes nothing at all
 const PLAYER_ARMOR = 0.4, REGEN_DELAY = 3, REGEN_RATE = 0.08;
-G.god = store.get('god', false) === true;
+G.god = false;                                           // no invincibility any more (everyone can be hit online)
 function playerDamage(d) { G.lastHitT = G.t; return G.god ? 0 : d * PLAYER_ARMOR; }
 function regenPlayer(dt) {
   const v = P.v;
   if (!v || v.dead || v.hp >= v.T.hp || G.t - (G.lastHitT || -99) < REGEN_DELAY) return;
   v.hp = Math.min(v.T.hp, v.hp + v.T.hp * REGEN_RATE * dt);
 }
-function toggleGod() {
-  G.god = !G.god; store.set('god', G.god); document.body.classList.toggle('god', G.god);
-  if (G.god && P.v && !P.v.dead) P.v.hp = P.v.T.hp;
-  godLabel(); AudioSys.fx('click');
-}
-function godLabel() {
-  $('p-god').textContent = '무적 모드: ' + (G.god ? '켜짐 (차가 망가지지 않음)' : '꺼짐');
-  const t = $('godbtn'); t.textContent = G.god ? '무적 모드 켜짐' : '무적 모드 꺼짐'; t.setAttribute('aria-pressed', String(G.god));
-}
+
 function setMoney(delta, quiet) {
   G.money = Math.max(0, Math.round(G.money + delta));
   store.set('money', G.money);
@@ -5069,14 +5094,14 @@ function updateCamera(dt) {
   if (m.fp) {
     const vf = Math.sin(v.h), vz = Math.cos(v.h), rx = -vz, rz = vf;
     if (v.heli) { cx = v.x + vf * 2.3; cz = v.z + vz * 2.3; cy = v.y + 1.85; }
-    else {                                                   // from the driver's seat, riding the car's tilt
-      const e = cockpitEye(v), c = Math.cos(v.pitch), sn = Math.sin(v.pitch);
-      cx = v.x + vf * (e[2] * c) + rx * e[0]; cz = v.z + vz * (e[2] * c) + rz * e[0]; cy = v.y + v.visOff + e[1] * c - e[2] * sn * 0.5;
+    else {                                                   // from the driver's seat, riding the car's tilt, the head swaying with it
+      const e = cockpitEye(v), c = Math.cos(v.pitch), sn = Math.sin(v.pitch), sw = v.walker ? [0, 0] : cockpitSway(v, dt);
+      cx = v.x + vf * (e[2] * c) + rx * (e[0] + sw[0]); cz = v.z + vz * (e[2] * c) + rz * (e[0] + sw[0]); cy = v.y + v.visOff + e[1] * c - e[2] * sn * 0.5 + sw[1];
     }
     CAM.look.set(cx + fx * 12, cy + Math.sin(v.pitch) * 12 - CAM.pitch * 8, cz + fz * 12);
     CAM.pos.set(cx, cy, cz);
   } else {
-    const big = clamp((v.T.H - 1.45) * 0.9, 0, 1.6), d0 = m.d + v.speed * 0.045 + clamp((v.T.L - 4.5) * 0.8, 0, 1) + big * 1.3, h0 = m.hgt + big + v.speed * 0.012;
+    const big = clamp((v.T.H - 1.45) * 0.9, 0, 1.6), d0 = (m.d + v.speed * 0.045 + clamp((v.T.L - 4.5) * 0.8, 0, 1) + big * 1.3) * (v.walker ? 0.62 : 1), h0 = (m.hgt + big + v.speed * 0.012) * (v.walker ? 0.7 : 1);
     // drag up and down to swing the camera over the car or down near the road
     const el = clamp(Math.atan2(h0, d0) + CAM.pitch, 0.04, 1.3), r = Math.hypot(h0, d0), d = r * Math.cos(el);
     cx = v.x - fx * d; cz = v.z - fz * d; cy = v.y + r * Math.sin(el);
@@ -5084,6 +5109,7 @@ function updateCamera(dt) {
       for (let s = 0.85; s > 0.1; s -= 0.15) { const tx = v.x - fx * d * s, tz = v.z - fz * d * s; if (!pointBlocked(tx, tz, 0.6)) { cx = tx; cz = tz; break; } }
     }
     cy = Math.max(cy, groundAt(cx, cz, v.y + 1) + 1.2);
+    if (G.inside && ROOMS[G.inside]) { const r = ROOMS[G.inside]; cx = clamp(cx, r.x0 + 0.8, r.x0 + r.w - 0.8); cz = clamp(cz, r.z0 + 0.8, r.z0 + r.d - 0.8); cy = Math.min(cy, r.h - 0.4); }   // indoors the camera stays in the room
     // driving under the skyway: keep the camera below the slab
     const ceil = deckTopAt(cx, cz);
     if (ceil > v.y + 3) cy = Math.min(cy, Math.max(v.y + 1.4, ceil - 2.2));
@@ -5096,7 +5122,7 @@ function updateCamera(dt) {
   camera.position.set(CAM.pos.x + rnd(-1, 1) * sh * 0.25, CAM.pos.y + rnd(-1, 1) * sh * 0.2, CAM.pos.z + rnd(-1, 1) * sh * 0.25);
   camera.lookAt(CAM.look);
   G.shake = damp(G.shake, 0, 5, dt);
-  const fov = (m.fp ? 74 : 60) + clamp(v.speed * 0.32, 0, 22) + (v.nitroOn ? 7 : 0);
+  const fov = (m.fp ? 76 : 60) + clamp(v.speed * 0.32, 0, 22) + (v.nitroOn ? 7 : 0);
   CAM.fov = damp(CAM.fov, fov, 3, dt);
   if (Math.abs(camera.fov - CAM.fov) > 0.05) { camera.fov = CAM.fov; camera.updateProjectionMatrix(); }
 }
@@ -5262,10 +5288,10 @@ function endRun(kind) {
   setArmed(false); setSlow(false);
   if (RACE.mode) endRace('');
   G.state = 'end'; G.endKind = kind; G.endT = 0;
-  const fee = kind === 'busted' ? clamp(Math.round(G.money * 0.1), 100, 50000) : kind === 'wasted' ? 300 : 150;
+  const fee = kind === 'busted' ? clamp(Math.round(G.money * 0.1), 100, 50000) : kind === 'wasted' ? 300 : kind === 'down' ? 200 : 150;
   G.endFee = Math.min(fee, G.money);
   $('game').classList.add('grey'); applyPerfFallbacks();
-  const T = { busted: ['검거', '벌금 ', '#f2f4f6'], wasted: ['폐차', '견인비 ', '#ff4a3d'], sunk: ['침수', '견인비 ', '#7cc4ff'] }[kind];
+  const T = { busted: ['검거', '벌금 ', '#f2f4f6'], wasted: ['폐차', '견인비 ', '#ff4a3d'], sunk: ['침수', '견인비 ', '#7cc4ff'], down: ['쓰러짐', '병원비 ', '#ffb3a0'] }[kind];
   bigText(T[0], T[1] + fmtMoney(G.endFee), T[2], 4.2);
   AudioSys.fx('fail');
   if (G.mission) failMission('', true);
@@ -5276,15 +5302,15 @@ function finishEnd() {
   setMoney(-G.endFee);
   const kind = G.endKind, old = P.v, tr = kind === 'wasted' ? trackAt(old.x, old.z, 40) : null, atTrack = !!(tr && tr.paddock);
   const at = kind === 'busted' ? STATION : kind === 'sunk' ? { x: clamp(old.x, 30, CITY - 30), z: 798, h: -Math.PI / 2 } : atTrack ? tr.paddock : GARAGE;
-  if (kind === 'wasted') makeWreck(old); else old.dispose();
-  if (kind === 'wasted' || old.owned || old.heli) P.v = spawnOwned(at);
+  if (kind === 'wasted' && !old.walker) makeWreck(old); else old.dispose();
+  if (kind === 'wasted' || kind === 'down' || old.owned || old.heli || old.walker) P.v = spawnOwned(at);
   else { P.v = new Vehicle(old.key, old.color, true, old.trim, old.neon, old.tune, old.parts); P.v.place(at.x, at.z, at.h); }
-  G.wanted = 0; G.bust = 0; G.searching = false; G.kills = 0;
+  G.wanted = 0; G.bust = 0; G.searching = false; G.kills = 0; G.inside = null; IN.id = null;
   for (const c of cops) c.v.dispose();
   cops.length = 0; clearOfficers(); clearMines();
   $('game').classList.remove('grey');
   G.state = 'play'; CAM.init = false; CAM.yaw = CAM.pitch = 0; showCarName();
-  subtitle(kind === 'busted' ? '경찰서 앞에서 풀려났습니다.' : kind === 'sunk' ? '견인된 차를 해안로에서 돌려받았습니다.'
+  subtitle(kind === 'busted' ? '경찰서 앞에서 풀려났습니다.' : kind === 'down' ? '병원에서 깨어났습니다. 내 차 <b>' + P.v.T.name + '</b>를 정비소에서 받았습니다.' : kind === 'sunk' ? '견인된 차를 해안로에서 돌려받았습니다.'
     : atTrack ? tr.name + ' 패독에서 내 차 <b>' + P.v.T.name + '</b>를 다시 받았습니다. 바로 옆 흰 빛기둥에서 레이스를 다시 할 수 있어요.'
     : '보험 처리로 내 차 <b>' + P.v.T.name + '</b>를 정비소에서 받았습니다.', 4);
 }
@@ -5325,8 +5351,10 @@ function tryCarjack() {
   if (pv.sub) { leaveSub(); return; }
   if (pv.heli) { leaveHeli(); return; }
   if (HP.parked && pv.speed < 4.5 && Math.hypot(HP.parked.x - pv.x, HP.parked.z - pv.z) < 10) { boardHeli(false); return; }
-  if (pv.speed > 4.5) { help('차를 거의 세워야 옆 차로 갈아탈 수 있습니다.', 2.5); return; }
-  if (!jackNearest(pv, 8.5)) help('주변에 탈 수 있는 차가 없습니다. 다른 차 옆에 바짝 붙이세요.', 2.5);
+  if (pv.walker && G.inside) { interiorInteract(); return; }
+  if (pv.walker) { if (!jackNearest(pv, 5)) help('차 바로 옆에서 <b>' + (IS_TOUCH ? '승하차' : 'F') + '</b>를 누르면 탑니다.', 2.5); return; }
+  if (pv.speed > 4.5) { help('차를 거의 세워야 갈아타거나 내릴 수 있습니다.', 2.5); return; }
+  if (!jackNearest(pv, 8.5)) leaveCar();                 // nothing to switch into: step out
 }
 function jackNearest(pv, range) {
   let best = null, bd = range, list = null;
@@ -5339,11 +5367,11 @@ function jackNearest(pv, range) {
   if (best.mode === 'drive' || list === cops) spawnFleeingPed(tv.x + Math.cos(tv.h) * 2.2, tv.z - Math.sin(tv.h) * 2.2, pv.x, pv.z);
   tv.dispose();
   pv.vx = pv.vz = 0;
-  if (pv.heli) parkHeli(pv); else makeWreck(pv);
+  if (pv.heli) parkHeli(pv); else if (pv.walker) pv.dispose(); else makeWreck(pv);
   P.v = nv; CAM.init = false;
   AudioSys.fx('click'); AudioSys.fx('whoosh', 0.6);
-  showCarName(); subtitle('<b>' + nv.T.name + '</b>에 올라탔습니다.', 2.6);
-  if (nv.owned) return true;
+  showCarName(); subtitle('<b>' + nv.T.name + '</b>에 ' + (best.mine ? '다시 탔습니다.' : '올라탔습니다.'), 2.6);
+  if (nv.owned || best.mine) return true;                // your own car, or one you parked yourself
   G.stats.stolen++; store.set('stats', G.stats);
   if (nv.T.cop) addWanted(2, '경찰차를 훔쳤습니다!');
   else if (copNear(60)) addWanted(1, '경찰이 차량 탈취를 목격했습니다.');
@@ -5547,7 +5575,8 @@ const DEALER = [
   { key: 'volt', price: 18000000, tag: '전기 하이퍼카. 밟는 순간 튀어 나가는 가속, 소리 없는 질주.' },
   { key: 'xevo', price: 25000000, tag: '루미나 X의 진화형. 뽑기 전설차보다 빠릅니다.' },
   { key: 'jet', price: 32000000, tag: '꼬리에 제트 엔진. 니트로를 켜면 애프터버너가 불을 뿜습니다.' },
-  { key: 'warhead', price: 38000000, tag: '최고급 전투차. 지붕 미니건·로켓·지뢰를 무한으로 쏩니다. 장갑 50%.' }
+  { key: 'warhead', price: 38000000, tag: '최고급 전투차. 지붕 미니건·로켓·지뢰를 무한으로 쏩니다. 장갑 50%.' },
+  { key: 'hyper', price: 50000000, tag: '루미나 X. 뽑기 신화 등급의 하이퍼카.' }
 ];
 const SHOP_COLORS = [0xc8102e, 0xd9822b, 0xf2c230, 0x2e6b3f, 0x0f7c8c, 0x1f4e8c, 0x6b2d5c, 0xe9e9e6, 0x8a9199, 0x1c1c1f];
 const DEALER_POS = { x: 360, z: 491 };                     // entrance marker, north sidewalk of the lot
@@ -5706,21 +5735,22 @@ function buyTune(k) {
 function renderBuy() {
   const d = DEALER[shop.sel], T = CAR_TYPES[d.key], oi = ownedIndex(d.key), owned = oi >= 0, gold = owned && G.garage[oi].trim === 'gold';
   DEALER.forEach((x, i) => {
-    const el = $('shop-i' + i), own = ownedIndex(x.key) >= 0;
+    const el = $('shop-i' + i), own = ownedIndex(x.key) >= 0, tier = gachaTierOf(x.key);
     el.setAttribute('aria-selected', String(i === shop.sel));
-    el.classList.toggle('own', own); el.classList.toggle('poor', !own && G.money < x.price);
-    el.lastElementChild.textContent = own ? '보유 중' : fmtMoney(x.price);
+    el.classList.toggle('own', own); el.classList.remove('poor');
+    el.lastElementChild.textContent = own ? '보유 중' : '뽑기 · ' + (tier ? tier.name : '?');
+    el.lastElementChild.style.color = own || !tier ? '' : tier.color;
   });
   $('shop-name').textContent = T.name; $('shop-tag').textContent = d.tag;
   $('shop-stats').innerHTML = statsHtml(owned ? trimType(d.key, G.garage[oi].trim) : T);
   document.querySelectorAll('#shop-colors .sw').forEach(b => b.setAttribute('aria-checked', String(+b.dataset.c === shop.color)));
-  const buy = $('shop-buy');
+  const buy = $('shop-buy'), tier = gachaTierOf(d.key);
   if (owned) { buy.textContent = '이 차 타고 나가기'; buy.disabled = false; }
-  else { buy.textContent = (G.money >= d.price ? '구매하고 타기 · ' : '돈이 부족합니다 · ') + fmtMoney(d.price); buy.disabled = G.money < d.price; }
+  else { buy.textContent = '차 뽑기로 가기 · 1회 ' + fmtMoney(GACHA.price1); buy.disabled = false; }
   $('shop-note').textContent = gold ? '골드 트림 차입니다. 골드 도장은 바꿀 수 없습니다.'
     : owned ? '이미 가진 차입니다. 색을 바꿔도 무료입니다.'
-    : G.money >= d.price ? '산 차는 차고에 보관됩니다. 폐차돼도 보험으로 다시 받습니다.'
-    : `${fmtMoney(d.price - G.money)} 더 모아야 합니다. 배달 의뢰와 스턴트 점프로 벌 수 있습니다.`;
+    : tier ? `전시 차량입니다. 이 차는 차 뽑기 ${tier.name} 등급(${(tier.p * 100).toFixed(tier.p < 0.1 ? 1 : 0)}%)에서만 나옵니다. 신화 이상은 ${GACHA.pity}회마다 확정.`
+    : '전시 차량입니다. 차는 차 뽑기에서만 얻을 수 있습니다.';
 }
 function renderGarage() {
   const cur = G.carIdx | 0;
@@ -5766,14 +5796,9 @@ function driveOwned(idx) {
 }
 function buySelected() {
   const d = DEALER[shop.sel];
-  let idx = ownedIndex(d.key);
-  if (idx < 0) {
-    if (G.money < d.price) return;
-    setMoney(-d.price, true);
-    G.garage.push({ key: d.key, color: shop.color, trim: 'stock' }); idx = G.garage.length - 1;
-    AudioSys.fx('win'); driveOwned(idx);
-    bigText('새 차 구입', CAR_TYPES[d.key].name + ' · ' + fmtMoney(d.price), '#d6b0ff', 2.8);
-  } else {
+  const idx = ownedIndex(d.key);
+  if (idx < 0) { setShopTab('gacha'); AudioSys.fx('click'); return; }    // not for sale: the showroom points at the gacha
+  {
     if (G.garage[idx].trim !== 'gold') G.garage[idx].color = shop.color;
     driveOwned(idx);
     subtitle('차고에서 <b>' + P.v.T.name + '</b>를 꺼냈습니다.', 2.6);
@@ -5795,27 +5820,30 @@ function shopKey(e) {
   } else if (k === 'Enter') { e.preventDefault(); if (shop.tab === 'buy') buySelected(); else if (shop.tab === 'garage') driveOwned(shop.gsel); }
 }
 /* ================= car gacha (차 뽑기, inside Lumina Motors) ================= */
+// every car in the city comes out of here and nowhere else (the dealer only shows them off)
 const GACHA = {
-  price1: 5000, price10: 45000, pity: 40,
+  price1: 2000000, price10: 18000000, pity: 40,
   tiers: [
-    { id: 'M', name: '신화', p: 0.01, color: '#ff5fd2', ring: 0xff5fd2, cars: ['hyper'], dupe: 20000 },
-    { id: 'L', name: '전설', p: 0.05, color: '#ffc53a', ring: 0xffc53a, cars: ['super'], dupe: 10000 },
-    { id: 'E', name: '에픽', p: 0.14, color: '#b46bff', ring: 0xb46bff, cars: ['sports', 'monster'], dupe: 5000 },
-    { id: 'R', name: '레어', p: 0.30, color: '#4b9bff', ring: 0x4b9bff, cars: ['muscle', 'rally'], dupe: 2500 },
-    { id: 'C', name: '일반', p: 0.50, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi'], dupe: 1000 }
+    { id: 'X', name: '초월', p: 0.005, color: '#ff9a86', ring: 0xff5a3d, cars: ['warhead', 'jet'], dupe: 60000000 },
+    { id: 'M', name: '신화', p: 0.015, color: '#ff5fd2', ring: 0xff5fd2, cars: ['hyper', 'xevo', 'volt'], dupe: 25000000 },
+    { id: 'L', name: '전설', p: 0.05, color: '#ffc53a', ring: 0xffc53a, cars: ['super'], dupe: 8000000 },
+    { id: 'E', name: '에픽', p: 0.14, color: '#b46bff', ring: 0xb46bff, cars: ['sports', 'monster'], dupe: 3000000 },
+    { id: 'R', name: '레어', p: 0.29, color: '#4b9bff', ring: 0x4b9bff, cars: ['muscle', 'rally'], dupe: 1500000 },
+    { id: 'C', name: '일반', p: 0.50, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi'], dupe: 600000 }
   ],
   trims: [['gold', 0.04], ['neon', 0.18], ['stock', 0.78]]
 };
 const TRIM_RANK = { stock: 0, neon: 1, gold: 2 };
 const tierIndex = t => GACHA.tiers.indexOf(t);          // 0 = rarest
+const gachaTierOf = key => GACHA.tiers.find(t => t.cars.includes(key)) || null;
 
 function rollGacha() {
   G.pity = (G.pity || 0) + 1;
   const T = GACHA.tiers;
   let tier = T[T.length - 1];
-  if (G.pity >= GACHA.pity) tier = Math.random() < 1 / 6 ? T[0] : T[1];    // pity: legendary or better, same 1:5 split
+  if (G.pity >= GACHA.pity) tier = Math.random() < 1 / 4 ? T[0] : T[1];    // pity: mythic or better, 1 in 4 transcendent
   else { let r = Math.random(); for (const t of T) { if (r < t.p) { tier = t; break; } r -= t.p; } }
-  if (tier.id === 'M' || tier.id === 'L') G.pity = 0;
+  if (tier.id === 'X' || tier.id === 'M') G.pity = 0;
   let r = Math.random(), trim = 'stock';
   for (const [name, p] of GACHA.trims) { if (r < p) { trim = name; break; } r -= p; }
   return { tier, key: pick(tier.cars), trim };
@@ -5874,7 +5902,7 @@ function revealGacha(res, best) {
 }
 function renderGacha() {
   const left = GACHA.pity - (G.pity || 0);
-  $('gacha-pity').innerHTML = `전설 이상 확정까지 <b>${left}회</b>`;
+  $('gacha-pity').innerHTML = `신화 이상 확정까지 <b>${left}회</b> · 모든 차는 여기서만 나옵니다`;
   $('pull1').disabled = shop.pulling || G.money < GACHA.price1;
   $('pull10').disabled = shop.pulling || G.money < GACHA.price10;
 }
@@ -6062,6 +6090,7 @@ function cursorPoint(maxD) {
 function muzzle(v, W) {     // driver's window (helicopter: the cabin door, below the nose; a mounted gun: its barrel)
   const fx = Math.sin(v.h), fz = Math.cos(v.h), lx = Math.cos(v.h), lz = -Math.sin(v.h);
   if (v.heli) return [v.x + fx * 1.6 + lx * 1.3, v.y + 0.6, v.z + fz * 1.6 + lz * 1.3];
+  if (v.walker) return [v.x + fx * 0.35 + lx * 0.3, v.y + 1.4, v.z + fz * 0.35 + lz * 0.3];
   if (W && W.car && v.turret) {
     const a = v.h + v.turret.rotation.y, tx = Math.sin(a), tz = Math.cos(a), r = v.T.cannon ? 4.6 : 1.4;
     return [v.x + tx * r + fx * v.turret.position.z, v.y + v.turret.position.y + (v.T.cannon ? 0.6 : 0.4), v.z + tz * r + fz * v.turret.position.z];
@@ -6359,6 +6388,7 @@ function explodeAt(x, y, z, R, dmg, byPlayer) {
   for (const c of cops.slice()) blast(c.v);
   for (const a of traffic.slice()) blast(a.v);
   for (const r of racers) blast(r.v);
+  for (const g of NET.ghosts.values()) if (!g.v.dead && g.v.mesh.visible) { const d = Math.hypot(g.v.x - x, g.v.y + 0.8 - y, g.v.z - z); if (d <= R) g.v.damage(dmg * (1 - d / R)); }   // online friends in the blast
   for (const p of peds) { const d = Math.hypot(p.x - x, p.z - z); if (d < R) knockPed(p, x, z, 4 + 8 * (1 - d / R)); }
   for (const o of officers) { const d = Math.hypot(o.x - x, o.y + 1 - y, o.z - z); if (d < R && o.mode !== 'down') { knockOfficer(o, x, z, 4 + 8 * (1 - d / R), byPlayer && G.state === 'play'); copHit = true; } }
   const near = queryCol(x, z, R).filter(c => (c.lamp != null || c.tree != null) && Math.hypot(c.x - x, c.z - z) < R * 0.7);
@@ -6448,6 +6478,7 @@ function updateGunShop(t) {
   gunshop.inside = true;
   if (pv.speed > 9) { help('총포사 앞에서는 속도를 줄이세요.', 2); gunshop.inside = false; return; }
   if (G.wanted > 0) { help('수배 중에는 총포사가 문을 닫습니다.', 3); return; }
+  if (pv.walker) { enterInterior('guns'); return; }
   openMenu('gunshop'); renderGunShop();
 }
 function openMenu(id) {
@@ -6570,6 +6601,7 @@ function updateCasino(t) {
   C.inside = true;
   if (pv.speed > 9) { help('카지노 앞에서는 속도를 줄이세요.', 2); C.inside = false; return; }
   if (G.wanted > 0) { help('수배 중에는 카지노에 들어갈 수 없습니다.', 3); return; }
+  if (pv.walker) { enterInterior('casino'); return; }
   openMenu('casino'); buildCasino(); setCasinoTab(C.tab);
 }
 const casinoCash = () => { $('casino-cash').textContent = fmtMoney(G.money); if (C.built) renderChips(); };
@@ -6824,7 +6856,7 @@ function bacFinish(bet) {
 // picks up where you left off. Each account save carries a revision, and a browser remembers which revision
 // its progress grew from. When the account moved on elsewhere while this browser changed too, the save that
 // is worth more wins, so an empty browser can never wipe a richer save.
-const PROGRESS_KEYS = ['money', 'garage', 'carIdx', 'pity', 'arms', 'weapon', 'stats', 'flags'];
+const PROGRESS_KEYS = ['money', 'garage', 'carIdx', 'pity', 'arms', 'weapon', 'stats', 'flags', 'outfit'];
 const PROGRESS_SET = new Set(PROGRESS_KEYS);
 const SAVE_GAP = 4000;                                   // at most one account write per few seconds
 const hasOwn = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
@@ -6839,7 +6871,7 @@ const SAVE = {
 if (!SAVE.base || typeof SAVE.base !== 'object') SAVE.base = null; else SAVE.seenRev = +SAVE.base.rev || 0;
 if (typeof SAVE.bid !== 'string' || !SAVE.bid) { SAVE.bid = Math.random().toString(36).slice(2, 10); store.set('saveBrowser', SAVE.bid); }
 
-const progressData = () => JSON.parse(JSON.stringify({ money: G.money, garage: G.garage, carIdx: G.carIdx, pity: G.pity || 0, arms: G.arms, weapon: G.weapon, stats: G.stats, flags: G.flags }));
+const progressData = () => JSON.parse(JSON.stringify({ money: G.money, garage: G.garage, carIdx: G.carIdx, pity: G.pity || 0, arms: G.arms, weapon: G.weapon, stats: G.stats, flags: G.flags, outfit: G.outfit }));
 function carWorth(c) {
   const d = DEALER.find(x => x.key === c.key);
   return (d ? d.price : c.key === 'hyper' ? 90000 : 2500) + (c.trim === 'gold' ? 20000 : c.trim === 'neon' ? 4000 : 0) + tuneSpent(c.tune);
@@ -6928,6 +6960,7 @@ function applyProgress(d, write) {
     G.weapon = G.arms[w] && G.arms[w].own ? w : 'pistol';
     if (d.stats && typeof d.stats === 'object') G.stats = Object.assign({ jobs: 0, jumps: 0, stolen: 0, best: 0 }, d.stats);
     G.flags = d.flags && typeof d.flags === 'object' ? Object.assign({}, d.flags) : {};
+    if (d.outfit && typeof d.outfit === 'object') { G.outfit = cleanOutfit(d.outfit); if (P.v && P.v.walker) P.v.setOutfit(G.outfit); }
     if (write) for (const k of PROGRESS_KEYS) store.set(k, G[k]);
   } finally { SAVE.applying = false; }
   // a gift this browser paid itself before the account save arrived is void now: the account save decides what is new
@@ -7070,7 +7103,7 @@ function updateRaceGate(t) {
   TRACKS.forEach((tr, i) => { animMarker(tr.markerMesh, t + 6 + i * 1.7); const d = Math.hypot(tr.marker.x - pv.x, tr.marker.z - pv.z); if (d < nd) { nd = d; near = tr; } });
   if (G.state !== 'play' || RACE.mode) return;
   if (nd > 7) RACE.inside = false;
-  if (RACE.inside || nd > 3.8 || !grounded(pv)) return;
+  if (RACE.inside || nd > 3.8 || !grounded(pv) || pv.walker) return;
   RACE.inside = true;
   if (pv.heli) { help('헬기로는 레이스에 나갈 수 없습니다. 차를 타고 오세요.', 3); return; }
   if (pv.speed > 9) { help('입구에서는 속도를 줄이세요.', 2); RACE.inside = false; return; }
@@ -8144,7 +8177,7 @@ function updateHUD(dt) {
     if ((area === '순환 고속도로' || area === '루미나 국제공항') && !hudCache.toldOut && G.state === 'play') { hudCache.toldOut = true; help('도시 밖으로 <b>순환 고속도로</b>와 <b>루미나 국제공항</b>이 열렸습니다. 활주로에서 최고 속도를 재 보세요. 길을 잃으면 <b>R</b>로 도로 위로 돌아옵니다.', 6); }
   }
   if ((hudT.area -= dt) <= 0) H.area.classList.remove('show');
-  setText(H.street, 'street', v.sub ? '수심 ' + Math.round(Math.max(0, -v.y)) + 'm · 보물 ' + ((G.stats && G.stats.treasure) || 0) + '개' : v.heli ? '고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.plane ? (v.onGround ? ' · 지상' : v.vf < PLANE_STALL ? ' · 실속!' : '') : '') : streetAt(v.x, v.z));
+  setText(H.street, 'street', v.sub ? '수심 ' + Math.round(Math.max(0, -v.y)) + 'm · 보물 ' + ((G.stats && G.stats.treasure) || 0) + '개' : v.heli ? '고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.plane ? (v.onGround ? ' · 지상' : v.vf < PLANE_STALL ? ' · 실속!' : '') : '') : G.inside && ROOMS[G.inside] ? ROOMS[G.inside].name + ' 내부' : streetAt(v.x, v.z));
   const flyKind = v.sub ? 3 : v.plane ? 2 : v.heli ? 1 : 0;
   if (hudCache.fly !== flyKind) { hudCache.fly = flyKind; setFlyUI(flyKind > 0, flyKind); }
   setText(H.weapon, 'wpn', GUN.armed ? WEAPONS[G.weapon].name + '  ' + (isFinite(armsOf(G.weapon).ammo) ? armsOf(G.weapon).ammo : '∞') : (IS_TOUCH ? '총 넣어 둠' : '총 넣어 둠 · G'));
@@ -8186,6 +8219,7 @@ function blipShape(g, x, y, kind, t) {
     g.arc(x, y, 7, 0, TAU); g.fillStyle = kind === 'heli' ? '#35e8ff' : kind === 'plane' ? '#9fd9ff' : '#ffe08a'; g.fill(); g.lineWidth = 2; g.strokeStyle = '#06080b'; g.stroke();
     g.fillStyle = '#06080b'; g.font = '700 10px Arial, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(kind === 'heli' ? 'H' : kind === 'plane' ? 'J' : 'S', x, y + 0.5); return;
   }
+  if (kind === 'ward') { g.arc(x, y, 7, 0, TAU); g.fillStyle = '#ff9fd0'; g.fill(); g.lineWidth = 2; g.strokeStyle = '#06080b'; g.stroke(); g.fillStyle = '#06080b'; g.font = '700 10px Arial, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('T', x, y + 0.5); return; }
   if (kind === 'peer') { g.fillStyle = '#9fe9ff'; g.moveTo(x, y - 6); g.lineTo(x + 6, y); g.lineTo(x, y + 6); g.lineTo(x - 6, y); g.closePath(); g.fill(); g.lineWidth = 1.5; g.strokeStyle = '#06080b'; g.stroke(); return; }
   if (kind === 'heist') {
     g.arc(x, y, 7, 0, TAU); g.fillStyle = '#ff5a3d'; g.fill(); g.lineWidth = 2; g.strokeStyle = '#06080b'; g.stroke();
@@ -8227,6 +8261,7 @@ function forBlips(fn) {
   fn(DEALER_POS.x, DEALER_POS.z, 'dealer', true);
   fn(CASINO_DOOR.x, CASINO_DOOR.z, 'casino', true);
   fn(GUNSHOP_POS.x, GUNSHOP_POS.z, 'guns', true);
+  fn(WARD_POS.x, WARD_POS.z, 'ward', true);
   fn(HELIPORT_POS.x, HELIPORT_POS.z, 'heli', true);
   fn(planeMarker.position.x, planeMarker.position.z, 'plane', true);
   fn(SUB_DOCK.x, SUB_DOCK.z, 'sub', true);
@@ -8285,58 +8320,153 @@ function drawBigMap(t) {
   drawArrow(g, X(v.x), Z(v.z), Math.atan2(Math.cos(v.h), Math.sin(v.h)), 11);
 }
 /* ================= first person: the view from the driver's seat ================= */
-// The built-in cars are hollow shells, so the cockpit is a rig that rides with the car: dashboard, steering wheel
-// (turning with the steering), A-pillars, roof header, mirror, door tops and the hood out front in the car's paint.
+// The built-in cars are hollow shells, so the cockpit is a rig that rides with the car, sized to its cabin:
+// a dashboard with a working speedometer and rev counter (needles), a digital panel (speed, gear, nitro), a centre
+// console screen, air vents, A-pillars, roof header, door tops and a steering wheel that turns with the steering,
+// with the driver's hands on it. The rear-view mirror is a live camera looking back over the roof (desktop), the
+// side mirrors tinted glass. The eye sways with cornering and braking like a real head would.
 // A glTF car brings its own interior, so the rig stays hidden in one of those.
-const COCKPIT = { grp: null, parts: {}, key: '', hex: -1 };
+const COCKPIT = { grp: null, parts: {}, key: '', hex: -1, panelT: 0, panelTxt: '', rt: null, cam: null, frame: 0, sway: 0, bob: 0, lastVf: 0, live: false };
+function dialTex(kind) {
+  return canvasTex(256, 256, g => {
+    g.fillStyle = '#0b0f14'; g.beginPath(); g.arc(128, 128, 124, 0, TAU); g.fill();
+    g.strokeStyle = '#2a3340'; g.lineWidth = 6; g.beginPath(); g.arc(128, 128, 118, 0, TAU); g.stroke();
+    const n = kind === 'speed' ? 14 : 8, a0 = Math.PI * 0.75, a1 = Math.PI * 2.25;
+    for (let i = 0; i <= n * 2; i++) {
+      const t = i / (n * 2), a = a0 + (a1 - a0) * t, big = i % 2 === 0, r0 = big ? 92 : 100, r1 = 108;
+      g.strokeStyle = kind === 'rpm' && t > 0.8 ? '#ff4a3d' : big ? '#eef2f6' : '#7a8794'; g.lineWidth = big ? 4 : 2;
+      g.beginPath(); g.moveTo(128 + Math.cos(a) * r0, 128 + Math.sin(a) * r0); g.lineTo(128 + Math.cos(a) * r1, 128 + Math.sin(a) * r1); g.stroke();
+      if (big) { g.fillStyle = '#eef2f6'; g.font = '700 20px Arial, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(String(kind === 'speed' ? (i / 2) * 20 : i / 2), 128 + Math.cos(a) * 74, 128 + Math.sin(a) * 74); }
+    }
+    g.fillStyle = '#7a8794'; g.font = '600 15px Arial, sans-serif'; g.textAlign = 'center'; g.fillText(kind === 'speed' ? 'km/h' : 'x1000 rpm', 128, 178);
+    g.fillStyle = '#35e8ff'; g.beginPath(); g.arc(128, 128, 7, 0, TAU); g.fill();
+  });
+}
 function buildCockpit() {
   const grp = new THREE.Group(), dark = shared(new THREE.MeshLambertMaterial({ color: 0x1b1c21 })), soft = shared(new THREE.MeshLambertMaterial({ color: 0x3b3d44 }));
-  const leather = shared(new THREE.MeshLambertMaterial({ color: 0x45474d })), chrome = shared(new THREE.MeshPhongMaterial({ color: 0xb4b7bd, shininess: 90 }));
+  const leather = shared(new THREE.MeshLambertMaterial({ color: 0x45474d })), chrome = shared(new THREE.MeshPhongMaterial({ color: 0xb4b7bd, shininess: 90 })), skin = shared(new THREE.MeshLambertMaterial({ color: 0xd9a77f }));
   const P = COCKPIT.parts, mk = (name, geo, mat) => { const m = new THREE.Mesh(geo, mat); m.frustumCulled = false; P[name] = m; grp.add(m); return m; };
   mk('dash', new THREE.BoxGeometry(1, 1, 1), dark);
   mk('dashTop', new THREE.BoxGeometry(1, 1, 1), soft);
-  mk('cluster', new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x0d1418 }));
-  mk('clusterGlow', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: 0x35e8ff, transparent: true, opacity: 0.85 }));
+  mk('hood', new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x3b3d44 }));
+  mk('binnacle', new THREE.BoxGeometry(1, 1, 1), dark);
+  mk('speedo', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: dialTex('speed') }));
+  mk('tacho', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: dialTex('rpm') }));
+  const needle = () => { const m = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.085, 0.004).translate(0, 0.035, 0), new THREE.MeshBasicMaterial({ color: 0xff4a3d })); m.frustumCulled = false; return m; };
+  P.needleS = needle(); P.needleR = needle(); grp.add(P.needleS, P.needleR);
+  const panelCv = document.createElement('canvas'); panelCv.width = 256; panelCv.height = 96; COCKPIT.panelCv = panelCv; COCKPIT.panelG = panelCv.getContext('2d');
+  COCKPIT.panelTex = new THREE.CanvasTexture(panelCv);
+  mk('panel', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: COCKPIT.panelTex }));
+  mk('screen', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: canvasTex(256, 160, g => { g.fillStyle = '#0a1a26'; g.fillRect(0, 0, 256, 160); g.strokeStyle = '#1d4a62'; g.lineWidth = 2; for (let i = 0; i < 6; i++) { g.beginPath(); g.moveTo(0, 20 + i * 24); g.lineTo(256, 20 + i * 24); g.stroke(); g.beginPath(); g.moveTo(20 + i * 44, 0); g.lineTo(20 + i * 44, 160); g.stroke(); } g.fillStyle = '#35e8ff'; g.font = '700 26px Arial, sans-serif'; g.textAlign = 'center'; g.fillText('LUMINA NAV', 128, 90); g.fillStyle = '#9fe9ff'; g.font = '600 14px Arial, sans-serif'; g.fillText('M 키: 전체 지도', 128, 118); }) }));
+  for (const n of ['ventL', 'ventR', 'ventC1', 'ventC2']) mk(n, new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ color: 0x0d1013 }));
   mk('pillarL', new THREE.BoxGeometry(1, 1, 1), dark); mk('pillarR', new THREE.BoxGeometry(1, 1, 1), dark);
   mk('header', new THREE.BoxGeometry(1, 1, 1), dark);
-  mk('mirror', new THREE.BoxGeometry(1, 1, 1), chrome);
+  mk('visor', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: 0x0b1420, transparent: true, opacity: 0.55, side: THREE.DoubleSide }));
+  mk('mirrorFrame', new THREE.BoxGeometry(1, 1, 1), dark);
+  mk('mirror', new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: 0x5a6a78 }));
+  mk('mirrorL', new THREE.BoxGeometry(1, 1, 1), dark); mk('mirrorR', new THREE.BoxGeometry(1, 1, 1), dark);
+  mk('glassL', new THREE.PlaneGeometry(1, 1), new THREE.MeshPhongMaterial({ color: 0x4a5a6a, specular: 0xffffff, shininess: 120 })); mk('glassR', new THREE.PlaneGeometry(1, 1), new THREE.MeshPhongMaterial({ color: 0x4a5a6a, specular: 0xffffff, shininess: 120 }));
   mk('doorL', new THREE.BoxGeometry(1, 1, 1), soft); mk('doorR', new THREE.BoxGeometry(1, 1, 1), soft);
+  mk('seat', new THREE.BoxGeometry(1, 1, 1), leather);
   const wheel = new THREE.Group();
   wheel.add(new THREE.Mesh(new THREE.TorusGeometry(0.19, 0.026, 10, 28), leather));
   for (const a of [Math.PI / 2, Math.PI * 7 / 6, Math.PI * 11 / 6]) { const sp = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.17, 0.025), chrome); sp.position.set(Math.cos(a) * 0.095, Math.sin(a) * 0.095, 0); sp.rotation.z = a - Math.PI / 2; wheel.add(sp); }
   wheel.add(new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.045, 12).rotateX(Math.PI / 2), chrome));
   const mark = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.05, 0.03), shared(new THREE.MeshBasicMaterial({ color: 0xff3b1f }))); mark.position.set(0, 0.19, 0); wheel.add(mark);
+  for (const a of [Math.PI * 0.85, Math.PI * 0.15]) { const hand = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.09, 0.07), skin); hand.position.set(Math.cos(a) * 0.19, Math.sin(a) * 0.19, 0.03); wheel.add(hand); }
   wheel.traverse(o => { o.frustumCulled = false; });
   P.wheel = wheel; grp.add(wheel);
+  mk('armL', new THREE.BoxGeometry(1, 1, 1), soft); mk('armR', new THREE.BoxGeometry(1, 1, 1), soft);
   mk('column', new THREE.CylinderGeometry(0.03, 0.03, 0.32, 8), dark);
   grp.visible = false; scene.add(grp); COCKPIT.grp = grp;
+  // the live mirror: a small render target, desktop only
+  if (!LOW && renderer) {
+    COCKPIT.rt = new THREE.WebGLRenderTarget(320, 112, { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter });
+    COCKPIT.cam = new THREE.PerspectiveCamera(42, 320 / 112, 0.5, 260);
+    P.mirror.material.map = COCKPIT.rt.texture; P.mirror.material.color.setHex(0xffffff); P.mirror.scale.x = -1; COCKPIT.live = true;
+  }
 }
 // size the rig to the car's cabin, around the driver's eye point (once per car type / colour)
 function fitCockpit(v) {
   const T = v.T, W = T.W, H = T.H, L = T.L, P = COCKPIT.parts, box = (m, w, h, d, x, y, z) => { m.scale.set(w, h, d); m.position.set(x, y, z); };
-  const e = cockpitEye(v), ey = e[1], ez = e[2], ex = -e[0], dashY = ey - 0.24, roofY = Math.max(ey + 0.2, H * 0.95);   // mesh-local +x is the car's left
-  box(P.dashTop, W * 0.94, 0.05, 0.6, 0, dashY, ez + 0.75);
-  box(P.dash, W * 0.94, 0.3, 0.34, 0, dashY - 0.17, ez + 0.62);
-  box(P.cluster, 0.42, 0.15, 0.03, ex, dashY + 0.08, ez + 0.62); P.cluster.rotation.x = -0.4;
-  box(P.clusterGlow, 0.36, 0.1, 1, ex, dashY + 0.086, ez + 0.6); P.clusterGlow.rotation.x = -0.4;
-  for (const [m, s] of [[P.pillarL, -1], [P.pillarR, 1]]) { box(m, 0.06, roofY - dashY + 0.2, 0.1, s * W * 0.47, (roofY + dashY) / 2, ez + 0.6); m.rotation.x = -0.5; m.rotation.z = -s * 0.08; }
-  box(P.header, W * 0.94, 0.08, 0.2, 0, roofY, ez + 0.3);
-  box(P.mirror, 0.26, 0.07, 0.03, 0, roofY - 0.12, ez + 0.55);
+  const e = cockpitEye(v), ey = e[1], ez = e[2], ex = -e[0], dashY = ey - 0.26, roofY = Math.max(ey + 0.22, H * 0.95), front = ez + 0.78;   // mesh-local +x is the car's left
+  box(P.dashTop, W * 0.94, 0.05, 0.62, 0, dashY, front);
+  box(P.dash, W * 0.94, 0.3, 0.34, 0, dashY - 0.17, front - 0.12);
+  box(P.hood, W * 0.9, 0.04, Math.max(0.4, L * 0.22), 0, dashY - 0.03, front + 0.3 + Math.max(0.4, L * 0.22) / 2);
+  P.hood.material.color.setHex(v.color);
+  // instrument binnacle behind the wheel: speed left, revs right, digital panel between
+  box(P.binnacle, 0.5, 0.2, 0.08, ex, dashY + 0.1, front - 0.2); P.binnacle.rotation.x = -0.35;
+  const dz = front - 0.236, dy = dashY + 0.115;
+  box(P.speedo, 0.17, 0.17, 1, ex - 0.15, dy, dz); P.speedo.rotation.set(-0.35, Math.PI, 0);
+  box(P.tacho, 0.17, 0.17, 1, ex + 0.15, dy, dz); P.tacho.rotation.set(-0.35, Math.PI, 0);
+  P.needleS.position.set(ex - 0.15, dy, dz - 0.004); P.needleS.rotation.set(-0.35, 0, 0);
+  P.needleR.position.set(ex + 0.15, dy, dz - 0.004); P.needleR.rotation.set(-0.35, 0, 0);
+  box(P.panel, 0.13, 0.05, 1, ex, dy + 0.005, dz); P.panel.rotation.set(-0.35, Math.PI, 0);
+  // centre console: a nav screen and vents
+  box(P.screen, 0.26, 0.16, 1, -ex * 0.1, dashY - 0.02, front - 0.3); P.screen.rotation.set(-0.25, Math.PI, 0);
+  box(P.ventL, 0.1, 0.05, 0.03, ex - 0.36, dashY + 0.02, front - 0.28); box(P.ventR, 0.1, 0.05, 0.03, -ex + 0.36, dashY + 0.02, front - 0.28);
+  box(P.ventC1, 0.08, 0.05, 0.03, -ex * 0.1 - 0.18, dashY + 0.02, front - 0.28); box(P.ventC2, 0.08, 0.05, 0.03, -ex * 0.1 + 0.18, dashY + 0.02, front - 0.28);
+  for (const [m, s] of [[P.pillarL, -1], [P.pillarR, 1]]) { box(m, 0.06, roofY - dashY + 0.2, 0.1, s * W * 0.47, (roofY + dashY) / 2, front - 0.15); m.rotation.x = -0.5; m.rotation.z = -s * 0.08; }
+  box(P.header, W * 0.94, 0.08, 0.2, 0, roofY, front - 0.45);
+  box(P.visor, W * 0.9, 0.12, 1, 0, roofY - 0.1, front - 0.2); P.visor.rotation.x = -0.5;
+  box(P.mirrorFrame, 0.3, 0.1, 0.02, 0, roofY - 0.15, front - 0.3); P.mirrorFrame.rotation.x = -0.15;
+  box(P.mirror, 0.28, 0.08, 1, 0, roofY - 0.15, front - 0.312); P.mirror.rotation.set(-0.15, Math.PI, 0); if (COCKPIT.live) P.mirror.scale.x = -0.28;   // a mirror shows the picture flipped
+  for (const [m, g, s] of [[P.mirrorL, P.glassL, 1], [P.mirrorR, P.glassR, -1]]) {
+    box(m, 0.05, 0.12, 0.2, s * (W * 0.5 + 0.08), dashY + 0.12, front - 0.35); box(g, 0.18, 0.1, 1, s * (W * 0.5 + 0.11), dashY + 0.12, front - 0.35); g.rotation.y = -s * (Math.PI / 2 + 0.35);
+  }
   box(P.doorL, 0.1, 0.07, L * 0.4, -W * 0.47, dashY, ez - L * 0.12); box(P.doorR, 0.1, 0.07, L * 0.4, W * 0.47, dashY, ez - L * 0.12);
-  P.wheel.position.set(ex, dashY + 0.12, ez + 0.52); P.wheel.rotation.set(-0.8, 0, 0); P.wheel.scale.setScalar(0.85);
-  P.column.position.set(ex, dashY + 0.02, ez + 0.56); P.column.rotation.x = -0.8 + Math.PI / 2;
+  box(P.seat, 0.5, 0.12, 0.5, ex, ey - 0.78, ez - 0.25);
+  P.wheel.position.set(ex, dashY + 0.1, front - 0.3); P.wheel.rotation.set(-0.75, 0, 0); P.wheel.scale.setScalar(0.85);
+  box(P.armL, 0.07, 0.07, 0.42, ex + 0.14, dashY - 0.02, front - 0.55); P.armL.rotation.x = 0.35;
+  box(P.armR, 0.07, 0.07, 0.42, ex - 0.14, dashY - 0.02, front - 0.55); P.armR.rotation.x = 0.35;
+  P.column.position.set(ex, dashY + 0.0, front - 0.26); P.column.rotation.x = -0.75 + Math.PI / 2;
   COCKPIT.key = v.key; COCKPIT.hex = v.color;
 }
-// where the driver's eyes are, in the car's frame: left seat, well back in the cabin, high enough to see over the hood
-const cockpitEye = v => [-v.T.W * 0.19, v.T.H * 0.88 + (v.T.lift || 0) * 0.5, -v.T.L * 0.06];
+// where the driver's eyes are, in the car's frame: left seat, well back in the cabin, just over the dashboard
+const cockpitEye = v => [-v.T.W * 0.2, v.T.H * 0.84 + (v.T.lift || 0) * 0.5, -v.T.L * 0.07];
 function updateCockpit(v, fp) {
   if (!COCKPIT.grp) buildCockpit();
-  const show = fp && v && !v.heli && !v.dead && !(v.mesh && v.mesh.userData.model);
+  const show = fp && v && !v.heli && !v.walker && !v.dead && !(v.mesh && v.mesh.userData.model);
   COCKPIT.grp.visible = show;
   if (!show) return;
   if (COCKPIT.key !== v.key || COCKPIT.hex !== v.color) fitCockpit(v);
   COCKPIT.grp.position.copy(v.mesh.position); COCKPIT.grp.rotation.copy(v.mesh.rotation);
-  COCKPIT.parts.wheel.rotation.z = -v.steer * 1.7;
+  const P = COCKPIT.parts;
+  P.wheel.rotation.z = -v.steer * 1.7;
+  // instruments
+  const kmh = v.speed * 3.6, sweep = Math.PI * 1.5, a0 = Math.PI * 0.75;
+  P.needleS.rotation.set(-0.35, 0, a0 + sweep * clamp(kmh / 280, 0, 1) + Math.PI / 2);
+  P.needleR.rotation.set(-0.35, 0, a0 + sweep * clamp(engineRpm(v, v.vf > 0.5 ? 0.6 : 0.1) / 1.1, 0, 1) + Math.PI / 2);
+  if ((COCKPIT.panelT -= 1) <= 0) {
+    COCKPIT.panelT = 6;
+    const txt = Math.round(kmh) + '|' + gearOf(v) + '|' + Math.round((v.nitro || 0) * 10);
+    if (txt !== COCKPIT.panelTxt) {
+      COCKPIT.panelTxt = txt; const g = COCKPIT.panelG;
+      g.fillStyle = '#060a0e'; g.fillRect(0, 0, 256, 96);
+      g.fillStyle = '#35e8ff'; g.font = '700 54px Arial, sans-serif'; g.textAlign = 'right'; g.textBaseline = 'middle'; g.fillText(String(Math.round(kmh)), 150, 46);
+      g.fillStyle = '#9fe9ff'; g.font = '600 20px Arial, sans-serif'; g.textAlign = 'left'; g.fillText('km/h', 158, 36); g.fillStyle = '#ffc53a'; g.fillText(gearOf(v), 158, 62);
+      g.fillStyle = '#1f3a46'; g.fillRect(16, 78, 224, 10); g.fillStyle = v.nitroOn ? '#ff9a3a' : '#ffc53a'; g.fillRect(16, 78, 224 * clamp(v.nitro || 0, 0, 1), 10);
+      COCKPIT.panelTex.needsUpdate = true;
+    }
+  }
+}
+// the mirror's picture: a camera over the roof looking back, drawn every other frame
+function renderMirror(v) {
+  if (!COCKPIT.live || !COCKPIT.grp.visible || !v || (COCKPIT.frame++ & 1)) return;
+  const fx = Math.sin(v.h), fz = Math.cos(v.h), c = COCKPIT.cam;
+  c.position.set(v.x - fx * v.T.L * 0.2, v.y + v.T.H + 0.35, v.z - fz * v.T.L * 0.2);
+  c.lookAt(v.x - fx * 40, v.y + v.T.H - 2.5, v.z - fz * 40);
+  const vis = COCKPIT.grp.visible; COCKPIT.grp.visible = false;
+  renderer.setRenderTarget(COCKPIT.rt); renderer.render(scene, c); renderer.setRenderTarget(null);
+  COCKPIT.grp.visible = vis;
+}
+// the head moves with the car: leans out of corners, dips under braking, trembles with speed
+function cockpitSway(v, dt) {
+  const acc = (v.vf - COCKPIT.lastVf) / Math.max(dt, 1e-3); COCKPIT.lastVf = v.vf;
+  COCKPIT.sway = damp(COCKPIT.sway, clamp(-v.yawV * v.speed * 0.003, -0.06, 0.06), 3, dt);
+  COCKPIT.bob = damp(COCKPIT.bob, clamp(-acc * 0.004, -0.04, 0.04), 3, dt);
+  const tremble = v.speed > 20 ? Math.sin(G.t * 37) * 0.0025 * clamp((v.speed - 20) / 40, 0, 1) : 0;
+  return [COCKPIT.sway, COCKPIT.bob + tremble];
 }
 /* ================= the casino heist ================= */
 // Round the back of the casino, on the sand, there is a steel door nobody is meant to use. The job has three
@@ -8548,21 +8678,40 @@ addEventListener('keydown', e => {
 /* ================= online: friends in the same city ================= */
 // The claude.ai page runtime keeps a live "room" of everyone who has this page open right now. Every player keeps
 // a presence object current (where their ride is, what it is, how it looks, who they are); everyone else draws
-// it as a ghost with a name tag. Shots and shoves that land on a ghost go to its owner as a 'hit' moment and
-// are applied there; 'chat' and 'kill' are moments too. Nothing here is authority: each page drives its own
+// it as a ghost with a name tag. Shots, blasts and shoves that land on a ghost, chat lines and kill notices ride
+// along INSIDE the sender's presence as a short numbered event log (so every admitted viewer can send them, no
+// topic rights needed, and a receiver that missed a frame still catches up). Nothing here is authority: each page drives its own
 // car, and the others are a picture of what they sent. Without the room (signed out, public link, declined)
 // the game is exactly the single-player game.
 const NET = {
   api: null, lobby: null, cur: null, name: '', on: false, conn: false, err: '', ghosts: new Map(), myPeer: '', nick: '',
-  sendT: 0, hitAcc: new Map(), hitT: 0, lastHitBy: null, lastHitNick: '', lastHitT: -99, wasDead: false, chat: [], unsub: [], built: false, hinted: false, noSend: false, pvp: 0
+  gang: '', gangC: 0, warSeen: '', sendT: 0, seq: 0, ev: [], evDirty: false, lastHitBy: null, lastHitNick: '', lastHitT: -99, wasDead: false, chat: [], unsub: [], built: false, hinted: false, pvp: 0, deaths: 0
 };
 { const n = store.get('nick', ''); NET.nick = typeof n === 'string' && n.trim() ? n.trim().slice(0, 12) : '시민' + rndi(100, 999); }
 { const r = store.get('netRoom', ''); NET.name = typeof r === 'string' && /^[a-z0-9][a-z0-9_.-]{0,47}$/.test(r) ? r : ''; }
+// gangs: a name and a colour you pick; whoever shares the name is your crew (no friendly fire, same colour tags, one score)
+const GANG_COLORS = [['빨강', '#ff4a3d', 0xff4a3d], ['파랑', '#4b84ff', 0x4b84ff], ['초록', '#4aa86a', 0x4aa86a], ['노랑', '#ffc53a', 0xffc53a], ['보라', '#b46bff', 0xb46bff], ['분홍', '#ff5fd2', 0xff5fd2], ['주황', '#ff7a3a', 0xff7a3a], ['흰색', '#f4f4f2', 0xf4f4f2]];
+{ const g = store.get('gang', null); if (g && typeof g === 'object') { NET.gang = netCleanGang(g.n); NET.gangC = GANG_COLORS[g.c] ? g.c : 0; } }
+function netCleanGang(n) { return String(n == null ? '' : n).replace(/[^0-9A-Za-z\uac00-\ud7a3_-]/g, '').slice(0, 8); }
+const gangOf = s => s && typeof s === 'object' ? netCleanGang(s.gn) : '';
+const gangCss = s => { const c = GANG_COLORS[+s.gc]; return c ? c[1] : '#9fe9ff'; };
+const tagFor = (nick, s) => { const gn = gangOf(s); return labelSprite(gn ? '[' + gn + '] ' + nick : nick, gn ? gangCss(s) : '#9fe9ff'); };
+function setGang(name, ci) {
+  NET.gang = netCleanGang(name); NET.gangC = GANG_COLORS[ci] ? ci : 0;
+  store.set('gang', { n: NET.gang, c: NET.gangC }); NET.sendT = 0; NET.evDirty = true; netLabels();
+  if (NET.gang) subtitle('<b style="color:' + GANG_COLORS[NET.gangC][1] + '">' + netEsc(NET.gang) + '</b> 갱에 들어갔습니다. 같은 갱 이름을 쓰는 사람이 아군입니다.', 4);
+  else subtitle('갱에서 나왔습니다.', 2.5);
+}
+// the war: every present player's kills, added up by gang (shown when more than one gang is around)
+function gangScores() {
+  const sc = new Map(), add = (gn, gc, k) => { if (!gn) return; const e = sc.get(gn) || { n: gn, c: gc, k: 0, m: 0 }; e.k += k; e.m++; sc.set(gn, e); };
+  add(NET.gang, NET.gangC, NET.pvp);
+  for (const g of NET.ghosts.values()) { const s = g.last || {}; add(gangOf(s), GANG_COLORS[+s.gc] ? +s.gc : 0, g.kills); }
+  return Array.from(sc.values()).sort((a, b) => b.k - a.k);
+}
 const netEsc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const netClean = s => String(s == null ? '' : s).replace(/[\u0000-\u001f\u007f\u200b-\u200f\u2028-\u202e\ufeff]/g, '').trim();
 const nickOf = p => netClean(p.presence && p.presence.nk).slice(0, 12) || '시민 ' + String(p.peer || '').slice(0, 4);
-// a moment carries no presence: name its sender from the ghost we draw for them, else from the moment itself
-const nickOfMsg = (m, d) => { const g = NET.ghosts.get(m.peer); return g ? g.nick : netClean(d && d.nk).slice(0, 12) || '시민 ' + String(m.peer || '').slice(0, 4); };
 async function initOnline() {
   if (!window.claude || typeof window.claude.use !== 'function') { NET.err = 'unavailable'; netLabels(); return; }
   let api = null;
@@ -8590,9 +8739,6 @@ function netBind(r, name) {
       if (G.everStarted) for (const p of ch.joined) if (!p.isMe && p.kind === 'viewer' && p.presence && p.presence.nk) netSys(nickOf(p) + ' 님이 들어왔습니다');
       netLabels();
     }, onErr));
-    NET.unsub.push(r.on('chat', m => { if (m.isMe && m.sameTab) return; const d = m.data || {}; netChat(nickOfMsg(m, d), netClean(d.t).slice(0, 120), m.isMe); }, onErr));
-    NET.unsub.push(r.on('hit', m => { if (m.isMe) return; const d = m.data || {}; if (d.to !== NET.myPeer || !(+d.d > 0)) return; netTakeHit(m, Math.min(+d.d, 300)); }, onErr));
-    NET.unsub.push(r.on('kill', m => { if (m.isMe && m.sameTab) return; const d = m.data || {}; const who = netClean(d.v).slice(0, 12) || '누군가'; if (d.by === NET.myPeer) { NET.pvp++; bigText('격파!', who + ' 님의 차를 박살냈습니다', '#ff9a86', 2.6); AudioSys.fx('kill'); } netSys((netClean(d.bn).slice(0, 12) || '누군가') + ' 님이 ' + who + ' 님을 격파'); }, onErr));
   } catch (e) { netFail({ code: 'unavailable' }); return; }
   netLabels();
 }
@@ -8618,19 +8764,20 @@ function netSend() {
   const v = P.v, now = performance.now();
   if (!v || !NET.on || !NET.cur) return;
   const moving = v.speed > 0.3 || Math.abs(v.yawV || 0) > 0.05 || Math.abs(v.vy || 0) > 0.2 || v.heli;
-  if (now - NET.sendT < (moving ? 50 : 500)) return;
-  NET.sendT = now;
-  const p = { nk: NET.nick, st: v.sub ? 'sub' : v.plane ? 'plane' : v.heli ? 'heli' : 'car', k: v.key, c: v.color, tr: v.trim || 'stock', ne: v.neon || 0,
+  if (!NET.evDirty && now - NET.sendT < (moving ? 50 : 500)) return;
+  NET.sendT = now; NET.evDirty = false;
+  NET.ev = NET.ev.filter(e => now - e.at < 2500);           // the log keeps the last 2.5 s, numbered so receivers apply each once
+  const p = { nk: NET.nick, gn: NET.gang, gc: NET.gangC, of: G.outfit, st: v.walker ? 'ped' : v.sub ? 'sub' : v.plane ? 'plane' : v.heli ? 'heli' : 'car', k: v.key, c: v.color, tr: v.trim || 'stock', ne: v.neon || 0,
     x: r2(v.x), y: r2(v.y), z: r2(v.z), h: r3(v.h), vx: r2(v.vx), vz: r2(v.vz), vy: r2(v.vy || 0), f: r1(v.vf), s: r1(v.speed), g: v.onGround ? 1 : 0, d: v.dead ? 1 : 0,
     p: r3(v.pitch || 0), r: r3(v.roll || 0), sw: r2(v.steer || 0), rs: r2(v.rotorSpd || 0), th: r2(v.thr || 0), pa: r3(v.pitchA || 0), b: r3(v.bank || 0), yv: r2(v.yawV || 0),
-    hp: Math.round(v.hp / v.T.hp * 100), w: G.wanted, md: v.mesh && v.mesh.userData.model ? 1 : 0 };
+    hp: Math.round(v.hp / v.T.hp * 100), w: G.wanted, md: v.mesh && v.mesh.userData.model ? 1 : 0, kl: NET.pvp, ev: NET.ev.map(e => e.e) };
   NET.cur.presence(p).catch(e => { if (e && (e.code === 'not_granted' || e.code === 'revoked')) netFail(e); });
 }
 /* ---- ghosts: the others' rides, drawn from their presence ---- */
 function netEnsure(p) {
   const s = p.presence;
   if (!s || typeof s !== 'object' || !s.st || typeof s.k !== 'string') return null;
-  const sig = s.st + '|' + s.k + '|' + (s.c | 0) + '|' + s.tr + '|' + (s.ne | 0);
+  const sig = s.st + '|' + s.k + '|' + (s.c | 0) + '|' + s.tr + '|' + (s.ne | 0) + (s.st === 'ped' ? '|' + JSON.stringify(cleanOutfit(s.of)) : '');
   let g = NET.ghosts.get(p.peer);
   if (g && g.sig !== sig) { netDrop(p.peer); g = null; }
   if (g) return g;
@@ -8638,7 +8785,8 @@ function netEnsure(p) {
   let v = null;
   try {
     const hex = Number.isFinite(+s.c) ? (+s.c & 0xffffff) : 0xc8102e;
-    if (s.st === 'heli') v = new Heli(hex);
+    if (s.st === 'ped') v = new Walker(s.of);
+    else if (s.st === 'heli') v = new Heli(hex);
     else if (s.st === 'plane') v = new Plane(hex);
     else if (s.st === 'sub') v = new Sub(hex);
     else v = new Vehicle(hasOwn(CAR_TYPES, s.k) && !CAR_TYPES[s.k].cop ? s.k : 'sedan', hex, true, ['stock', 'gold', 'neon'].includes(s.tr) ? s.tr : 'stock', s.ne ? (+s.ne & 0xffffff) : null);
@@ -8647,8 +8795,8 @@ function netEnsure(p) {
   v.damage = d => netHurt(p.peer, d);              // what lands on a ghost is sent to its owner
   v.explode = () => { }; v.dead = false;
   v.x = +s.x || 0; v.y = +s.y || 0; v.z = +s.z || 0; v.h = +s.h || 0;
-  const nick = nickOf(p), tag = labelSprite(nick, '#9fe9ff'); tag.scale.set(4.4, 1.65, 1); scene.add(tag);
-  g = { v, tag, sig, nick, peer: p.peer, last: null, rt: 0, tx: v.x, ty: v.y, tz: v.z, th: v.h, vx: 0, vz: 0, vy: 0 };
+  const nick = nickOf(p), tag = tagFor(nick, s); tag.scale.set(4.4, 1.65, 1); scene.add(tag);
+  g = { v, tag, sig, nick, gang: gangOf(s), gc: +s.gc || 0, peer: p.peer, last: null, rt: 0, tx: v.x, ty: v.y, tz: v.z, th: v.h, vx: 0, vz: 0, vy: 0, seen: Array.isArray(s.ev) ? s.ev.reduce((m, e) => Math.max(m, e && +e.i || 0), 0) : 0, kills: 0 };
   NET.ghosts.set(p.peer, g);
   return g;
 }
@@ -8662,8 +8810,10 @@ function netGhostStep(g, p, dt) {
   const s = p.presence, v = g.v, now = performance.now();
   if (s !== g.last) {
     g.last = s; g.rt = now; g.tx = +s.x || 0; g.ty = +s.y || 0; g.tz = +s.z || 0; g.th = +s.h || 0; g.vx = +s.vx || 0; g.vz = +s.vz || 0; g.vy = +s.vy || 0;
-    const nick = nickOf(p);
-    if (nick !== g.nick) { g.nick = nick; scene.remove(g.tag); g.tag.material.map.dispose(); g.tag.material.dispose(); g.tag = labelSprite(nick, '#9fe9ff'); g.tag.scale.set(4.4, 1.65, 1); scene.add(g.tag); }
+    const nick = nickOf(p), gang = gangOf(s), gc = +s.gc || 0;
+    if (nick !== g.nick || gang !== g.gang || gc !== g.gc) { g.nick = nick; g.gang = gang; g.gc = gc; scene.remove(g.tag); g.tag.material.map.dispose(); g.tag.material.dispose(); g.tag = tagFor(nick, s); g.tag.scale.set(4.4, 1.65, 1); scene.add(g.tag); }
+    g.kills = +s.kl || 0;
+    if (Array.isArray(s.ev)) for (const e of s.ev) { if (!e || !(+e.i > g.seen)) continue; g.seen = +e.i; netEvent(g, e); }
   }
   const age = Math.min(0.35, (now - g.rt) / 1000);          // dead reckoning covers the gap between updates
   const px = g.tx + g.vx * age, pz = g.tz + g.vz * age, py = g.ty + g.vy * age, k = 1 - Math.exp(-14 * dt);
@@ -8671,8 +8821,9 @@ function netGhostStep(g, p, dt) {
   else { v.x += (px - v.x) * k; v.z += (pz - v.z) * k; v.y += (py - v.y) * k; v.h = wrapA(v.h + wrapA(g.th - v.h) * k); }
   v.vx = g.vx; v.vz = g.vz; v.vy = g.vy; v.speed = +s.s || 0; v.vf = +s.f || 0; v.onGround = !!s.g; v.braking = false; v.skid = 0;
   if (v.heli) { v.rotorSpd = +s.rs || 0; v.yawV = +s.yv || 0; v.vr = 0; v.thr = +s.th || 0; if (v.plane) { v.pitchA = +s.pa || 0; v.bank = +s.b || 0; } }
+  else if (v.walker) { v.running = v.speed > 5; v.fall = s.d ? 1 : 0; }
   else { v.pitch = +s.p || 0; v.roll = +s.r || 0; v.steer = +s.sw || 0; }
-  const show = !s.d;
+  const show = !s.d || v.walker;
   if (v.mesh.visible !== show) v.mesh.visible = show;
   if (show) v.sync(dt);
   const far = Math.hypot(v.x - P.v.x, v.z - P.v.z) > 180;
@@ -8691,18 +8842,13 @@ function updateOnline(dt) {
     seen.add(p.peer); netGhostStep(g, p, dt);
   }
   for (const k of Array.from(NET.ghosts.keys())) if (!seen.has(k)) netDrop(k);
-  // damage dealt to ghosts goes out in small batches
-  if (NET.hitAcc.size && performance.now() - NET.hitT > 150) {
-    NET.hitT = performance.now();
-    for (const [peer, d] of NET.hitAcc) NET.cur.emit('hit', { to: peer, d: Math.round(d) }).catch(e => { if (e && e.code === 'not_permitted' && !NET.noSend) { NET.noSend = true; netNote('이 방에서는 공격·채팅 권한이 없습니다 (초대받은 참여자 권한이 필요합니다).'); } });
-    NET.hitAcc.clear();
-  }
   // my car went down right after a hit from someone: tell the room who did it
   const dead = !!(P.v && P.v.dead);
-  if (dead && !NET.wasDead && NET.lastHitBy && G.t - NET.lastHitT < 5) NET.cur.emit('kill', { v: NET.nick, by: NET.lastHitBy, bn: NET.lastHitNick }).catch(() => { });
+  if (dead && !NET.wasDead && NET.lastHitBy && G.t - NET.lastHitT < 6) { NET.deaths++; netPush({ k: 'kill', by: NET.lastHitBy, v: NET.nick, bn: NET.lastHitNick }); subtitle('<b>' + netEsc(NET.lastHitNick || '누군가') + '</b> 님에게 당했습니다. 보험으로 차를 돌려받고 다시 달립니다.', 4); }
   NET.wasDead = dead;
-  if (!NET.hinted && NET.ghosts.size) { NET.hinted = true; help('<b>온라인</b> · 하늘색 이름표가 다른 플레이어입니다. ' + (IS_TOUCH ? '일시정지 → 온라인에서 채팅할 수 있습니다.' : '<b>Enter</b>로 채팅, 쏘거나 들이받으면 상대도 맞습니다.'), 6); }
+  if (!NET.hinted && NET.ghosts.size) { NET.hinted = true; help('<b>온라인</b> · 하늘색 이름표가 다른 플레이어입니다. ' + (IS_TOUCH ? '💬로 채팅. 쏘거나 들이받으면 상대도 맞고, 터뜨리면 $500만.' : '<b>Enter</b>로 채팅. 쏘거나, 들이받거나, 로켓·지뢰로 날리면 상대도 맞고, 터뜨리면 $500만.'), 6); }
   if (hudT.net !== NET.ghosts.size) { hudT.net = NET.ghosts.size; netLabels(); }
+  if ((hudT.gangT = (hudT.gangT || 0) + dt) > 0.5) { hudT.gangT = 0; renderGangHud(); }
 }
 // a friend's car is solid for me, but it is theirs: only my car moves, and it stops against them rather than bouncing off a wall
 function collideGhost(a, b) {
@@ -8721,11 +8867,31 @@ function collideGhost(a, b) {
   }
   return worst;
 }
-function netHurt(peer, d) { if (!(d > 0) || G.state !== 'play') return; NET.hitAcc.set(peer, (NET.hitAcc.get(peer) || 0) + d); }
-function netTakeHit(m, d) {
+// outgoing: add an entry to my event log (it rides in the next presence update, immediately)
+function netPush(e) { e.i = ++NET.seq; NET.ev.push({ e, at: performance.now() }); if (NET.ev.length > 24) NET.ev.shift(); NET.evDirty = true; }
+// damage dealt to a ghost: hits on the same player within 150 ms merge into one entry
+function netHurt(peer, d) {
+  if (!(d > 0) || G.state !== 'play') return;
+  const g = NET.ghosts.get(peer); if (g && NET.gang && g.gang === NET.gang) return;      // same gang: no friendly fire
+  const now = performance.now(), last = NET.ev[NET.ev.length - 1];
+  if (last && last.e.k === 'hit' && last.e.to === peer && now - last.at < 150) { last.e.d = Math.round(last.e.d + d); NET.evDirty = true; return; }
+  netPush({ k: 'hit', to: peer, d: Math.round(d) });
+}
+// incoming: one event from a ghost's owner
+function netEvent(g, e) {
+  if (e.k === 'hit') { if (e.to === NET.myPeer && +e.d > 0) netTakeHit(g, Math.min(+e.d, 400)); }
+  else if (e.k === 'chat') netChat(g.nick, netClean(e.t).slice(0, 120), false);
+  else if (e.k === 'kill') {
+    const who = netClean(e.v).slice(0, 12) || g.nick;
+    if (e.by === NET.myPeer) { NET.pvp++; G.stats.pvp = (G.stats.pvp || 0) + 1; store.set('stats', G.stats); setMoney(5000000); bigText('격파!', who + ' 님의 차를 박살냈습니다 · +$5,000,000', '#ff9a86', 2.8); AudioSys.fx('kill'); netLabels(); }
+    const killer = e.by === NET.myPeer ? NET.nick : (NET.ghosts.get(e.by) || {}).nick || netClean(e.bn).slice(0, 12) || '누군가';
+    netSys(killer + ' 님이 ' + who + ' 님을 격파');
+  }
+}
+function netTakeHit(g, d) {
   const v = P.v; if (!v || v.dead || G.state !== 'play') return;
-  NET.lastHitBy = m.peer; NET.lastHitNick = nickOfMsg(m, null); NET.lastHitT = G.t;
-  const g = NET.ghosts.get(m.peer); if (g) { const dx = v.x - g.v.x, dz = v.z - g.v.z, L = Math.hypot(dx, dz) || 1; burst(v.x - dx / L * 1.2, v.y + 1, v.z - dz / L * 1.2, 'spark', 4, 0.5); }
+  NET.lastHitBy = g.peer; NET.lastHitNick = g.nick; NET.lastHitT = G.t;
+  const dx = v.x - g.v.x, dz = v.z - g.v.z, L = Math.hypot(dx, dz) || 1; burst(v.x - dx / L * 1.2, v.y + 1, v.z - dz / L * 1.2, 'spark', 4, 0.5);
   v.damage(d); G.shake = Math.max(G.shake || 0, 0.25);
 }
 /* ---- chat ---- */
@@ -8745,7 +8911,7 @@ function netLine(html, cls) {
 }
 function netSay(text) {
   text = netClean(text).slice(0, 120); if (!text || !NET.on || !NET.cur) return;
-  NET.cur.emit('chat', { t: text, nk: NET.nick }).then(() => netChat(NET.nick, text, true)).catch(e => netNote(e && e.code === 'not_permitted' ? '이 방에서는 채팅 권한이 없습니다 (초대받은 참여자 권한이 필요합니다).' : '메시지를 보내지 못했습니다.'));
+  netPush({ k: 'chat', t: text }); netChat(NET.nick, text, true);
 }
 function openChatBar() {
   if (!NET.on || G.state !== 'play') return;
@@ -8766,6 +8932,14 @@ function netStatusText() {
   const n = NET.ghosts.size;
   return (NET.name ? '<b>' + netEsc(NET.name) + '</b> 방' : '<b>로비</b> (이 페이지를 연 모든 사람)') + ' · 나 말고 ' + n + '명' + (n ? '' : ' — 친구가 같은 링크를 열면 여기 나타납니다');
 }
+function renderGangHud() {
+  const el = $('gangs'); if (!el) return;
+  const sc = gangScores(), war = sc.length >= 2;
+  const key = sc.map(e => e.n).join('|');
+  if (war && key !== NET.warSeen) { NET.warSeen = key; bigText('갱 전쟁', sc.map(e => e.n).join(' vs '), GANG_COLORS[sc[0].c][1], 3); AudioSys.fx('drum'); }
+  el.hidden = !sc.length || !NET.on;
+  if (!el.hidden) el.innerHTML = sc.map(e => '<span style="color:' + GANG_COLORS[e.c][1] + '"><b>' + netEsc(e.n) + '</b> ' + e.k + '<i>' + e.m + '명</i></span>').join('<em>vs</em>');
+}
 function netLabels() {
   const n = NET.ghosts.size, on = NET.on && NET.conn;
   document.body.classList.toggle('online', on);
@@ -8780,6 +8954,11 @@ function renderOnline() {
     $('net-join').addEventListener('click', () => netJoin($('net-room').value));
     $('net-room').addEventListener('keydown', e => { if (e.key === 'Enter') netJoin($('net-room').value); });
     $('net-lobby').addEventListener('click', netLeave);
+    $('net-gang-colors').innerHTML = GANG_COLORS.map((c, i) => '<button class="sw" data-gc="' + i + '" style="background:' + c[1] + '" aria-label="' + c[0] + '"></button>').join('');
+    $('net-gang-colors').addEventListener('click', e => { const b = e.target.closest('[data-gc]'); if (!b) return; NET.gangC = +b.dataset.gc; renderOnline(); });
+    $('net-gang-join').addEventListener('click', () => { const n = netCleanGang($('net-gang').value); if (!n) { netNote('갱 이름은 한글·영문·숫자 1~8자.'); return; } setGang(n, NET.gangC); renderOnline(); });
+    $('net-gang').addEventListener('keydown', e => { if (e.key === 'Enter') $('net-gang-join').click(); });
+    $('net-gang-leave').addEventListener('click', () => { setGang('', NET.gangC); renderOnline(); });
     $('net-send').addEventListener('click', () => { netSay($('net-chatin').value); $('net-chatin').value = ''; });
     $('net-chatin').addEventListener('keydown', e => { if (e.key === 'Enter') { netSay($('net-chatin').value); $('net-chatin').value = ''; } });
     document.querySelectorAll('#online [data-close]').forEach(b => b.addEventListener('click', closeMenu));
@@ -8789,8 +8968,15 @@ function renderOnline() {
   $('net-room').value = NET.name;
   $('net-lobby').disabled = !NET.name;
   $('net-join').disabled = !NET.api;
-  const me = P.v ? '<li><b>' + netEsc(NET.nick) + '</b> (나) · ' + netEsc(P.v.T.name) + '</li>' : '';
-  $('net-list').innerHTML = me + Array.from(NET.ghosts.values()).map(g => { const d = P.v ? Math.round(Math.hypot(g.v.x - P.v.x, g.v.z - P.v.z)) : 0; return '<li><b>' + netEsc(g.nick) + '</b> · ' + netEsc(g.v.T.name) + ' · ' + (d >= 1000 ? (d / 1000).toFixed(1) + 'km' : d + 'm') + (g.v.dead ? ' · 파손' : '') + '</li>'; }).join('');
+  $('net-gang').value = NET.gang;
+  document.querySelectorAll('#net-gang-colors .sw').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.gc === NET.gangC)));
+  $('net-gang-leave').disabled = !NET.gang;
+  $('net-gang-join').textContent = NET.gang ? '갱 바꾸기' : '갱 만들기 · 가입';
+  const sc = gangScores();
+  $('net-gang-score').innerHTML = sc.length ? sc.map(e => '<li><b style="color:' + GANG_COLORS[e.c][1] + '">' + netEsc(e.n) + '</b> · 격파 ' + e.k + ' · ' + e.m + '명</li>').join('') : '<li class="sys">아직 갱이 없습니다. 이름과 색을 정해 만들어 보세요. 다른 갱이 접속하면 전쟁 점수판이 뜹니다.</li>';
+  const tagOf = (gn, gc) => gn ? '<b style="color:' + GANG_COLORS[gc][1] + '">[' + netEsc(gn) + ']</b> ' : '';
+  const me = P.v ? '<li>' + tagOf(NET.gang, NET.gangC) + '<b>' + netEsc(NET.nick) + '</b> (나) · ' + netEsc(P.v.T.name) + '</li>' : '';
+  $('net-list').innerHTML = me.replace('</li>', (NET.pvp ? ' · 격파 ' + NET.pvp : '') + '</li>') + Array.from(NET.ghosts.values()).map(g => { const d = P.v ? Math.round(Math.hypot(g.v.x - P.v.x, g.v.z - P.v.z)) : 0; return '<li>' + tagOf(g.gang, GANG_COLORS[g.gc] ? g.gc : 0) + '<b>' + netEsc(g.nick) + '</b> · ' + netEsc(g.v.T.name) + ' · ' + (d >= 1000 ? (d / 1000).toFixed(1) + 'km' : d + 'm') + (g.kills ? ' · 격파 ' + g.kills : '') + (g.v.dead ? ' · 파손' : '') + '</li>'; }).join('');
   netRenderChat();
 }
 function netRenderChat() { const log = $('net-chatlog'); if (!log) return; log.innerHTML = NET.chat.slice(-12).map(c => c.nick ? '<div><b>' + netEsc(c.nick) + '</b> ' + netEsc(c.text) + '</div>' : '<div class="sys">' + netEsc(c.text) + '</div>').join('') || '<div class="sys">아직 대화가 없습니다.</div>'; log.scrollTop = log.scrollHeight; }
@@ -8798,6 +8984,352 @@ function openOnline() {
   if (G.state === 'paused') { G.state = G.prevState || 'play'; $('pause').hidden = true; }
   if (G.state !== 'play' && G.state !== 'end') return;
   openMenu('online'); renderOnline();
+}
+/* ================= on foot: step out of the car, walk the city, dress the part ================= */
+// F with no car close by puts you on the pavement: a character built from a few boxes (legs, arms, torso, head,
+// hair, hat) that walks, runs (Shift), jumps (Space) and shoots the hand weapons. The car waits where you left it
+// as a parked traffic entry; F beside any car gets in. The outfit is yours — picked at the clothing store, saved
+// with your progress, and worn by your ghost online. The character is duck-typed like the other rides (x, z, h,
+// speed, T, update/sync/damage), so the camera, guns, police and HUD need no special cases beyond a few flags.
+const OUTFIT = {
+  skin: [0xf1c9a5, 0xd9a77f, 0xb07a52, 0x7a4e32, 0xe8b996, 0xffd9b8],
+  hair: [0x1a1410, 0x3a2a1a, 0x6a4a2a, 0xb08a50, 0xd8d8d8, 0xff5fd2, 0x35e8ff, 0xf2c230, 0xd04a3a, 0x4aa86a],
+  hairStyle: ['짧은 머리', '긴 머리', '모히칸', '올백', '민머리'],
+  top: [0xd04a3a, 0x3a6fd0, 0xf0f0ea, 0x1b1c21, 0xe0b030, 0x4aa86a, 0x8a4ab0, 0xff7a3a, 0x5a7080, 0x2fa3a8, 0xff5fd2, 0xd8b04a],
+  pants: [0x2a3448, 0x3a3a3e, 0x6a5a48, 0x1f2430, 0x7a8aa0, 0xc9b99a, 0x8a1f2a, 0xf0f0ea],
+  shoes: [0xf4f4f2, 0x1b1c21, 0xd04a3a, 0x6a4a2a, 0x35e8ff, 0xf2c230],
+  hat: ['없음', '야구모자', '비니', '헬멧', '왕관', '중절모']
+};
+const OUTFIT_KEYS = ['skin', 'hair', 'hairStyle', 'top', 'pants', 'shoes', 'hat'];
+const OUTFIT_NAMES = { skin: '피부', hair: '머리 색', hairStyle: '머리 모양', top: '상의', pants: '하의', shoes: '신발', hat: '모자' };
+function cleanOutfit(o) {
+  const out = {}; o = o && typeof o === 'object' ? o : {};
+  for (const k of OUTFIT_KEYS) { const n = OUTFIT[k].length, v = Math.round(+o[k]); out[k] = Number.isFinite(v) && v >= 0 && v < n ? v : 0; }
+  if (!(o && typeof o === 'object' && 'top' in o)) { out.top = 1; out.pants = 0; out.shoes = 1; out.hairStyle = 0; }
+  return out;
+}
+G.outfit = cleanOutfit(store.get('outfit', null));
+const WALK_T = { name: '도보', L: 0.7, W: 0.6, H: 1.8, hp: 100, maxSpd: 7.5, acc: 10, brake: 10, grip: 10, steer: 2, mass: 0.25, colors: [0xffffff] };
+const walkMats = new Map();
+const walkMat = hex => { let m = walkMats.get(hex); if (!m) walkMats.set(hex, m = new THREE.MeshLambertMaterial({ color: hex })); return m; };
+// the character: pivots at the hips and shoulders so the limbs can swing
+function buildCharacter(o) {
+  o = cleanOutfit(o);
+  const grp = new THREE.Group(), P = {};
+  const box = (w, h, d, mat, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = !LOW; return m; };
+  const skin = walkMat(OUTFIT.skin[o.skin]), hair = walkMat(OUTFIT.hair[o.hair]), top = walkMat(OUTFIT.top[o.top]), pants = walkMat(OUTFIT.pants[o.pants]), shoes = walkMat(OUTFIT.shoes[o.shoes]);
+  for (const s of [-1, 1]) {
+    const leg = new THREE.Group(); leg.position.set(s * 0.11, 0.85, 0);
+    leg.add(box(0.17, 0.72, 0.2, pants, 0, -0.36, 0), box(0.18, 0.13, 0.26, shoes, 0, -0.785, 0.03));
+    grp.add(leg); P[s < 0 ? 'legL' : 'legR'] = leg;
+    const arm = new THREE.Group(); arm.position.set(s * 0.31, 1.4, 0);
+    arm.add(box(0.11, 0.36, 0.16, top, 0, -0.18, 0), box(0.1, 0.22, 0.14, skin, 0, -0.47, 0));
+    grp.add(arm); P[s < 0 ? 'armL' : 'armR'] = arm;
+  }
+  grp.add(box(0.5, 0.6, 0.28, top, 0, 1.15, 0));
+  const head = box(0.26, 0.28, 0.26, skin, 0, 1.62, 0); grp.add(head); P.head = head;
+  grp.add(box(0.06, 0.03, 0.02, walkMat(0x1b1c21), -0.06, 1.66, 0.135), box(0.06, 0.03, 0.02, walkMat(0x1b1c21), 0.06, 1.66, 0.135));   // eyes
+  const hs = OUTFIT.hairStyle[o.hairStyle];
+  if (hs !== '민머리') {
+    if (hs === '모히칸') grp.add(box(0.08, 0.18, 0.28, hair, 0, 1.84, -0.02));
+    else if (hs === '올백') grp.add(box(0.28, 0.08, 0.28, hair, 0, 1.79, -0.03));
+    else { grp.add(box(0.29, 0.1, 0.29, hair, 0, 1.78, 0)); if (hs === '긴 머리') grp.add(box(0.3, 0.5, 0.1, hair, 0, 1.5, -0.17)); }
+  }
+  const hat = OUTFIT.hat[o.hat];
+  if (hat === '야구모자') grp.add(box(0.31, 0.1, 0.31, top, 0, 1.84, 0), box(0.3, 0.03, 0.2, top, 0, 1.8, 0.24));
+  else if (hat === '비니') grp.add(box(0.31, 0.18, 0.31, walkMat(OUTFIT.pants[o.pants]), 0, 1.86, 0));
+  else if (hat === '헬멧') grp.add(box(0.36, 0.3, 0.36, walkMat(0xf2c230), 0, 1.72, 0));
+  else if (hat === '왕관') { grp.add(box(0.3, 0.1, 0.3, walkMat(0xffd36a), 0, 1.84, 0)); for (const a of [-0.1, 0, 0.1]) grp.add(box(0.06, 0.12, 0.06, walkMat(0xffd36a), a, 1.94, 0.12)); }
+  else if (hat === '중절모') grp.add(box(0.28, 0.16, 0.28, walkMat(0x2a2a2e), 0, 1.88, 0), box(0.46, 0.03, 0.46, walkMat(0x2a2a2e), 0, 1.79, 0));
+  return { grp, parts: P };
+}
+function disposeGroup(grp) { grp.traverse(o => { if (o.geometry) o.geometry.dispose(); }); }
+const walkBlocked = (x, z) => pointBlocked(x, z, 0.3) || groundAt(x, z) < -0.4 || (!G.inside && (x < -700 || x > 1500 || z < -900 || z > 1800));
+class Walker {
+  constructor(outfit) {
+    this.key = 'walker'; this.walker = true; this.T = WALK_T; this.trim = 'stock'; this.neon = null; this.color = 0xffffff; this.detailed = true;
+    this.outfit = cleanOutfit(outfit);
+    const c = buildCharacter(this.outfit); this.mesh = c.grp; this.parts = c.parts; scene.add(this.mesh);
+    this.wheels = []; this.siren = null; this.brakeGlow = null; this.turret = null;
+    this.x = 0; this.z = 0; this.y = 0; this.vy = 0; this.h = 0; this.vx = 0; this.vz = 0; this.yawV = 0; this.steer = 0; this.vf = 0; this.vr = 0; this.speed = 0;
+    this.hp = WALK_T.hp; this.nitro = 1; this.nitroOn = false; this.boost = 0; this.onGround = true; this.air = 0; this.lastVyG = 0; this.landed = null; this.launch = null;
+    this.pitch = 0; this.roll = 0; this.visOff = 0; this.spin = 0; this.skid = 0; this.anim = 0; this.fall = 0; this.running = false;
+    this.r = 0.35; this.off = 0.1; this.skidPrev = [null, null]; this.dead = false; this.lastHitT = 0; this.splashed = false; this.sunk = false; this.braking = false;
+  }
+  place(x, z, h, y) { this.x = x; this.z = z; this.h = h; this.vx = this.vz = this.vy = 0; this.vf = 0; this.y = y != null ? groundAt(x, z, y) : groundAt(x, z); this.onGround = true; this.sync(0); }
+  damage(d) { if (this.dead || d <= 0) return; if (this === P.v) { d = playerDamage(d); if (!d) return; } this.hp -= d; if (this.hp <= 0) { this.hp = 0; this.explode(); } }
+  explode() {
+    if (this.dead) return;
+    this.dead = true; this.hp = 0; this.vf = 0; AudioSys.fx('thud');
+    burst(this.x, this.y + 1, this.z, 'puff', 6, 0.5);
+    if (this === P.v) endRun('down');
+  }
+  impact(spd, nx, nz, other) {
+    if (spd < 2) return;
+    this.damage((spd - 2) * 9); this.vx += nx * spd * 0.6; this.vz += nz * spd * 0.6; this.vy = Math.max(this.vy, spd * 0.4); this.onGround = false;
+    const now = performance.now(); if (now - this.lastHitT > 140) { this.lastHitT = now; onCarImpact(this, spd, other); }
+    void nx;
+  }
+  update(dt, inp) {
+    const I = this.dead ? NOINPUT : inp;
+    this.steer = damp(this.steer, I.steer, 10, dt);
+    this.yawV = this.steer * 2.9; this.h = wrapA(this.h - this.yawV * dt);
+    const fx = Math.sin(this.h), fz = Math.cos(this.h);
+    this.running = !!I.nitro && I.throttle > 0;
+    const target = this.dead ? 0 : I.throttle > 0 ? (this.running ? 7.5 : 4.2) : I.brake > 0 ? -2.4 : 0;
+    this.vf = damp(this.vf, target, this.onGround ? 8 : 1.5, dt);
+    // knocked about by a car: carry that velocity until it fades
+    const kx = this.vx - Math.sin(this.h) * this.vf, kz = this.vz - Math.cos(this.h) * this.vf;
+    const kick = Math.hypot(kx, kz) > 0.05, kf = Math.exp(-(this.onGround ? 6 : 0.8) * dt);
+    let nx = this.x + (fx * this.vf + (kick ? kx : 0)) * dt, nz = this.z + (fz * this.vf + (kick ? kz : 0)) * dt;
+    if (walkBlocked(nx, nz)) {
+      if (!walkBlocked(nx, this.z)) nz = this.z; else if (!walkBlocked(this.x, nz)) nx = this.x; else { nx = this.x; nz = this.z; this.vf *= 0.2; }
+    }
+    this.x = nx; this.z = nz;
+    const g = groundAt(this.x, this.z, this.y);
+    if (I.hand > 0 && this.onGround && !this.dead && !this.jumpHeld) { this.vy = 5.4; this.onGround = false; this.air = 0; }
+    this.jumpHeld = I.hand > 0;
+    if (!this.onGround) { this.vy -= 14 * dt; this.y += this.vy * dt; this.air += dt; if (this.y <= g && this.vy <= 0) { this.y = g; this.vy = 0; this.onGround = true; } }
+    else if (this.y > g + 0.5) this.onGround = false;
+    else this.y = g;
+    this.vx = fx * this.vf + (kick ? kx * kf : 0); this.vz = fz * this.vf + (kick ? kz * kf : 0);
+    this.speed = Math.hypot(this.vx, this.vz);
+    this.braking = false; this.skid = 0; this.nitroOn = false; this.boost = 0;
+  }
+  sync(dt) {
+    this.anim += dt * Math.max(this.speed, Math.abs(this.vf)) * 2.4;
+    const sw = Math.sin(this.anim) * clamp(Math.abs(this.vf) / 4, 0, 1) * 0.75, P = this.parts;
+    if (this.dead) this.fall = Math.min(1, this.fall + dt * 3);
+    const air = !this.onGround ? 1 : 0;
+    P.legL.rotation.x = air ? -0.6 : sw; P.legR.rotation.x = air ? 0.3 : -sw;
+    P.armL.rotation.x = air ? -2.4 : -sw * 0.9; P.armR.rotation.x = air ? -2.4 : sw * 0.9;
+    this.mesh.position.set(this.x, this.y + this.visOff, this.z);
+    this.mesh.rotation.set(-this.fall * Math.PI / 2 + (this.running ? 0.12 : 0), this.h, 0, 'YXZ');
+  }
+  setOutfit(o) {
+    scene.remove(this.mesh); disposeGroup(this.mesh);
+    this.outfit = cleanOutfit(o); const c = buildCharacter(this.outfit); this.mesh = c.grp; this.parts = c.parts; scene.add(this.mesh); this.sync(0);
+  }
+  trackSkids() { }
+  dispose() { scene.remove(this.mesh); disposeGroup(this.mesh); }
+}
+/* ---- in and out ---- */
+// step out beside the car (left door first); the car stays as a parked traffic entry you can get back into
+function leaveCar() {
+  const pv = P.v;
+  if (pv.walker || pv.heli || G.state !== 'play') return;
+  if (pv.speed > 3) { help('차를 세운 뒤 내리세요.', 2); return; }
+  if (pv.y - groundAt(pv.x, pv.z) > 2.5) { help('땅 위에서만 내릴 수 있습니다.', 2); return; }
+  pv.vx = pv.vz = 0; pv.vy = 0; pv.sync(0);
+  const lx = Math.cos(pv.h), lz = -Math.sin(pv.h), fx = Math.sin(pv.h), fz = Math.cos(pv.h), side = pv.T.W * 0.5 + 0.7;
+  const spots = [[pv.x + lx * side, pv.z + lz * side], [pv.x - lx * side, pv.z - lz * side], [pv.x - fx * (pv.T.L * 0.5 + 0.8), pv.z - fz * (pv.T.L * 0.5 + 0.8)], [pv.x + fx * (pv.T.L * 0.5 + 0.8), pv.z + fz * (pv.T.L * 0.5 + 0.8)]];
+  let spot = spots.find(s => !walkBlocked(s[0], s[1]) && Math.abs(groundAt(s[0], s[1], pv.y + 1) - pv.y) < 1.5) || spots[0];
+  const a = { v: pv, mode: 'parked', t: 0, mine: true }; pv.ai = a; traffic.push(a);
+  const w = new Walker(G.outfit); w.place(spot[0], spot[1], pv.h, pv.y + 1);
+  P.v = w; CAM.init = false; showCarName(); AudioSys.fx('click');
+  if (!G.walkedOnce) { G.walkedOnce = true; help(IS_TOUCH ? '내렸습니다. <b>가속</b>으로 걷고 <b>니트로</b>를 같이 누르면 달립니다. <b>드리프트</b>로 점프, 차 옆에서 <b>승하차</b>로 다시 탑니다.' : '내렸습니다. <b>W/S</b> 걷기 · <b>Shift</b>+W 달리기 · <b>Space</b> 점프 · <b>A/D</b> 방향 · 차 옆에서 <b>F</b> 타기 · <b>G</b> 총 꺼내기', 7); }
+  else subtitle('차에서 내렸습니다. 차는 그 자리에 세워 두었습니다.', 2.5);
+}
+/* ---- the clothing store ---- */
+const WARD_POS = { x: 229.5, z: 600 }, WD = { inside: false, built: false, prev: null };
+const wardMarker = makeMarker(0xff9fd0, '의류점', '#ffc4e3');
+wardMarker.position.set(WARD_POS.x, CURB, WARD_POS.z);
+function updateWardrobe(t) {
+  animMarker(wardMarker, t + 2.5);
+  if (G.state !== 'play') return;
+  const pv = P.v, d = Math.hypot(WARD_POS.x - pv.x, WARD_POS.z - pv.z);
+  if (d > 7) WD.inside = false;
+  if (WD.inside || d > 3.8 || pv.heli || !grounded(pv)) return;
+  WD.inside = true;
+  if (pv.speed > 9) { help('의류점 앞에서는 속도를 줄이세요.', 2); WD.inside = false; return; }
+  if (!pv.walker) { leaveCar(); if (!P.v.walker) return; }
+  if (P.v.walker && !G.inside) { enterInterior('threads'); return; }
+  WD.prev = Object.assign({}, G.outfit);
+  CAM.yaw = Math.PI; CAM.pitch = 0.05; CAM.dragT = G.t;
+  openMenu('wardrobe'); renderWardrobe();
+}
+function renderWardrobe() {
+  const o = G.outfit;
+  if (!WD.built) {
+    WD.built = true;
+    $('ward-rows').addEventListener('click', e => {
+      const b = e.target.closest('button[data-k]'); if (!b) return;
+      const k = b.dataset.k, n = OUTFIT[k].length, v = b.dataset.v != null ? +b.dataset.v : (G.outfit[k] + (+b.dataset.d || 1) + n) % n;
+      G.outfit = Object.assign({}, G.outfit, { [k]: v }); applyOutfit(); AudioSys.fx('click'); renderWardrobe();
+    });
+    $('ward-random').addEventListener('click', () => { const o2 = {}; for (const k of OUTFIT_KEYS) o2[k] = rndi(0, OUTFIT[k].length - 1); G.outfit = cleanOutfit(o2); applyOutfit(); AudioSys.fx('shine'); renderWardrobe(); });
+    $('ward-undo').addEventListener('click', () => { if (WD.prev) { G.outfit = Object.assign({}, WD.prev); applyOutfit(); renderWardrobe(); } });
+    document.querySelectorAll('#wardrobe [data-close]').forEach(b => b.addEventListener('click', closeMenu));
+    const saveName = () => { const v = netClean($('ward-name').value).slice(0, 12); if (!v) return; NET.nick = v; store.set('nick', v); NET.sendT = 0; subtitle('이름: <b>' + netEsc(v) + '</b>', 2); AudioSys.fx('click'); };
+    $('ward-name-save').addEventListener('click', saveName); $('ward-name').addEventListener('keydown', e => { if (e.key === 'Enter') saveName(); });
+  }
+  $('ward-name').value = NET.nick;
+  $('ward-rows').innerHTML = OUTFIT_KEYS.map(k => {
+    const opts = OUTFIT[k], isColor = typeof opts[0] === 'number';
+    const cells = isColor
+      ? opts.map((c, i) => `<button class="sw${i === o[k] ? ' on' : ''}" data-k="${k}" data-v="${i}" style="background:${hexCss(c)}" aria-label="${OUTFIT_NAMES[k]} ${i + 1}" aria-pressed="${i === o[k]}"></button>`).join('')
+      : `<button class="ghost ward-step" data-k="${k}" data-d="-1">◀</button><span class="ward-val">${opts[o[k]]}</span><button class="ghost ward-step" data-k="${k}" data-d="1">▶</button>`;
+    return `<div class="ward-row"><span>${OUTFIT_NAMES[k]}</span><div class="ward-cells">${cells}</div></div>`;
+  }).join('');
+}
+// the outfit goes on at once, into the save, and out to the room
+function applyOutfit() {
+  G.outfit = cleanOutfit(G.outfit);
+  store.set('outfit', G.outfit);
+  if (P.v && P.v.walker) P.v.setOutfit(G.outfit);
+}
+/* ================= interiors: walk into the casino, the gun shop and the boutique ================= */
+// Each shop has a room built far off the map (west of everything). On foot at the shop's door you step inside:
+// the character is moved to the room's entrance, the camera follows, and the machines, tables and counters are
+// spots you walk up to and press F at. The doorway takes you back out. Arriving by car still opens the menu
+// straight away, as before. Rooms are lit by their own lamps because the sun never reaches in.
+const ROOM_X = -3000;
+const ROOMS = {
+  casino: { name: '루미나 카지노', x0: ROOM_X, z0: 0, w: 46, d: 30, h: 6, out: () => ({ x: CASINO_DOOR.x, z: CASINO_DOOR.z - 4.5, h: 0 }), rearm: () => { C.inside = true; }, spots: [], floor: 0x5a1222, wall: 0x2a1d3a },
+  guns: { name: '루미나 총포사', x0: ROOM_X, z0: 200, w: 16, d: 12, h: 4, out: () => ({ x: GUNSHOP_POS.x + 4.5, z: GUNSHOP_POS.z, h: Math.PI / 2 }), rearm: () => { gunshop.inside = true; }, spots: [], floor: 0x3a3a3e, wall: 0x4a4038 },
+  threads: { name: '루미나 스레드 의류점', x0: ROOM_X, z0: 300, w: 18, d: 14, h: 4.2, out: () => ({ x: WARD_POS.x + 4.5, z: WARD_POS.z, h: Math.PI / 2 }), rearm: () => { WD.inside = true; }, spots: [], floor: 0xe8dcc8, wall: 0xf4e6ef }
+};
+const IN = { id: null, near: null, hintT: 0, built: false, anim: [] };
+const roomLights = [];
+function roomBox(g, r, x0, y0, z0, x1, y1, z1, c) { g.box(r.x0 + x0, y0, r.z0 + z0, r.x0 + x1, y1, r.z0 + z1, col(c)); }
+function roomCollide(r, x0, z0, x1, z1, h) { addCollider({ t: 'box', x0: r.x0 + x0, z0: r.z0 + z0, x1: r.x0 + x1, z1: r.z0 + z1, h }); }
+// the shell of a room: floor, four walls with a doorway in the front wall, ceiling, lamps
+function buildRoomShell(r) {
+  const g = new Geo(), W = r.w, D = r.d, H = r.h, t = 0.4, doorW = 2.6, dx = W / 2;
+  roomBox(g, r, -1, -0.4, -1, W + 1, 0, D + 1, r.floor);
+  roomBox(g, r, 0, 0, D - t, W, H, D, r.wall);                                         // back wall
+  roomBox(g, r, 0, 0, 0, t, H, D, r.wall); roomBox(g, r, W - t, 0, 0, W, H, D, r.wall);   // sides
+  roomBox(g, r, 0, 0, 0, dx - doorW / 2, H, t, r.wall); roomBox(g, r, dx + doorW / 2, 0, 0, W, H, t, r.wall);   // front wall, doorway in the middle
+  roomBox(g, r, dx - doorW / 2, 2.6, 0, dx + doorW / 2, H, t, r.wall);                 // lintel
+  roomBox(g, r, -1, H, -1, W + 1, H + 0.3, D + 1, 0x14161a);                          // ceiling slab
+  g.quad([r.x0, H, r.z0], [r.x0 + W, H, r.z0], [r.x0 + W, H, r.z0 + D], [r.x0, H, r.z0 + D], [0, -1, 0], col(0x3a3d45));   // its underside (boxes have no bottom face)
+  roomCollide(r, 0, D - t, W, D, H); roomCollide(r, 0, 0, t, D, H); roomCollide(r, W - t, 0, W, D, H);
+  roomCollide(r, 0, 0, dx - doorW / 2, t, H); roomCollide(r, dx + doorW / 2, 0, W, t, H);
+  r.door = { x: r.x0 + dx, z: r.z0 + 0.2 }; r.spawn = { x: r.x0 + dx, z: r.z0 + 2.4, h: 0 };
+  const m = g.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }), false); m.castShadow = false; m.receiveShadow = false;
+  for (let i = 0; i < Math.max(1, Math.round(W / 14)); i++) {
+    const L = new THREE.PointLight(r.lamp || 0xffe6c0, 1.5, Math.max(W, D) * 1.3, 1.4); L.position.set(r.x0 + (i + 0.5) * W / Math.max(1, Math.round(W / 14)), H - 0.4, r.z0 + D / 2); scene.add(L); roomLights.push(L);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.25, 10, 8), new THREE.MeshBasicMaterial({ color: r.lamp || 0xffe6c0 })); bulb.position.copy(L.position); scene.add(bulb);
+  }
+  return g;
+}
+const signTex = (text, color, bg) => canvasTex(512, 128, g => { g.fillStyle = bg; g.fillRect(0, 0, 512, 128); g.font = '700 64px "Black Han Sans", "Malgun Gothic", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.shadowColor = color; g.shadowBlur = 24; g.fillStyle = color; g.fillText(text, 256, 68); });
+function roomSign(r, text, color, bg, y, w) { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, w / 4), new THREE.MeshBasicMaterial({ map: signTex(text, color, bg) })); m.position.set(r.x0 + r.w / 2, y, r.z0 + r.d - 0.41); m.rotation.y = Math.PI; scene.add(m); }
+function roomSpot(r, x, z, label, act, rad) { r.spots.push({ x: r.x0 + x, z: r.z0 + z, r: rad || 1.7, label, act }); }
+// a person who works here, standing still
+function roomPerson(r, x, z, h, outfit) { const c = buildCharacter(outfit); c.grp.position.set(r.x0 + x, 0, r.z0 + z); c.grp.rotation.y = h; scene.add(c.grp); return c; }
+function buildInteriors() {
+  if (IN.built) return; IN.built = true;
+  /* ---- the casino: slots, roulette, blackjack, baccarat, a bar ---- */
+  {
+    const r = ROOMS.casino; r.lamp = 0xffd9a0; buildRoomShell(r);
+    const g = new Geo(), felt = 0x1f7a44, wood = 0x5a3a24, red = 0x8e1f2a, gold = 0xd8b04a, dark = 0x1b1c21;
+    roomBox(g, r, 1, 0, 1, r.w - 1, 0.02, r.d - 1, 0x6e1a2e);                       // carpet
+    for (let i = 0; i < 6; i++) for (const row of [0, 1]) {                        // two banks of slot machines along the left
+      const x = 3 + i * 2.2, z = 8 + row * 7;
+      roomBox(g, r, x, 0, z, x + 1.1, 1.7, z + 0.8, red); roomBox(g, r, x + 0.1, 1.7, z + 0.1, x + 1.0, 1.95, z + 0.7, gold); roomBox(g, r, x + 1.1, 0.9, z + 0.3, x + 1.25, 1.25, z + 0.4, dark);
+      const sc = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.6), new THREE.MeshBasicMaterial({ color: [0x35e8ff, 0xff5fd2, 0xffc53a][(i + row) % 3] })); sc.position.set(r.x0 + x + 0.55, 1.2, r.z0 + z - 0.01); sc.rotation.y = Math.PI; scene.add(sc); IN.anim.push({ m: sc, k: 'blink', ph: i + row * 3 });
+      roomCollide(r, x, z, x + 1.1, z + 0.8, 1.7);
+    }
+    roomSpot(r, 9, 6.6, '슬롯머신 당기기', () => casinoAt('slots'), 6.5);
+    // roulette: a long table with the wheel at one end
+    roomBox(g, r, 24, 0, 6, 32, 0.9, 9.5, wood); roomBox(g, r, 24.2, 0.9, 6.2, 31.8, 1.0, 9.3, felt);
+    const wheel = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.3, 0.3, 24), new THREE.MeshLambertMaterial({ color: 0x2a1d1a })); wheel.position.set(r.x0 + 30, 1.1, r.z0 + 7.75); scene.add(wheel);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(1.15, 0.08, 8, 32).rotateX(Math.PI / 2), new THREE.MeshPhongMaterial({ color: 0xd8b04a, shininess: 80 })); rim.position.set(r.x0 + 30, 1.26, r.z0 + 7.75); scene.add(rim);
+    for (let i = 0; i < 12; i++) { const a = i / 12 * TAU, p = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.06, 0.5), new THREE.MeshLambertMaterial({ color: i % 2 ? 0xd04a3a : 0x1b1c21 })); p.position.set(Math.cos(a) * 0.8, 0.17, Math.sin(a) * 0.8); p.rotation.y = -a; wheel.add(p); }
+    IN.anim.push({ m: wheel, k: 'spin' });
+    roomCollide(r, 24, 6, 32, 9.5, 1); roomSpot(r, 27, 11, '룰렛 베팅', () => casinoAt('roulette'), 2.6);
+    // blackjack and baccarat tables with stools
+    for (const [x, z, label, tab] of [[24, 16, '블랙잭 앉기', 'bj'], [34, 16, '바카라 앉기', 'bac']]) {
+      roomBox(g, r, x, 0, z, x + 6, 0.9, z + 3, wood); roomBox(g, r, x + 0.2, 0.9, z + 0.2, x + 5.8, 1.0, z + 2.8, felt);
+      for (let i = 0; i < 4; i++) roomBox(g, r, x + 0.8 + i * 1.5, 0, z + 3.6, x + 1.3 + i * 1.5, 0.55, z + 4.1, red);
+      roomCollide(r, x, z, x + 6, z + 3, 1); roomSpot(r, x + 3, z + 4.9, label, () => casinoAt(tab), 2.8);
+    }
+    // the bar along the back wall
+    roomBox(g, r, 6, 0, r.d - 3.4, 20, 1.1, r.d - 2.2, wood); roomBox(g, r, 6, 1.6, r.d - 0.9, 20, 1.75, r.d - 0.45, wood); roomBox(g, r, 6, 2.6, r.d - 0.9, 20, 2.75, r.d - 0.45, wood);
+    for (let i = 0; i < 24; i++) roomBox(g, r, 6.4 + i * 0.56, i % 3 ? 1.75 : 2.75, r.d - 0.8, 6.7 + i * 0.56, (i % 3 ? 1.75 : 2.75) + 0.5, r.d - 0.55, [0x35e8ff, 0xffc53a, 0xd04a3a, 0x4aa86a, 0xff5fd2][i % 5]);
+    roomCollide(r, 6, r.d - 3.4, 20, r.d - 2.2, 1.1); roomSpot(r, 13, r.d - 4.6, '바에서 한 잔 (체력 회복 · $10,000)', () => casinoBar(), 2.4);
+    g.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }), false);
+    roomSign(r, 'LUMINA CASINO', '#ff3df2', '#14061a', 4.6, 14);
+    roomPerson(r, 13, r.d - 1.5, Math.PI, { skin: 1, hair: 0, hairStyle: 3, top: 2, pants: 3, shoes: 1, hat: 0 });
+    roomPerson(r, 27, 5.2, 0, { skin: 0, hair: 2, hairStyle: 1, top: 3, pants: 3, shoes: 1, hat: 0 });
+  }
+  /* ---- the gun shop: counter, racks, crates, a target ---- */
+  {
+    const r = ROOMS.guns; r.lamp = 0xdfe8ff; buildRoomShell(r);
+    const g = new Geo(), wood = 0x6a4a2a, dark = 0x1b1c21, steel = 0x7a7f86;
+    roomBox(g, r, 2, 0, r.d - 4.2, r.w - 2, 1.05, r.d - 3.2, wood); roomBox(g, r, 2, 1.05, r.d - 4.3, r.w - 2, 1.12, r.d - 3.1, 0x3a2a1a);
+    roomCollide(r, 2, r.d - 4.2, r.w - 2, r.d - 3.2, 1.1);
+    for (let i = 0; i < 6; i++) {                                                  // the rack on the back wall
+      const x = 2.2 + i * 2; roomBox(g, r, x, 1.4, r.d - 0.45, x + 1.6, 1.5, r.d - 0.4, wood); roomBox(g, r, x, 2.6, r.d - 0.45, x + 1.6, 2.7, r.d - 0.4, wood);
+      roomBox(g, r, x + 0.3, 1.5, r.d - 0.55, x + 0.45, 2.6, r.d - 0.4, dark); roomBox(g, r, x + 0.9, 1.5, r.d - 0.55, x + 1.05, 2.4, r.d - 0.4, steel); roomBox(g, r, x + 0.2, 2.1, r.d - 0.6, x + 1.2, 2.2, r.d - 0.45, dark);
+    }
+    for (let i = 0; i < 4; i++) roomBox(g, r, 1 + i * 0.9, 0, 2 + (i % 2) * 0.3, 1.8 + i * 0.9, 0.6 + (i % 2) * 0.3, 2.8 + (i % 2) * 0.3, 0x4a6a3a);   // ammo crates
+    roomCollide(r, 1, 2, 4.6, 3.2, 0.9);
+    g.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }), false);
+    const target = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 1.4), new THREE.MeshBasicMaterial({ map: canvasTex(256, 256, c => { c.fillStyle = '#f4f4f2'; c.fillRect(0, 0, 256, 256); for (let k = 5; k >= 1; k--) { c.fillStyle = k % 2 ? '#d04a3a' : '#f4f4f2'; c.beginPath(); c.arc(128, 128, k * 22, 0, TAU); c.fill(); } }) })); target.position.set(r.x0 + 0.45, 1.9, r.z0 + r.d / 2); target.rotation.y = Math.PI / 2; scene.add(target);
+    roomSign(r, 'LUMINA ARMS', '#ff4a3d', '#1b1c21', 3.3, 8);
+    roomSpot(r, r.w / 2, r.d - 5.4, '카운터에서 무기 사기', () => { if (G.wanted > 0) { help('수배 중에는 총포사가 팔지 않습니다.', 2.5); return; } openMenu('gunshop'); renderGunShop(); }, 5);
+    roomPerson(r, r.w / 2, r.d - 2, Math.PI, { skin: 3, hair: 1, hairStyle: 4, top: 3, pants: 1, shoes: 1, hat: 0 });
+  }
+  /* ---- the boutique: racks, mannequins, a mirror ---- */
+  {
+    const r = ROOMS.threads; r.lamp = 0xfff2f8; buildRoomShell(r);
+    const g = new Geo(), steel = 0xb4b7bd, wood = 0xc9b99a;
+    for (const side of [1.2, r.w - 2.2]) {                                         // clothes racks along both side walls
+      roomBox(g, r, side, 1.5, 2, side + 1, 1.55, r.d - 3, steel); roomBox(g, r, side + 0.4, 0, 2, side + 0.6, 1.5, 2.2, steel); roomBox(g, r, side + 0.4, 0, r.d - 3.2, side + 0.6, 1.5, r.d - 3, steel);
+      for (let i = 0; i < 14; i++) roomBox(g, r, side + 0.1, 0.7, 2.4 + i * 0.6, side + 0.9, 1.5, 2.7 + i * 0.6, OUTFIT.top[i % OUTFIT.top.length]);
+      roomCollide(r, side, 2, side + 1, r.d - 3, 1.6);
+    }
+    roomBox(g, r, r.w / 2 - 2.5, 0, r.d - 2.6, r.w / 2 + 2.5, 1.0, r.d - 1.6, wood); roomCollide(r, r.w / 2 - 2.5, r.d - 2.6, r.w / 2 + 2.5, r.d - 1.6, 1);
+    for (let i = 0; i < 3; i++) roomBox(g, r, 5 + i * 3.5, 0, 5.4, 6 + i * 3.5, 0.25, 6.4, 0xf4f4f2);                                   // mannequin plinths
+    g.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }), false);
+    for (let i = 0; i < 3; i++) roomPerson(r, 5.5 + i * 3.5, 5.9, Math.PI, { skin: i + 1, hair: i * 2, hairStyle: i, top: (i * 4 + 2) % OUTFIT.top.length, pants: i * 2, shoes: i, hat: i + 1 }).grp.position.y = 0.25;
+    const mirror = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 3), new THREE.MeshPhongMaterial({ color: 0x7a8aa0, specular: 0xffffff, shininess: 160 })); mirror.position.set(r.x0 + r.w / 2, 1.6, r.z0 + r.d - 0.41); mirror.rotation.y = Math.PI; scene.add(mirror);
+    roomSign(r, 'LUMINA THREADS', '#ff9fd0', '#2a0a1c', 3.6, 7); ROOMS.threads.signY = 3.6;
+    roomSpot(r, r.w / 2, r.d - 4.2, '거울 앞에서 옷 갈아입기', () => { WD.prev = Object.assign({}, G.outfit); CAM.yaw = Math.PI; CAM.pitch = 0.05; CAM.dragT = G.t; openMenu('wardrobe'); renderWardrobe(); }, 2.6);
+    roomPerson(r, r.w / 2 + 1.6, r.d - 1.2, Math.PI, { skin: 0, hair: 5, hairStyle: 1, top: 10, pants: 7, shoes: 0, hat: 0 });
+  }
+}
+function casinoAt(tab) {
+  if (G.wanted > 0) { help('수배 중에는 게임을 할 수 없습니다. 밖에서 경찰을 따돌리고 오세요.', 3); return; }
+  openMenu('casino'); buildCasino(); setCasinoTab(tab);
+}
+function casinoBar() {
+  const v = P.v; if (G.money < 10000) { help('돈이 부족합니다.', 2); return; }
+  if (v.hp >= v.T.hp) { help('이미 멀쩡합니다. 다음에 한 잔 하세요.', 2); return; }
+  setMoney(-10000, true); v.hp = v.T.hp; AudioSys.fx('clink'); bigText('한 잔', '체력 회복 · $10,000', '#ffd36a', 2); G.lastHitT = G.t;
+}
+/* ---- in and out ---- */
+function enterInterior(id) {
+  const r = ROOMS[id]; if (!r || G.state !== 'play') return;
+  buildInteriors();
+  const pv = P.v; if (!pv.walker) return;
+  IN.id = id; IN.near = null; IN.hintT = 0; G.inside = id;
+  pv.place(r.spawn.x, r.spawn.z, r.spawn.h); CAM.init = false; CAM.yaw = 0; CAM.pitch = 0;
+  AudioSys.fx('click'); showCarName();
+  subtitle('<b>' + r.name + '</b>에 들어왔습니다. 기계나 테이블 앞에서 <b>' + (IS_TOUCH ? '승하차' : 'F') + '</b>. 문으로 걸어 나가면 밖입니다.', 4);
+}
+function exitInterior() {
+  const r = ROOMS[IN.id]; if (!r) return;
+  const o = r.out(), pv = P.v;
+  IN.id = null; G.inside = null; r.rearm();                 // the door marker outside stays quiet until you walk away from it
+  pv.place(o.x, o.z, o.h); CAM.init = false; AudioSys.fx('click');
+  subtitle('밖으로 나왔습니다.', 2);
+}
+function interiorInteract() {
+  const s = IN.near; if (!s) { help('기계나 테이블 바로 앞에서 누르세요.', 2); return; }
+  s.act();
+}
+function updateInteriors(dt, t) {
+  for (const a of IN.anim) { if (a.k === 'spin') a.m.rotation.y += dt * 0.8; else if (a.k === 'blink') a.m.visible = Math.sin(t * 3 + a.ph) > -0.6; }
+  if (!IN.id || G.state !== 'play') return;
+  const r = ROOMS[IN.id], pv = P.v;
+  if (!pv.walker) { IN.id = null; G.inside = null; return; }
+  if (Math.hypot(pv.x - r.door.x, pv.z - r.door.z) < 1.0 && pv.z < r.door.z + 0.9) { exitInterior(); return; }
+  let near = null, nd = 1e9;
+  for (const s of r.spots) { const d = Math.hypot(pv.x - s.x, pv.z - s.z); if (d < s.r && d < nd) { nd = d; near = s; } }
+  if (near !== IN.near) { IN.near = near; if (near) help('<b>' + (IS_TOUCH ? '승하차' : 'F') + '</b> ' + near.label, 3); }
 }
 /* ================= main loop, overlays, boot ================= */
 const headL = new THREE.SpotLight(0xfff1d6, 0, 75, 0.5, 0.55, 1.2);
@@ -8876,7 +9408,7 @@ function simulate(dt) {
   for (const r of racers) if (Math.abs(r.v.x - pv.x) < 80 && Math.abs(r.v.z - pv.z) < 80) emitCarFX(r.v, dt);
   if (G.state === 'play') {
     updateWanted(dt); updateMissions(dt, G.t); updateShops(dt); updateDealer(dt, G.t); updateStunts(dt);
-    updateGunShop(G.t); updateCasino(G.t); updateHeliport(G.t); updateAirstrip(G.t); updateSubDock(G.t); updateSea(dt, G.t, pv); updateHeist(dt, G.t, pv); updateRaceGate(G.t); updateGuns(pdt); copsShoot(dt, pv);
+    updateGunShop(G.t); updateCasino(G.t); updateHeliport(G.t); updateAirstrip(G.t); updateSubDock(G.t); updateSea(dt, G.t, pv); updateHeist(dt, G.t, pv); updateWardrobe(G.t); updateInteriors(dt, G.t); updateRaceGate(G.t); updateGuns(pdt); copsShoot(dt, pv);
     G.lockT -= dt; G.resetCD -= dt; regenPlayer(pdt);
   }
   updateCash(dt, G.t);
@@ -8917,14 +9449,15 @@ function frame(now) {
   const fx = Math.sin(v.h), fz = Math.cos(v.h), nightLit = ENV.night > 0.2 && !v.dead ? ENV.night : 0;
   headL.position.set(v.x + fx * 1.8, v.y + 1.1, v.z + fz * 1.8);
   headL.target.position.set(v.x + fx * 22, v.y - 1.5, v.z + fz * 22);
-  headL.intensity = LOW ? 0 : nightLit * 2.4;
+  headL.intensity = LOW || v.walker ? 0 : nightLit * 2.4;
   beamQuad.position.set(v.x + fx * 13.5, v.y + 0.06, v.z + fz * 13.5); beamQuad.rotation.y = v.h;
-  beamMat.opacity = nightLit * (LOW ? 0.5 : 0.28);
+  beamMat.opacity = v.walker ? 0 : nightLit * (LOW ? 0.5 : 0.28);
   if (G.state === 'play' || G.state === 'end') { updateHUD(dt); drawRadar(G.t); updateFeed(dt); }
   let nearCop = 1e9; for (const c of cops) if (c.mode === 'chase') nearCop = Math.min(nearCop, Math.hypot(c.v.x - v.x, c.v.z - v.z));
   const inp = G.state === 'play' ? readInput() : NOINPUT;
   AudioSys.live = G.state === 'play' || G.state === 'end';
-  if ((audioN++ & 1) === 0) AudioSys.update({ rpm: v.heli ? 0 : engineRpm(v, inp.throttle), load: v.heli ? 0 : inp.throttle, speed: v.heli ? v.speed * 0.4 : v.speed, skid: v.skid, siren: nearCop < 160 ? 1 - nearCop / 160 : 0, sirenT: G.t, nitro: v.plane ? v.thr > 0.1 : v.nitroOn, boost: v.plane ? 0.6 + v.thr * 1.6 : v.boost || 0, dead: v.dead || !!v.heli, heli: v.heli && !v.plane ? Math.max(heliVolume(v), 0.85 * v.rotorSpd) : heliVolume(v), ev: !!v.T.ev || !!v.sub, jet: !!v.T.jet || !!v.plane, gear: v.heli ? 'N' : gearOf(v) });
+  if ((audioN++ & 1) === 0) AudioSys.update({ rpm: v.heli || v.walker ? 0 : engineRpm(v, inp.throttle), load: v.heli || v.walker ? 0 : inp.throttle, speed: v.heli ? v.speed * 0.4 : v.speed, skid: v.skid, siren: nearCop < 160 ? 1 - nearCop / 160 : 0, sirenT: G.t, nitro: v.plane ? v.thr > 0.1 : v.nitroOn, boost: v.plane ? 0.6 + v.thr * 1.6 : v.boost || 0, dead: v.dead || !!v.heli || !!v.walker, heli: v.heli && !v.plane ? Math.max(heliVolume(v), 0.85 * v.rotorSpd) : heliVolume(v), ev: !!v.T.ev || !!v.sub, jet: !!v.T.jet || !!v.plane, gear: v.heli ? 'N' : gearOf(v) });
+  renderMirror(v);
   renderer.render(scene, camera);
 }
 
@@ -8992,7 +9525,6 @@ function bindUI() {
   $('chatin').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') closeChatBar(true); else if (e.key === 'Escape') closeChatBar(false); });
   $('chatin').addEventListener('blur', () => closeChatBar(false));
   $('p-ctrl').addEventListener('click', cycleCtrlMode); $('p-autogas').addEventListener('click', toggleAutoGas); ctrlLabels();
-  $('p-god').addEventListener('click', toggleGod); $('godbtn').addEventListener('click', toggleGod); godLabel(); document.body.classList.toggle('god', G.god);
   $('p-minealert').addEventListener('click', toggleMineAlert); mineAlertLabel();
   $('qbtn').addEventListener('click', cycleQuality);
   qualityLabel();
