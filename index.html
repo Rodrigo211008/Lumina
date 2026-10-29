@@ -538,7 +538,7 @@ body.touch .cl{font-size:12.5px}
 
 <section id="title" class="overlay">
   <div class="t-main">
-    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v25</span></p>
+    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v26</span></p>
     <h1 class="ol">루미나<br><span>시티</span></h1>
     <p class="tag">바다를 낀 도시 하나가 통째로 당신의 도로입니다. 아무 차나 잡아타고, 배달 의뢰를 뛰고, 사이렌을 따돌리세요.</p>
     <div class="actions">
@@ -566,7 +566,7 @@ body.touch .cl{font-size:12.5px}
     <ul class="legend">
       <li><i class="dot y"></i><span>노란 빛기둥: 배달 의뢰</span></li>
       <li><i class="dot b"></i><span>파란 빛기둥: 정비소 (색은 그대로 수리, 수배 해제)</span></li>
-      <li><i class="dot p"></i><span>보라 빛기둥: 자동차 대리점 — 전시장 · 내 차고 · 튜닝 · <b>차 뽑기(모든 차는 여기서만)</b> · 0.01% <b>궁극</b>: 타이탄 전차 · 비행차 스카이 · 팰컨 전투기 · 바이퍼 전투 헬기</span></li>
+      <li><i class="dot p"></i><span>보라 빛기둥: 자동차 대리점 — 전시장 · 내 차고 · 튜닝 · <b>차 뽑기(모든 차는 여기서만)</b> · 0.1% <b>궁극</b>: 타이탄 전차 · 비행차 스카이 · 팰컨 전투기 · 바이퍼 전투 헬기</span></li>
       <li><i class="dot w"></i><span>분홍 빛기둥(3번가 남쪽): 의류점 — 옷·머리·모자 꾸미기 · <b>F</b>로 차에서 내려 걸어다닐 수 있습니다</span></li>
       <li><i class="dot k"></i><span>분홍 빛기둥: 해변 카지노</span></li>
       <li><i class="dot r"></i><span>빨간 빛기둥: 총포사</span></li>
@@ -2033,7 +2033,10 @@ if (renderer) {
   ENVMAP.rt = new THREE.WebGLCubeRenderTarget(LOW ? 64 : 128, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter });
   ENVMAP.cam = new THREE.CubeCamera(1, 4000, ENVMAP.rt);
   ENVMAP.scene = new THREE.Scene();
-  const envSky = new THREE.Mesh(sky.geometry, new THREE.ShaderMaterial({ uniforms: skyU, side: THREE.BackSide, depthWrite: false, fog: false, toneMapped: false, vertexShader: SKY_VERT, fragmentShader: SKY_FRAG + '\n}' }));
+  // the reflected sky is mostly desaturated with hardly any sun halo: paint and glass should pick up the light of the
+  // hour, not turn orange at every sunset (a PBR material also lights its diffuse side from this map)
+  const envSky = new THREE.Mesh(sky.geometry, new THREE.ShaderMaterial({ uniforms: Object.assign({}, skyU, { glow: { value: 0.15 } }), side: THREE.BackSide, depthWrite: false, fog: false, toneMapped: false, vertexShader: SKY_VERT,
+    fragmentShader: SKY_FRAG + '\nfloat lum = dot(gl_FragColor.rgb, vec3(0.3, 0.59, 0.11)); gl_FragColor.rgb = mix(vec3(lum), gl_FragColor.rgb, 0.35);\n}' }));
   ENVMAP.scene.add(envSky); ENVMAP.tex = ENVMAP.rt.texture;
 }
 function updateEnv(force) {
@@ -2673,7 +2676,7 @@ for (const s of ['win', 'glass', 'ind']) {
   // desktops: physically based walls whose windows mirror the sky (the mask marks the glass); phones keep the cheap shading
   wallMats[s] = LOW
     ? new THREE.MeshLambertMaterial({ vertexColors: true, map: TEX[s], emissive: 0xffffff, emissiveMap: TEX[s + 'L'], emissiveIntensity: 0 })
-    : new THREE.MeshStandardMaterial({ vertexColors: true, map: TEX[s], emissive: 0xffffff, emissiveMap: TEX[s + 'L'], emissiveIntensity: 0, metalness: 1, roughness: 1, metalnessMap: facadeMaskTex(s), roughnessMap: facadeMaskTex(s), envMap: ENVMAP.tex, envMapIntensity: 0.75 });
+    : new THREE.MeshStandardMaterial({ vertexColors: true, map: TEX[s], emissive: 0xffffff, emissiveMap: TEX[s + 'L'], emissiveIntensity: 0, metalness: 1, roughness: 1, metalnessMap: facadeMaskTex(s), roughnessMap: facadeMaskTex(s), envMap: ENVMAP.tex, envMapIntensity: 0.6 });
   WG[s].mesh(wallMats[s]);
 }
 roofG.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }));
@@ -3892,7 +3895,7 @@ const CAR_TYPES = {
   volt:    { name: '전기 하이퍼 · 볼트 제로', L: 4.6, W: 2.1, H: 1.1, maxSpd: 90, acc: 48, brake: 46, grip: 12.4, steer: 2.5, mass: 1.05, hp: 130, cab: [0.3, 0.62], top: 0.5, ev: true },
   jet:     { name: '제트카 · 애프터버너', L: 5.4, W: 2.1, H: 1.0, maxSpd: 82, acc: 30, brake: 42, grip: 11.4, steer: 2.3, mass: 1.1, hp: 120, cab: [0.36, 0.56], top: 0.46, boost: 1.8, jet: true },
   warhead: { name: '전투차 · 루미나 워헤드', L: 5.2, W: 2.3, H: 1.72, maxSpd: 72, acc: 26, brake: 38, grip: 10.4, steer: 2.2, mass: 2.4, hp: 480, cab: [0.3, 0.62], top: 0.56, turret: true, weapons: ['turret', 'carrocket', 'carmine'], armor: 0.5 },
-  // the 0.01% tier: everything turned up to the stop. pvpArmor = the share of another player's hit that gets through
+  // the 0.1% tier: everything turned up to the stop. pvpArmor = the share of another player's hit that gets through
   titan:   { name: '최종 병기 · 타이탄 전차', L: 7.6, W: 3.5, H: 2.6, maxSpd: 96, acc: 46, brake: 50, grip: 13, steer: 2.4, mass: 16, hp: 6000, cab: [0.4, 0.6], top: 0.5, colors: [0x2a2d28], cannon: true, turret: true, weapons: ['titan', 'titanquake', 'titangun', 'carrocket', 'carmine'], noWheels: true, wheelR: 0.5, armor: 0.9, pvpArmor: 0.25 },
   skycar:  { name: '비행차 · 루미나 스카이', L: 4.9, W: 2.2, H: 1.12, maxSpd: 100, acc: 50, brake: 48, grip: 13.5, steer: 2.5, mass: 1.0, hp: 400, cab: [0.3, 0.62], top: 0.5, colors: [0xdfe6f0], fly: true, boost: 1.4, jet: true, turret: true, weapons: ['skylaser', 'turret', 'carrocket'], pvpArmor: 0.7 },
   gunship: { name: '전투 헬기 · 루미나 바이퍼', L: 11.5, W: 3.2, H: 3.4, maxSpd: 110, acc: 30, brake: 30, grip: 8, steer: 1.8, mass: 3.6, hp: 900, cab: [0.3, 0.5], top: 0.5, colors: [0x2f3a2c], flyer: 'gunship', weapons: ['heligun', 'helirocket', 'helinapalm'], sky: 420, climb: 20, armor: 0.4, pvpArmor: 0.4 },
@@ -3932,8 +3935,8 @@ function neonMat(hex) { return neonMats[hex] || (neonMats[hex] = shared(new THRE
 const shared = m => { m.userData.shared = true; return m; };
 // paint: a clear-coated metallic that mirrors the sky (phones get a cheaper reflective gloss)
 const carBodyMat = shared(LOW
-  ? new THREE.MeshPhongMaterial({ vertexColors: true, shininess: 90, specular: 0x555555, envMap: ENVMAP.tex, reflectivity: 0.28, combine: THREE.MixOperation })
-  : new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 0.08, roughness: 0.42, clearcoat: 1.0, clearcoatRoughness: 0.08, envMap: ENVMAP.tex, envMapIntensity: 0.9 }));
+  ? new THREE.MeshPhongMaterial({ vertexColors: true, shininess: 90, specular: 0x555555, envMap: ENVMAP.tex, reflectivity: 0.14, combine: THREE.MixOperation })
+  : new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 0.06, roughness: 0.42, clearcoat: 0.85, clearcoatRoughness: 0.08, envMap: ENVMAP.tex, envMapIntensity: 0.55 }));
 const carLightMat = shared(new THREE.MeshBasicMaterial({ vertexColors: true }));
 const carGlowMat = shared(new THREE.MeshBasicMaterial({ map: glowTex, vertexColors: true, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
 const blobMat = shared(new THREE.MeshBasicMaterial({ color: 0x000000, map: glowTex, transparent: true, opacity: 0.45, depthWrite: false }));
@@ -6736,10 +6739,10 @@ const DEALER = [
   { key: 'jet', price: 32000000, tag: '꼬리에 제트 엔진. 니트로를 켜면 애프터버너가 불을 뿜습니다.' },
   { key: 'warhead', price: 38000000, tag: '최고급 전투차. 지붕 미니건·로켓·지뢰를 무한으로 쏩니다. 장갑 50%.' },
   { key: 'hyper', price: 50000000, tag: '루미나 X. 뽑기 신화 등급의 하이퍼카.' },
-  { key: 'titan', price: 500000000, tag: '궁극 0.01%. 주포 한 발이면 어떤 차든 터지고, 기관총·로켓·지뢰 무한. 340km/h짜리 전차.' },
-  { key: 'skycar', price: 500000000, tag: '궁극 0.01%. 땅에서는 가장 빠른 차, 60km/h 넘겨 Space를 누르면 날개를 펴고 납니다. 지붕 미니건·로켓.' },
-  { key: 'fighter', price: 500000000, tag: '궁극 0.01%. 600km/h 전투기. 기관포와 공대지 미사일. 활주로 없이도 긴 길이면 뜹니다.' },
-  { key: 'gunship', price: 500000000, tag: '궁극 0.01%. 400km/h 전투 헬기. 기수 기관포와 로켓 포드, 어디서든 수직 이착륙.' }
+  { key: 'titan', price: 500000000, tag: '궁극 0.1%. 주포 한 발이면 어떤 차든 터지고, 기관총·로켓·지뢰 무한. 340km/h짜리 전차.' },
+  { key: 'skycar', price: 500000000, tag: '궁극 0.1%. 땅에서는 가장 빠른 차, 60km/h 넘겨 Space를 누르면 날개를 펴고 납니다. 지붕 미니건·로켓.' },
+  { key: 'fighter', price: 500000000, tag: '궁극 0.1%. 600km/h 전투기. 기관포와 공대지 미사일. 활주로 없이도 긴 길이면 뜹니다.' },
+  { key: 'gunship', price: 500000000, tag: '궁극 0.1%. 400km/h 전투 헬기. 기수 기관포와 로켓 포드, 어디서든 수직 이착륙.' }
 ];
 const SHOP_COLORS = [0xc8102e, 0xd9822b, 0xf2c230, 0x2e6b3f, 0x0f7c8c, 0x1f4e8c, 0x6b2d5c, 0xe9e9e6, 0x8a9199, 0x1c1c1f];
 const DEALER_POS = { x: 360, z: 491 };                     // entrance marker, north sidewalk of the lot
@@ -6988,13 +6991,13 @@ function shopKey(e) {
 const GACHA = {
   price1: 2000000, price10: 18000000, pity: 40,
   tiers: [
-    { id: 'U', name: '궁극', p: 0.0001, color: '#7dffd8', ring: 0x7dffd8, cars: ['titan', 'skycar', 'fighter', 'gunship'], dupe: 500000000 },
+    { id: 'U', name: '궁극', p: 0.001, color: '#7dffd8', ring: 0x7dffd8, cars: ['titan', 'skycar', 'fighter', 'gunship'], dupe: 500000000 },
     { id: 'X', name: '초월', p: 0.005, color: '#ff9a86', ring: 0xff5a3d, cars: ['warhead', 'jet'], dupe: 60000000 },
     { id: 'M', name: '신화', p: 0.015, color: '#ff5fd2', ring: 0xff5fd2, cars: ['hyper', 'xevo', 'volt'], dupe: 25000000 },
     { id: 'L', name: '전설', p: 0.05, color: '#ffc53a', ring: 0xffc53a, cars: ['super'], dupe: 8000000 },
     { id: 'E', name: '에픽', p: 0.14, color: '#b46bff', ring: 0xb46bff, cars: ['sports', 'monster'], dupe: 3000000 },
     { id: 'R', name: '레어', p: 0.29, color: '#4b9bff', ring: 0x4b9bff, cars: ['muscle', 'rally'], dupe: 1500000 },
-    { id: 'C', name: '일반', p: 0.4999, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi'], dupe: 600000 }
+    { id: 'C', name: '일반', p: 0.499, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi'], dupe: 600000 }
   ],
   trims: [['gold', 0.04], ['neon', 0.18], ['stock', 0.78]]
 };
@@ -7007,7 +7010,7 @@ function rollGacha() {
   const T = GACHA.tiers;
   let tier = T[T.length - 1];
   const tX = T.find(t => t.id === 'X'), tM = T.find(t => t.id === 'M');
-  if (G.pity >= GACHA.pity) tier = Math.random() < 1 / 4 ? tX : tM;        // pity: mythic or better, 1 in 4 transcendent (the 0.01% tier is never handed out)
+  if (G.pity >= GACHA.pity) tier = Math.random() < 1 / 4 ? tX : tM;        // pity: mythic or better, 1 in 4 transcendent (the 0.1% tier is never handed out)
   else { let r = Math.random(); for (const t of T) { if (r < t.p) { tier = t; break; } r -= t.p; } }
   if (tier.id === 'U' || tier.id === 'X' || tier.id === 'M') G.pity = 0;
   let r = Math.random(), trim = 'stock';
@@ -7061,7 +7064,7 @@ function revealGacha(res, best) {
   if (ultra) burst(TURNTABLE.x, CURB + 2, TURNTABLE.z, 'fire', 40, 1.6);
   flash.position.set(TURNTABLE.x, CURB + 3, TURNTABLE.z); flash.intensity = ultra ? 10 : tierIndex(best.tier) <= 2 ? 7 : 4;
   AudioSys.fx(tierIndex(best.tier) <= 2 ? 'fanfare' : 'win');
-  if (ultra) bigText('궁극!', trimType(best.key, best.trim).name + ' · 0.01%', '#7dffd8', 5);
+  if (ultra) bigText('궁극!', trimType(best.key, best.trim).name + ' · 0.1%', '#7dffd8', 5);
   if (res.length === 1) {
     $('gacha-result').innerHTML = `<div class="gacha-card" style="--tier:${best.tier.color}"><span class="tier">${best.tier.name}</span><b>${trimType(best.key, best.trim).name}</b><em>${outcomeText(best)}</em></div>`;
   } else {
@@ -7088,7 +7091,7 @@ function bindGachaUI() {
     '</tbody></table>' +
     `<p>트림: 골드 4% (최고속도 +8%, 가속 +6%, 내구도 +25%) · 네온 18% (차체 밑 네온) · 기본 78%. 같은 차가 더 좋은 트림으로 나오면 업그레이드됩니다.</p>` +
     `<p>${GACHA.pity}회 안에 전설 이상이 안 나오면 ${GACHA.pity}번째에 전설 이상이 확정됩니다. 신화 하이퍼카는 뽑기에서만 나옵니다.</p>` +
-    `<p><b style="color:#7dffd8">궁극 (0.01%)</b>: 타이탄 전차(주포 한 발에 뭐든 터짐), 루미나 스카이(날개를 펴고 나는 차), 팰컨 전투기(기관포·미사일), 바이퍼 전투 헬기(기수 기관포·로켓 포드). 확정 뽑기로는 나오지 않습니다.</p>`;
+    `<p><b style="color:#7dffd8">궁극 (0.1%)</b>: 타이탄 전차(주포 한 발에 뭐든 터짐), 루미나 스카이(날개를 펴고 나는 차), 팰컨 전투기(기관포·미사일), 바이퍼 전투 헬기(기수 기관포·로켓 포드). 확정 뽑기로는 나오지 않습니다.</p>`;
 }
 /* ================= guns: drive-by shooting, rockets, gun shop, police return fire ================= */
 const WEAPONS = {
@@ -7106,7 +7109,7 @@ const WEAPONS = {
   carrocket: { name: '차량 로켓', rate: 1.4, dmg: 240, spread: 0, acc: 1, range: 130, rocket: true, car: true, snd: 'rocket' },
   carmine: { name: '차량 지뢰', rate: 0.9, dmg: 230, spread: 0, acc: 1, range: 0, mine: true, car: true, snd: 'mine' },
   cannon: { name: '전차포', rate: 2.6, dmg: 320, spread: 0, acc: 1, range: 170, rocket: true, shell: true, car: true, snd: 'cannon' },
-  // the 0.01% tier's own guns
+  // the 0.1% tier's own guns
   titan: { name: '타이탄 주포', rate: 1.3, dmg: 1500, spread: 0, acc: 1, range: 240, rocket: true, shell: true, car: true, blast: 12, snd: 'cannon' },
   titangun: { name: '타이탄 기관총', rate: 0.04, dmg: 48, spread: 0.05, acc: 0.8, range: 130, car: true, minigunSkip: true, snd: 'minigun' },
   aircannon: { name: '기관포', rate: 0.05, dmg: 40, spread: 0.04, acc: 0.8, range: 190, car: true, minigunSkip: true, snd: 'minigun' },
@@ -7717,7 +7720,7 @@ function renderGunShop() {
     return `<div class="gun-row${k === G.weapon ? ' cur' : ''}"><div class="gun-info"><b><kbd class="only-desk">${WKEYS.indexOf(k) + 1}</kbd> ${W.name}</b><span>${W.desc}</span><small>${stats}</small></div><div class="gun-buy"><em>${a.own ? '탄약 ' + a.ammo : '미보유'}</em>${btn}</div></div>`;
   }).join('');
 }
-/* ================= the signature weapons of the 0.01% tier ================= */
+/* ================= the signature weapons of the 0.1% tier ================= */
 // The Falcon's gravity bomb and the Viper's napalm canister are dropped, not aimed: they leave the belly with the
 // aircraft's own speed and fall; a ground ring shows where they will land. The Titan's shockwave throws every car
 // around it into the air. The Sky's laser is a continuous beam that lands wherever it points.
@@ -9371,7 +9374,7 @@ function subCamera(v, dt) {
   if (Math.abs(camera.fov - CAM.fov) > 0.05) { camera.fov = CAM.fov; camera.updateProjectionMatrix(); }
 }
 function updateSea(dt, t, pv) { updateTreasure(dt, t, pv); }
-/* ================= the 0.01% tier: the Titan tank, the Sky flying car and the Falcon fighter ================= */
+/* ================= the 0.1% tier: the Titan tank, the Sky flying car and the Falcon fighter ================= */
 // The tank and the flying car are Vehicles (the car physics with a flight mode bolted on, 31_vehicle.js); the fighter
 // is a Plane with its own airframe, weapons and numbers. makeCar() is the one place that knows which class a key needs,
 // so the garage, the respawn, the carjack swap, the dealer preview and the online ghosts all go through it.
