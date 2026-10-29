@@ -311,6 +311,7 @@ body.touch #race-pos{font-size:34px}
 body.touch #race-lap{font-size:17px}
 body.touch #race-time{font-size:13px}
 body.touch.racing #tr{display:none}
+#code-text{display:block;width:100%;box-sizing:border-box;margin:6px 0 2px;padding:8px 10px;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;color:#dfe4e9;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.16);border-radius:8px;resize:vertical;word-break:break-all}
 #arena{position:absolute;top:calc(12px + var(--st));left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0;pointer-events:none}
 #arena-wave{font-size:40px;line-height:1;color:#ff5a3d}
 #arena-kills{font-size:21px;line-height:1.25}
@@ -538,13 +539,14 @@ body.touch .cl{font-size:12.5px}
 
 <section id="title" class="overlay">
   <div class="t-main">
-    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v27</span></p>
+    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v28</span></p>
     <h1 class="ol">루미나<br><span>시티</span></h1>
     <p class="tag">바다를 낀 도시 하나가 통째로 당신의 도로입니다. 아무 차나 잡아타고, 배달 의뢰를 뛰고, 사이렌을 따돌리세요.</p>
     <div class="actions">
       <button id="start" class="go" disabled>도시 만드는 중…</button>
       <button id="snd" class="ghost" aria-pressed="true">사운드 켜짐</button>
       <button id="qbtn" class="ghost">화질 자동</button>
+      <button id="t-code" class="ghost">저장 코드</button>
     </div>
     <p id="t-save" class="savenote" data-s="wait" aria-live="polite">저장 확인 중…</p>
   </div>
@@ -844,10 +846,23 @@ body.touch .cl{font-size:12.5px}
     <button id="p-sound">사운드 끄기</button>
     <button id="p-minealert">지뢰 폭발 알림: 꺼짐</button>
     <button id="p-online">온라인</button>
+    <button id="p-code">저장 코드 (내보내기·불러오기)</button>
     <button id="p-ctrl">조작: 자동 감지</button>
     <button id="p-autogas" class="only-touch">자동 가속: 꺼짐</button>
     <button id="p-quality">화질: 자동</button>
     <button id="p-title">타이틀로</button>
+  </div>
+</section>
+
+<section id="codebox" class="overlay menu-ov" hidden>
+  <div class="menu-panel heli-panel" role="dialog" aria-label="저장 코드">
+    <div class="shop-head">
+      <div><p class="eyebrow heli-eyebrow">Save Code</p><h2 class="ol">저장 코드</h2></div>
+    </div>
+    <p class="heli-desc">돈·차고(튜닝·부품)·무기·보유 탈것·기록을 한 줄의 코드로 담습니다. <b>복사</b>해 두었다가 다른 브라우저나 친구 서버 버전(자체 서버)에서 붙여넣고 <b>불러오기</b>하면 그대로 이어집니다. 불러오면 지금 진행 상황을 코드의 내용으로 바꿉니다.</p>
+    <textarea id="code-text" rows="5" spellcheck="false" autocomplete="off" aria-label="저장 코드"></textarea>
+    <p id="code-note" class="shop-note"></p>
+    <div class="actions"><button id="code-copy" class="go heli">코드 복사</button><button id="code-load" class="go heli">붙여넣은 코드 불러오기</button><button class="ghost" data-close>닫기</button></div>
   </div>
 </section>
 
@@ -8458,6 +8473,44 @@ async function initCloudSave() {
   // another tab or device saving shows up here, so a stale view never writes old numbers back
   try { SAVE.ref.onSnapshot(onCloud, () => { /* live updates stopped; saving still works */ }); } catch (e) { /* optional */ }
 }
+/* ---- save codes: the whole progress as one line of text, to carry between browsers or onto a self-hosted server ---- */
+const CODE_TAG = 'LUMINA1.';
+const b64u = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return decodeURIComponent(escape(atob(s))); };
+function exportCode() { return CODE_TAG + b64u(JSON.stringify(progressData())); }
+function importCode(txt) {
+  const s = String(txt || '').replace(/\s+/g, '');
+  if (!s.startsWith(CODE_TAG)) return { ok: false, why: '저장 코드가 아닙니다 (LUMINA1. 으로 시작해야 합니다).' };
+  let d; try { d = JSON.parse(unb64u(s.slice(CODE_TAG.length))); } catch (e) { return { ok: false, why: '코드를 읽을 수 없습니다. 끝까지 빠짐없이 붙여넣었는지 확인하세요.' }; }
+  if (!d || typeof d !== 'object' || !Array.isArray(d.garage) || typeof d.money !== 'number') return { ok: false, why: '저장 데이터가 들어 있지 않은 코드입니다.' };
+  applyProgress(d, true);
+  SAVE.gen++; if (!SAVE.dirty) { SAVE.dirty = true; store.set('saveDirty', true); }
+  queueSave(500);                                   // on claude.ai the account picks it up too
+  if (P.v && P.v.owned && !P.v.heli && !P.v.walker && G.state !== 'title') { const e = ownedCar(); if (e && e.key !== P.v.key) { const at = { x: P.v.x, z: P.v.z, h: P.v.h }; P.v.dispose(); P.v = spawnOwned(at); CAM.init = false; } showCarName(); }
+  return { ok: true, money: G.money, cars: G.garage.length };
+}
+const CB = { built: false };
+function openCodeBox() {
+  if (G.state === 'paused') { G.state = G.prevState || 'play'; $('pause').hidden = true; }
+  if (!CB.built) {
+    CB.built = true;
+    $('code-copy').addEventListener('click', async () => {
+      const t = $('code-text'); t.value = exportCode(); t.select();
+      let ok = false; try { await navigator.clipboard.writeText(t.value); ok = true; } catch (e) { try { ok = document.execCommand('copy'); } catch (e2) { ok = false; } }
+      $('code-note').textContent = ok ? '복사했습니다. 다른 기기에서 붙여넣고 "불러오기"를 누르세요.' : '자동 복사가 안 됩니다 — 칸을 길게 눌러 전체 선택 후 복사하세요.'; AudioSys.fx('click');
+    });
+    $('code-load').addEventListener('click', () => {
+      const r = importCode($('code-text').value);
+      $('code-note').textContent = r.ok ? '불러왔습니다 · 보유 ' + fmtMoney(r.money) + ' · 차 ' + r.cars + '대' : r.why;
+      if (r.ok) { AudioSys.fx('win'); saveNote(); if (G.state === 'title') { $('start').textContent = '이어서 달리기'; } }
+    });
+    document.querySelectorAll('#codebox [data-close]').forEach(b => b.addEventListener('click', () => { if (G.state === 'menu') closeMenu(); else $('codebox').hidden = true; }));
+  }
+  $('code-text').value = exportCode(); $('code-note').textContent = '내 진행 상황이 코드로 담겨 있습니다. 다른 코드를 붙여넣고 "불러오기"를 누르면 그 저장으로 바뀝니다.';
+  if (G.state === 'title') { $('codebox').hidden = false; return; }      // over the title screen, no game state to pause
+  if (G.state !== 'play' && G.state !== 'end') return;
+  openMenu('codebox');
+}
 function flushNow() { if (SAVE.timer) { clearTimeout(SAVE.timer); SAVE.timer = 0; } if (SAVE.dirty) flushSave(); }
 document.addEventListener('visibilitychange', () => { if (document.hidden) flushNow(); });
 addEventListener('pagehide', flushNow);
@@ -11530,6 +11583,7 @@ function bindUI() {
   $('p-quit').addEventListener('click', () => { togglePause(); if (RACE.mode) endRace('레이스를 그만뒀습니다.'); });
   $('p-quality').addEventListener('click', cycleQuality);
   $('p-online').addEventListener('click', openOnline);
+  $('p-code').addEventListener('click', openCodeBox); $('t-code').addEventListener('click', openCodeBox);
   $('chatin').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') closeChatBar(true); else if (e.key === 'Escape') closeChatBar(false); });
   $('chatin').addEventListener('blur', () => closeChatBar(false));
   $('p-ctrl').addEventListener('click', cycleCtrlMode); $('p-autogas').addEventListener('click', toggleAutoGas); ctrlLabels();
