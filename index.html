@@ -538,7 +538,7 @@ body.touch .cl{font-size:12.5px}
 
 <section id="title" class="overlay">
   <div class="t-main">
-    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v26</span></p>
+    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v27</span></p>
     <h1 class="ol">루미나<br><span>시티</span></h1>
     <p class="tag">바다를 낀 도시 하나가 통째로 당신의 도로입니다. 아무 차나 잡아타고, 배달 의뢰를 뛰고, 사이렌을 따돌리세요.</p>
     <div class="actions">
@@ -574,7 +574,7 @@ body.touch .cl{font-size:12.5px}
       <li><i class="dot o"></i><span>흰 빛기둥: 레이싱 서킷 (GP · 오벌 · 테크니컬 · 도심 스트리트) — 온라인이면 <b>친구 레이스</b>: 게이트에서 열고, 친구는 <b>Y</b>로 참가</span></li>
       <li><i class="dot q"></i><span>주황 빛기둥: <b>콜로세움</b> (고속도로 북쪽, 테크니컬 서킷 옆) — 문으로 들어가면 경찰 부대가 끝없이 밀려옵니다. 안에서는 차가 회복되지 않고, 처치마다 상금 · 6킬마다 다음 라운드 · 문으로 나가면 종료</span></li>
       <li><i class="dot p"></i><span>궁극 차의 고유 무기 (<b>Q</b>로 전환): 팰컨 <b>폭탄</b>(아래로 떨어짐 · 땅의 붉은 원이 낙하 지점) · 타이탄 <b>충격파</b>(주변 32m 차를 띄워 날림) · 스카이 <b>레이저</b>(빗나가지 않는 광선) · 바이퍼 <b>네이팜</b>(8초 불바다)</span></li>
-      <li><i class="dot a"></i><span>하늘색 빛기둥: 서쪽 공항 격납고의 제트기 · 노란 빛기둥(부두 끝): 잠수함 — 해저 동굴과 보물 상자</span></li>
+      <li><i class="dot a"></i><span>하늘색 빛기둥: 서쪽 공항 격납고의 제트기 · 노란 빛기둥(부두 끝): 잠수함 — 해저 동굴과 보물 상자 · <b>오르카</b> 공격 잠수함(2배 빠르고 튼튼, 어뢰·소나)</span></li>
       <li><i class="dot h"></i><span>주황 빛기둥: 카지노 뒷문 — 금고 습격 (드릴 · 돈가방 · 도주)</span></li>
       <li><i class="dot c"></i><span>스카이웨이: 해변 양 끝과 서킷 길목에서 올라가는 고가도로, 도심에 점프 구간</span></li>
       <li><i class="dot g"></i><span>초록 돈다발: 현금 · 점프대는 스턴트 보너스</span></li>
@@ -764,7 +764,7 @@ body.touch .cl{font-size:12.5px}
       <div><p class="eyebrow heli-eyebrow">Lumina Deep</p><h2 class="ol">잠수함 기지</h2></div>
       <div id="sub-cash" class="ol">$0</div>
     </div>
-    <p class="heli-desc">루미나 딥 S1. 해변 남쪽 바다 밑에는 동굴 세 곳(해초 동굴 · 검은 바위 동굴 · 난파선 동굴)과 보물 상자 30개가 흩어져 있습니다. 상자에서는 돈, 드물게 <b>차 성능을 올리는 희귀·전설 부품</b>이 나옵니다. 부품은 지금 타는 차에 붙고, 상자는 시간이 지나면 다시 채워집니다.</p>
+    <p class="heli-desc"><b>루미나 딥 S1</b>(65km/h)과 <b>루미나 오르카</b> 공격 잠수함(130km/h · 잠항 2배 · 선체 3배 · 어뢰 2문 · 소나). 해변 남쪽 바다 밑에는 동굴 세 곳(해초 동굴 · 검은 바위 동굴 · 난파선 동굴)과 보물 상자 30개가 흩어져 있습니다. 상자에서는 돈, 드물게 <b>차 성능을 올리는 희귀·전설 부품</b>이 나옵니다. 부품은 지금 타는 차에 붙고, 상자는 시간이 지나면 다시 채워집니다.</p>
     <dl class="keys only-desk">
       <dt><kbd>Shift</kbd><kbd>Space</kbd></dt><dd>잠수 · 부상</dd>
       <dt><kbd>W</kbd><kbd>S</kbd></dt><dd>전진 · 후진</dd>
@@ -773,7 +773,7 @@ body.touch .cl{font-size:12.5px}
     </dl>
     <p class="only-touch heli-desc"><b>잠수</b>·<b>부상</b>으로 깊이를, <b>전진</b>·<b>후진</b>과 ◀ ▶로 방향을 잡습니다. 부두 옆에 떠오른 뒤 <b>하차</b>.</p>
     <p id="sub-note" class="shop-note"></p>
-    <div class="actions"><button id="sub-go" class="go heli"></button><button class="ghost" data-close>나가기</button></div>
+    <div class="actions"><button id="sub-go2" class="go heli"></button><button id="sub-go" class="go heli"></button><button class="ghost" data-close>나가기</button></div>
   </div>
 </section>
 
@@ -7121,10 +7121,13 @@ const WEAPONS = {
   airbomb: { name: '폭탄', rate: 0.6, dmg: 1400, spread: 0, acc: 1, range: 0, bomb: true, special: true, car: true, blast: 18, snd: 'bomb', desc: '기수 아래에서 떨어져 중력으로 낙하. 반경 18m 폭발.' },
   titanquake: { name: '타이탄 충격파', rate: 5, dmg: 700, spread: 0, acc: 1, range: 32, quake: true, special: true, car: true, snd: 'quake', desc: '전차 주변 32m의 모든 차를 띄워 날리는 지진파.' },
   skylaser: { name: '스카이 레이저', rate: 0.04, dmg: 24, spread: 0, acc: 1, range: 170, laser: true, special: true, car: true, snd: 'laser', desc: '조준한 곳을 그대로 태우는 연속 광선. 빗나가지 않습니다.' },
-  helinapalm: { name: '네이팜', rate: 2.2, dmg: 90, spread: 0, acc: 1, range: 0, napalm: true, special: true, car: true, blast: 15, snd: 'bomb', desc: '떨어진 자리가 8초 동안 불바다가 됩니다. 반경 15m.' }
+  helinapalm: { name: '네이팜', rate: 2.2, dmg: 90, spread: 0, acc: 1, range: 0, napalm: true, special: true, car: true, blast: 15, snd: 'bomb', desc: '떨어진 자리가 8초 동안 불바다가 됩니다. 반경 15m.' },
+  // the Orca's tubes and sonar (47_sub.js)
+  torpedo: { name: '어뢰', rate: 1.6, dmg: 600, spread: 0, acc: 1, range: 170, rocket: true, torpedo: true, car: true, blast: 10, snd: 'rocket', desc: '물속을 달려 표적을 쫓는 어뢰. 반경 10m 폭발, 부두 위의 차도 아래에서 터뜨립니다.' },
+  sonar: { name: '소나', rate: 6, dmg: 0, spread: 0, acc: 1, range: 0, sonar: true, special: true, car: true, snd: 'beep', desc: '바다 전체의 보물 상자를 20초 동안 레이더에 띄웁니다.' }
 };
 const WKEYS = ['pistol', 'smg', 'shotgun', 'rifle', 'sniper', 'minigun', 'grenade', 'rpg', 'mine'];
-const CAR_WPN = ['turret', 'carrocket', 'carmine', 'cannon', 'titan', 'titangun', 'aircannon', 'airmissile', 'heligun', 'helirocket', 'airbomb', 'titanquake', 'skylaser', 'helinapalm'], CAR_ARMS = {};
+const CAR_WPN = ['turret', 'carrocket', 'carmine', 'cannon', 'titan', 'titangun', 'aircannon', 'airmissile', 'heligun', 'helirocket', 'airbomb', 'titanquake', 'skylaser', 'helinapalm', 'torpedo', 'sonar'], CAR_ARMS = {};
 for (const k of CAR_WPN) CAR_ARMS[k] = { own: true, ammo: Infinity };
 const freshArms = () => { const a = {}; for (const k of WKEYS) a[k] = { own: k === 'pistol', ammo: k === 'pistol' ? 60 : 0 }; return a; };
 G.arms = Object.assign(freshArms(), store.get('arms', null) || {});
@@ -7277,6 +7280,7 @@ function cursorPoint(maxD) {
 function muzzle(v, W) {     // driver's window (helicopter: the cabin door, below the nose; a mounted gun: its barrel)
   const fx = Math.sin(v.h), fz = Math.cos(v.h), lx = Math.cos(v.h), lz = -Math.sin(v.h);
   if (W && (W.bomb || W.napalm)) return [v.x - fx * 0.6, v.y + (v.fighter ? 0.9 : 0.3), v.z - fz * 0.6];   // dropped from the belly
+  if (v.sub && W && W.car) { const s = (GUN.tube = 1 - (GUN.tube || 0)) ? 1 : -1; return [v.x + fx * 6.6 + lx * s * 0.75, v.y + 1.9, v.z + fz * 6.6 + lz * s * 0.75]; }   // the Orca's bow tubes, alternating
   if (v.fighter && W && W.car) return [v.x + fx * 5.8, v.y + 1.2, v.z + fz * 5.8];      // the fighter's nose
   if (v.gunship && W && W.car) return W.rocket ? [v.x + fx * 0.6 + lx * 1.9, v.y + 1.3, v.z + fz * 0.6 + lz * 1.9] : [v.x + fx * 3.2, v.y + 0.75, v.z + fz * 3.2];   // the gunship: rocket pod, chin gun
   if (v.heli) return [v.x + fx * 1.6 + lx * 1.3, v.y + 0.6, v.z + fz * 1.6 + lz * 1.3];
@@ -7501,15 +7505,17 @@ function launchRocket(m, A, v, W) {
     let dx, dy, dz;
     if (A) { const p = aimPoint(A); dx = p[0] - m[0]; dy = p[1] - m[1]; dz = p[2] - m[2]; }
     else if (GUN.free) { dx = GUN.free[0] - m[0]; dy = GUN.free[1] - m[1]; dz = GUN.free[2] - m[2]; }
-    else { dx = Math.sin(CAM.view); dy = v.heli ? -0.35 : -0.02; dz = Math.cos(CAM.view); }
-    const l = Math.hypot(dx, dy, dz) || 1, sp = 72;
+    else { dx = Math.sin(CAM.view); dy = v.sub ? 0 : v.heli ? -0.35 : -0.02; dz = Math.cos(CAM.view); }
+    const l = Math.hypot(dx, dy, dz) || 1, sp = W && W.torpedo ? 40 : 72;
     vx = dx / l * sp + v.vx; vy = dy / l * sp; vz = dz / l * sp + v.vz;
   }
   const shell = !!(W && W.shell);
   if (shell) { const l = Math.hypot(vx, vy, vz) || 1, sp = 120; vx *= sp / l; vy = vy * sp / l + 2.5; vz *= sp / l; }
   const mesh = new THREE.Mesh(gren ? grenadeGeo : rocketGeo, gren ? grenadeMat : rocketMat); mesh.position.set(m[0], m[1], m[2]); scene.add(mesh);
-  rockets.push({ x: m[0], y: m[1], z: m[2], vx, vy, vz, life: gren ? 2.2 : shell ? 2.6 : 3.2, age: 0, A: gren || shell ? null : A, mesh, owner: v, gren, shell, bounces: 0, byAI: v !== P.v, dmg: W && W.dmg, blast: W && W.blast });
-  AudioSys.fx(gren ? 'grenade' : shell ? 'cannon' : 'rocket');
+  const torpedo = !!(W && W.torpedo);
+  if (torpedo) { mesh.scale.set(1.6, 1.6, 2.4); vy = clamp(vy, -8, 8); }
+  rockets.push({ x: m[0], y: m[1], z: m[2], vx, vy, vz, life: gren ? 2.2 : shell ? 2.6 : torpedo ? 5 : 3.2, age: 0, A: gren || shell ? null : A, mesh, owner: v, gren, shell, torpedo, bounces: 0, byAI: v !== P.v, dmg: W && W.dmg, blast: W && W.blast });
+  AudioSys.fx(gren ? 'grenade' : shell ? 'cannon' : torpedo ? 'whoosh' : 'rocket');
 }
 // the army's tanks fire at you: a shell from the barrel toward where you will be
 function fireShell(c, pv) {
@@ -7545,6 +7551,13 @@ function updateRockets(dt) {
       }
       r.mesh.position.set(r.x, r.y, r.z); r.mesh.rotation.x += dt * 9;
       if (Math.random() < 0.5) smoke.emit(r.x, r.y, r.z, 0, 0.3, 0, 0.5, 0.25, 0.8, SMOKE_C, 0.35, 1.4, -0.2);
+    } else if (r.torpedo) {                           // a torpedo stays in the water: under the surface, above the sea bed, round the boulders
+      if (r.y > -0.9) { r.y = -0.9; if (r.vy > 0) r.vy = 0; }
+      const bed = seaFloorAt(r.x, r.z) + 0.6; if (r.y < bed) { r.y = bed; if (r.vy < 0) r.vy = 0; }
+      r.mesh.position.set(r.x, r.y, r.z); r.mesh.lookAt(r.x + r.vx, r.y + r.vy, r.z + r.vz);
+      if (Math.random() < dt * 40) smoke.emit(r.x, r.y + 0.2, r.z, rnd(-0.3, 0.3), rnd(1, 2), rnd(-0.3, 0.3), rnd(0.3, 0.5), 0.5, 1.2, [0.8, 0.95, 1], 0.55, 1.2, 0.6);
+      for (const k of rocksNear(r.x, r.z)) if (!boom && Math.hypot(r.x - k.x, r.y - k.y, r.z - k.z) < k.r + 0.5) boom = true;
+      if (r.z < BEACH_Z + 2 || r.x < SEA.x0 || r.x > SEA.x1 || r.z > SEA.z1) boom = true;
     } else {
       r.mesh.position.set(r.x, r.y, r.z); r.mesh.lookAt(r.x + r.vx, r.y + r.vy, r.z + r.vz);
       if (r.bomb) { if (Math.random() < dt * 18) smoke.emit(r.x, r.y, r.z, rnd(-0.2, 0.2), rnd(0.2, 0.6), rnd(-0.2, 0.2), 0.7, 0.45, 1.2, SMOKE_C, 0.3, 1.2, -0.2); }
@@ -7555,7 +7568,7 @@ function updateRockets(dt) {
       boom = boom || r.y <= groundAt(r.x, r.z) + 0.05 || r.y < wallHeightAt(r.x, r.z) || inDeck(r.x, r.y, r.z);
     }
     if (!boom && r.age > (r.gren ? 0.15 : 0.1)) {
-      const near = o => o !== r.owner && Math.hypot(o.x - r.x, o.y + 0.8 - r.y, o.z - r.z) < (r.gren ? 1.9 : r.bomb ? 3.2 : 2.4);
+      const near = o => o !== r.owner && Math.hypot(o.x - r.x, o.y + 0.8 - r.y, o.z - r.z) < (r.gren ? 1.9 : r.bomb ? 3.2 : r.torpedo ? 4 : 2.4);
       if (r.byAI && near(P.v)) boom = true;
       for (const c of cops) if (!boom && near(c.v)) boom = true;
       for (const a of traffic) if (!boom && near(a.v)) boom = true;
@@ -7776,6 +7789,7 @@ function fireSpecial(v, W, m, A) {
     return true;
   }
   if (W.quake) { quake(v, W, true); return true; }
+  if (W.sonar) { sonarPing(v); return true; }
   if (W.laser) { laserShot(v, W, m, A); return true; }
   return false;
 }
@@ -7848,12 +7862,28 @@ function lightNapalm(x, z, R, dps, byPlayer) {
   const pv = P.v, dp = pv ? Math.hypot(x - pv.x, z - pv.z) : 999;
   if (dp < 120) AudioSys.fx('whoosh', 0.8 / (1 + dp / 40));
 }
+/* ---- the Orca's sonar: a ring sweeps the sea and every chest shows on the radar for a while ---- */
+const sonarGeo = new THREE.RingGeometry(0.9, 1, 64).rotateX(-Math.PI / 2);
+function sonarPing(v) {
+  const mesh = new THREE.Mesh(sonarGeo, new THREE.MeshBasicMaterial({ color: 0x7df9ff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, fog: false }));
+  mesh.position.set(v.x, v.y + 1.5, v.z); mesh.scale.set(2, 1, 2); mesh.renderOrder = 6; scene.add(mesh);
+  SPECIAL.sonar = { mesh, t: 0 }; SEA.sonarT = 20;
+  AudioSys.fx('beep'); setTimeout(() => AudioSys.fx('beep', 0.6), 350);
+  let n = 0; for (const c of SEA.chests) if (c.on) n++;
+  help('<b>소나</b> — 바다 전체의 보물 상자 <b>' + n + '개</b>가 20초 동안 레이더에 보입니다 (가장자리 표시는 그 방향).', 4);
+}
 function specialFX(f, x, z) {
   if (f === 'quake') quakeFX(x, groundAt(x, z), z, 32);
   else if (f === 'napalm') lightNapalm(x, z, 15, 0, false);
 }
 function updateSpecial(dt) {
   if (SPECIAL.laserT > 0 && (SPECIAL.laserT -= dt) <= 0) laserCore.visible = laserGlow.visible = laserHit.visible = false;
+  if (SEA.sonarT > 0) SEA.sonarT -= dt;
+  if (SPECIAL.sonar) {
+    const s = SPECIAL.sonar; s.t += dt; const u = Math.min(1, s.t / 2.6), r = lerp(2, 260, u);
+    s.mesh.scale.set(r, 1, r); s.mesh.material.opacity = 0.9 * (1 - u) * (1 - u);
+    if (u >= 1) { scene.remove(s.mesh); s.mesh.material.dispose(); SPECIAL.sonar = null; }
+  }
   for (let k = SPECIAL.quakes.length - 1; k >= 0; k--) {
     const q = SPECIAL.quakes[k]; q.t += dt;
     const u = Math.min(1, q.t / 0.7), e = 1 - (1 - u) * (1 - u), r = lerp(3, q.R, e);
@@ -9015,7 +9045,7 @@ function boardPlane() {
 // Off the beach the sea is a real place now: a sloping seabed with rock gardens, three cave systems built from
 // boulders, kelp, and treasure chests that respawn with new loot. The submarine (bought at the end of the pier)
 // is duck-typed like the helicopter: Space surfaces, Shift dives, W/S drive, A/D turn.
-const SEA = { x0: -300, x1: 1100, z0: SEA_Z + 12, z1: 1760, rocks: [], caves: [], chests: [], kelp: [] };
+const SEA = { x0: -300, x1: 1100, z0: SEA_Z + 12, z1: 1760, rocks: [], caves: [], chests: [], kelp: [], sonarT: 0 };
 function seaFloorAt(x, z) {
   if (z < SEA.z0) return -6;
   const d = z - SEA.z0;
@@ -9178,9 +9208,11 @@ function updateTreasure(dt, t, pv) {
   }
 }
 
-/* ---- the submarine ---- */
-const SUB_T = { name: '잠수함 · 루미나 딥 S1', L: 9.5, W: 3.2, H: 3.4, hp: 300, maxSpd: 18, acc: 8, brake: 10, grip: 8, steer: 1.2, mass: 4, heli: true, sub: true };
-const SUB_PRICE = 3000000, SUB_DOCK = { x: 598, z: 882 }, SUB_SPAWN = { x: 598, z: 934, h: 0 };
+/* ---- the submarines: the Deep S1 runabout and the Orca, an attack boat twice as fast with torpedo tubes and sonar ---- */
+const SUB_T = { name: '잠수함 · 루미나 딥 S1', L: 9.5, W: 3.2, H: 3.4, hp: 300, maxSpd: 18, rev: 7, dive: 6, yaw: 0.9, acc: 8, brake: 10, grip: 8, steer: 1.2, mass: 4, heli: true, sub: true };
+const ORCA_T = { name: '공격 잠수함 · 루미나 오르카', L: 13.5, W: 4.2, H: 4.0, hp: 900, maxSpd: 36, rev: 14, dive: 12, yaw: 1.3, acc: 14, brake: 14, grip: 8, steer: 1.4, mass: 7, heli: true, sub: true, armor: 0.5, pvpArmor: 0.45, weapons: ['torpedo', 'sonar'], lamp: 2 };
+const SUB_TYPES = { sub: SUB_T, orca: ORCA_T };
+const SUB_PRICE = 3000000, ORCA_PRICE = 40000000, SUB_DOCK = { x: 598, z: 882 }, SUB_SPAWN = { x: 598, z: 934, h: 0 };
 function subGeo(hex) {
   return cachedGeo('sub' + hex, () => {
     const g = new Geo(), paint = col(hex), dark = col(0x1c2024), glass = col(0x6fd3ff), steel = col(0x9a9ea4);
@@ -9195,25 +9227,45 @@ function subGeo(hex) {
     return g.geometry();
   });
 }
+// the Orca: a long black hull with a white belly, a swept sail, twin torpedo tubes in the bow, a pump jet astern
+function orcaGeo(hex) {
+  return cachedGeo('orca' + hex, () => {
+    const g = new Geo(), paint = col(hex), belly = col(0xe8ecef), dark = col(0x111417), glass = col(0x6fd3ff), steel = col(0x9a9ea4), red = col(0xc0141c), warn = col(0xffa424);
+    g.box(-2.0, 0.9, -5.6, 2.0, 3.6, 4.2, paint);                                  // hull
+    g.box(-1.6, 0.5, -5.0, 1.6, 0.9, 3.8, belly);                                   // white belly
+    g.box(-1.4, 1.2, 4.2, 1.4, 3.3, 5.6, paint); g.box(-0.9, 1.5, 5.6, 0.9, 3.0, 6.6, paint); g.box(-0.5, 1.8, 6.6, 0.5, 2.7, 7.0, dark);   // bow
+    for (const s of [-1, 1]) { g.box(s * 0.75 - 0.3, 1.6, 6.5, s * 0.75 + 0.3, 2.2, 6.7, dark); g.box(s * 0.75 - 0.22, 1.68, 6.7, s * 0.75 + 0.22, 2.12, 6.74, red); }   // torpedo tubes
+    g.box(-0.9, 3.6, -1.8, 0.9, 5.4, 1.4, paint); g.box(-1.0, 3.6, 1.4, 1.0, 4.3, 2.0, paint);   // sail, swept forward
+    g.box(-0.12, 5.4, -0.4, 0.12, 6.8, -0.2, steel); g.box(-0.06, 5.4, 0.3, 0.06, 6.3, 0.42, steel);   // periscope, mast
+    g.box(-0.7, 4.2, 1.4, 0.7, 4.9, 1.55, glass);                                   // sail window
+    for (const s of [-1, 1]) { g.box(s * 0.9, 4.6, -0.6, s * 2.6, 4.85, 0.4, paint); }   // sail planes
+    for (const s of [-1, 1]) { g.box(s * 2.0, 2.0, -4.8, s * 3.4, 2.3, -3.4, paint); g.box(s * 2.0, 2.0, 1.4, s * 3.0, 2.25, 2.6, paint); }   // stern and bow planes
+    g.box(-0.1, 3.6, -5.6, 0.1, 5.2, -4.2, paint); g.box(-0.1, 0.0, -5.6, 0.1, 0.9, -4.4, paint);   // rudders
+    g.box(-0.9, 1.3, -6.5, 0.9, 3.1, -5.6, dark); g.box(-0.6, 1.6, -6.9, 0.6, 2.8, -6.5, steel);   // pump-jet shroud
+    g.box(-2.0, 2.2, -5.6, -1.98, 2.35, 4.2, warn); g.box(1.98, 2.2, -5.6, 2.0, 2.35, 4.2, warn);   // hull stripe
+    for (const s of [-1, 1]) g.box(s * 1.4 - 0.25, 2.0, 5.3, s * 1.4 + 0.25, 2.5, 5.7, col(0xfff1c8));   // lamps
+    return g.geometry();
+  });
+}
 class Sub {
-  constructor(hex) {
-    this.key = 'sub'; this.heli = true; this.sub = true; this.T = SUB_T; this.trim = 'stock'; this.neon = null;
-    this.color = hex != null ? hex : 0xf2c230; this.detailed = true;
+  constructor(hex, key) {
+    this.key = key === 'orca' ? 'orca' : 'sub'; this.heli = true; this.sub = true; this.T = SUB_TYPES[this.key]; this.trim = 'stock'; this.neon = null;
+    this.color = hex != null ? hex : this.key === 'orca' ? 0x1a1f26 : 0xf2c230; this.detailed = true; this.orca = this.key === 'orca';
     const grp = new THREE.Group();
-    const body = new THREE.Mesh(subGeo(this.color), carBodyMat); grp.add(body);
-    this.lamp = new THREE.SpotLight(0xbfe8ff, 0, 60, 0.6, 0.5, 1); this.lamp.position.set(0, 1.8, 4.8); this.lamp.target.position.set(0, 1.2, 40); grp.add(this.lamp, this.lamp.target);
+    const body = new THREE.Mesh(this.orca ? orcaGeo(this.color) : subGeo(this.color), carBodyMat); grp.add(body);
+    this.lamp = new THREE.SpotLight(0xbfe8ff, 0, this.orca ? 90 : 60, this.orca ? 0.7 : 0.6, 0.5, 1); this.lamp.position.set(0, this.orca ? 2.2 : 1.8, this.orca ? 6.4 : 4.8); this.lamp.target.position.set(0, 1.2, 40); grp.add(this.lamp, this.lamp.target);
     this.mesh = grp; scene.add(grp);
     this.wheels = []; this.siren = null; this.brakeGlow = null; this.rotorSpd = 1; this.thr = 0;
     this.x = 0; this.z = 0; this.y = -2; this.vy = 0; this.h = 0; this.vx = 0; this.vz = 0;
     this.yawV = 0; this.steer = 0; this.vf = 0; this.vr = 0; this.speed = 0; this.tilt = 0; this.bank = 0;
-    this.hp = SUB_T.hp; this.nitro = 1; this.nitroOn = false; this.boost = 0;
+    this.hp = this.T.hp; this.nitro = 1; this.nitroOn = false; this.boost = 0;
     this.onGround = false; this.air = 0; this.lastVyG = 0; this.landed = null; this.launch = null;
     this.pitch = 0; this.roll = 0; this.visOff = 0; this.spin = 0; this.skid = 0;
-    this.r = 1.8; this.off = 1.0; this.bubbleT = 0;
+    this.r = this.orca ? 2.3 : 1.8; this.off = this.orca ? 1.6 : 1.0; this.bubbleT = 0;
     this.skidPrev = [null, null]; this.dead = false; this.lastHitT = 0; this.splashed = true; this.sunk = false; this.braking = false;
   }
   place(x, z, h) { this.x = x; this.z = z; this.h = h; this.vx = this.vz = this.vy = 0; this.yawV = 0; this.y = -1.4; this.onGround = false; this.sync(0); }
-  damage(d) { if (this.dead || d <= 0) return; if (this === P.v) { d = playerDamage(d); if (!d) return; } this.hp -= d; if (this.hp <= 0) { this.hp = 0; this.explode(); } }
+  damage(d) { if (this.dead || d <= 0) return; if (this === P.v) { d = playerDamage(d); if (!d) return; } if (this.T.armor) d *= 1 - this.T.armor; this.hp -= d; if (this.hp <= 0) { this.hp = 0; this.explode(); } }
   explode() {
     if (this.dead) return;
     this.dead = true; this.hp = 0;
@@ -9230,16 +9282,17 @@ class Sub {
   }
   update(dt, inp) {
     const I = this.dead ? NOINPUT : inp;
+    const T = this.T;
     this.steer = damp(this.steer, I.steer, 5, dt);
-    this.yawV = damp(this.yawV, this.steer * 0.9 * clamp(0.4 + Math.abs(this.vf) / 8, 0.4, 1), 3, dt);
+    this.yawV = damp(this.yawV, this.steer * T.yaw * clamp(0.4 + Math.abs(this.vf) / 8, 0.4, 1), 3, dt);
     this.h = wrapA(this.h - this.yawV * dt);
     const fx = Math.sin(this.h), fz = Math.cos(this.h), rx = -fz, rz = fx;
     let vf = this.vx * fx + this.vz * fz, vr = this.vx * rx + this.vz * rz;
-    const tf = this.dead ? 0 : I.throttle > 0 ? SUB_T.maxSpd : I.brake > 0 ? -7 : 0;
-    vf = damp(vf, tf, I.throttle > 0 || I.brake > 0 ? 0.5 : 0.9, dt); vr = damp(vr, 0, 2, dt);
+    const tf = this.dead ? 0 : I.throttle > 0 ? T.maxSpd : I.brake > 0 ? -T.rev : 0;
+    vf = damp(vf, tf, I.throttle > 0 || I.brake > 0 ? (this.orca ? 0.7 : 0.5) : 0.9, dt); vr = damp(vr, 0, 2, dt);
     this.thr = damp(this.thr, I.throttle > 0 ? 1 : I.brake > 0 ? 0.5 : 0, 3, dt);
-    const tvy = this.dead ? -6 : I.hand ? 6 : I.nitro ? -6 : 0;
-    this.vy = damp(this.vy, tvy, 2.2, dt);
+    const tvy = this.dead ? -6 : I.hand ? T.dive : I.nitro ? -T.dive : 0;
+    this.vy = damp(this.vy, tvy, this.orca ? 3 : 2.2, dt);
     this.vx = fx * vf + rx * vr; this.vz = fz * vf + rz * vr;
     this.vf = vf; this.vr = vr; this.speed = Math.hypot(this.vx, this.vz);
     this.braking = false; this.skid = 0; this.nitroOn = false; this.boost = 0;
@@ -9249,13 +9302,13 @@ class Sub {
     const ox = this.x, oz = this.z;
     this.x = clamp(this.x + this.vx * dt, SEA.x0 + 10, SEA.x1 - 10); this.z = clamp(this.z + this.vz * dt, SEA.z0 - 6, SEA.z1 - 10);
     this.y += this.vy * dt;
-    const floor = seaFloorAt(this.x, this.z) + 1.8, ceil = -0.9;
+    const floor = seaFloorAt(this.x, this.z) + (this.orca ? 2.2 : 1.8), ceil = -0.9;
     if (this.y < floor) { const hit = -this.vy; this.y = floor; if (this.vy < 0) this.vy = 0; if (hit > 4) { this.damage((hit - 4) * 6); burst(this.x, this.y, this.z, 'puff', 8, 0.8); } }
     if (this.y > ceil) { this.y = ceil; if (this.vy > 0) this.vy = 0; }
     // boulders are solid: the hull (a sphere round its middle) is shoved out sideways, never ridden over.
     // Straight above or below one, the push is vertical instead.
     for (const r of rocksNear(this.x, this.z)) {
-      const dx = this.x - r.x, dz = this.z - r.z, dy = this.y + 1.6 - r.y, d = Math.hypot(dx, dy, dz), min = r.r * 0.95 + 1.8;
+      const dx = this.x - r.x, dz = this.z - r.z, dy = this.y + 1.6 - r.y, d = Math.hypot(dx, dy, dz), min = r.r * 0.95 + (this.orca ? 2.3 : 1.8);
       if (d >= min || d < 0.01) continue;
       const hd = Math.hypot(dx, dz);
       if (hd > 0.4) {
@@ -9273,11 +9326,11 @@ class Sub {
   sync(dt) {
     this.tilt = damp(this.tilt, clamp(-this.vy * 0.05, -0.35, 0.35), 2.5, dt); this.bank = damp(this.bank, clamp(this.yawV * 0.2, -0.25, 0.25), 2.5, dt);
     this.mesh.position.set(this.x, this.y, this.z); this.mesh.rotation.set(this.tilt, this.h, this.bank, 'YXZ');
-    this.lamp.intensity = this.dead ? 0 : 2.2;
+    this.lamp.intensity = this.dead ? 0 : this.orca ? 3.2 : 2.2;
     if (dt > 0 && !this.dead && (this.bubbleT -= dt) <= 0) {   // bubbles from the stern
-      this.bubbleT = 0.08 / (0.2 + this.thr);
-      const fx = Math.sin(this.h), fz = Math.cos(this.h);
-      smoke.emit(this.x - fx * 4.6, this.y + 1.8, this.z - fz * 4.6, rnd(-0.4, 0.4), rnd(1.5, 2.5), rnd(-0.4, 0.4), rnd(0.25, 0.45), 0.9, 1.4, [0.8, 0.95, 1], 0.6, 1.2, 0.6);
+      this.bubbleT = (this.orca ? 0.05 : 0.08) / (0.2 + this.thr);
+      const fx = Math.sin(this.h), fz = Math.cos(this.h), back = this.orca ? 6.6 : 4.6;
+      smoke.emit(this.x - fx * back, this.y + 1.8, this.z - fz * back, rnd(-0.4, 0.4), rnd(1.5, 2.5), rnd(-0.4, 0.4), rnd(0.25, 0.45), this.orca ? 1.2 : 0.9, 1.4, [0.8, 0.95, 1], 0.6, 1.2, 0.6);
     }
   }
   trackSkids() { }
@@ -9302,32 +9355,37 @@ function updateSubDock(t) {
 function renderSubDock() {
   if (!SD.built) {
     SD.built = true;
-    $('sub-go').addEventListener('click', () => {
-      if (!G.flags.sub) {
-        if (G.money < SUB_PRICE) return;
-        setMoney(-SUB_PRICE, true); G.flags = Object.assign({}, G.flags, { sub: true }); store.set('flags', G.flags);
-        AudioSys.fx('win'); bigText('잠수함 구입', SUB_T.name + ' · ' + fmtMoney(SUB_PRICE), '#ffe08a', 2.6);
+    const buy = (key, flag, price, T) => () => {
+      if (!G.flags[flag]) {
+        if (G.money < price) return;
+        setMoney(-price, true); G.flags = Object.assign({}, G.flags, { [flag]: true }); store.set('flags', G.flags);
+        AudioSys.fx('win'); bigText(key === 'orca' ? '오르카 구입' : '잠수함 구입', T.name + ' · ' + fmtMoney(price), '#ffe08a', 2.6);
       }
-      closeMenu(); boardSub();
-    });
+      closeMenu(); boardSub(key);
+    };
+    $('sub-go').addEventListener('click', buy('sub', 'sub', SUB_PRICE, SUB_T));
+    $('sub-go2').addEventListener('click', buy('orca', 'orca', ORCA_PRICE, ORCA_T));
     document.querySelectorAll('#subdock [data-close]').forEach(b => b.addEventListener('click', closeMenu));
   }
   $('sub-cash').textContent = fmtMoney(G.money);
   const own = !!G.flags.sub, btn = $('sub-go'), found = (G.stats && G.stats.treasure) || 0;
-  btn.textContent = own ? '잠수함 타기' : (G.money >= SUB_PRICE ? '구입하고 타기 · ' : '돈이 부족합니다 · ') + fmtMoney(SUB_PRICE);
+  btn.textContent = own ? '딥 S1 타기' : (G.money >= SUB_PRICE ? '딥 S1 구입하고 타기 · ' : '딥 S1 · 돈이 부족합니다 · ') + fmtMoney(SUB_PRICE);
   btn.disabled = !own && G.money < SUB_PRICE;
-  $('sub-note').textContent = (own ? '내 잠수함입니다. 여기서 언제든 다시 탑니다. ' : '한 번 사면 계속 내 것입니다. ') + '지금까지 찾은 보물 ' + found + '개. 상자는 열고 나면 한참 뒤에 새 보물이 들어찹니다.';
+  const own2 = !!G.flags.orca, btn2 = $('sub-go2');
+  btn2.textContent = own2 ? '오르카 타기' : (G.money >= ORCA_PRICE ? '오르카 구입하고 타기 · ' : '오르카 · 돈이 부족합니다 · ') + fmtMoney(ORCA_PRICE);
+  btn2.disabled = !own2 && G.money < ORCA_PRICE;
+  $('sub-note').textContent = (own2 ? '오르카는 내 것입니다. ' : own ? '딥 S1은 내 것입니다. ' : '한 번 사면 계속 내 것입니다. ') + '지금까지 찾은 보물 ' + found + '개. 상자는 열고 나면 한참 뒤에 새 보물이 들어찹니다.';
 }
-function boardSub() {
+function boardSub(key = 'sub') {
   const old = P.v;
   if (SD.parked) { SD.parked.dispose(); SD.parked = null; }
-  const sv = new Sub(); sv.place(SUB_SPAWN.x, SUB_SPAWN.z, SUB_SPAWN.h);
+  const sv = new Sub(null, key); sv.place(SUB_SPAWN.x, SUB_SPAWN.z, SUB_SPAWN.h);
   if (old && old !== sv) { if (old.owned) old.dispose(); else { old.vx = old.vz = 0; makeWreck(old); } }
   P.v = sv; CAM.init = false; setArmed(false); showCarName();
   AudioSys.fx('splash', 0.8);
-  subtitle('<b>' + SUB_T.name + '</b>에 탔습니다. 남쪽 바다에 동굴 세 곳과 보물 상자가 있습니다.', 4);
-  help(IS_TOUCH ? '<b>잠수</b>로 내려가고 <b>부상</b>으로 올라옵니다. <b>전진</b>·<b>후진</b>, ◀ ▶ 선회. 노란 빛기둥이 보물 상자, 레이더에도 표시됩니다. 부두로 돌아와 떠오른 뒤 <b>하차</b>.'
-    : '<b>Shift</b> 잠수 · <b>Space</b> 부상 · <b>W/S</b> 전진·후진 · <b>A/D</b> 선회 · 노란 빛기둥이 보물 상자(레이더에도 표시) · 부두 옆에 떠오른 뒤 <b>F</b>로 내리기', 9);
+  subtitle('<b>' + sv.T.name + '</b>에 탔습니다. 남쪽 바다에 동굴 세 곳과 보물 상자가 있습니다.' + (sv.orca ? ' <b>G</b>로 어뢰·소나.' : ''), 4);
+  help(IS_TOUCH ? '<b>잠수</b>로 내려가고 <b>부상</b>으로 올라옵니다. <b>전진</b>·<b>후진</b>, ◀ ▶ 선회. 노란 빛기둥이 보물 상자, 레이더에도 표시됩니다. 부두로 돌아와 떠오른 뒤 <b>하차</b>.' + (sv.orca ? ' <b>총</b> 버튼으로 어뢰, 무기 전환으로 <b>소나</b>(바다 전체의 보물을 레이더에).' : '')
+    : '<b>Shift</b> 잠수 · <b>Space</b> 부상 · <b>W/S</b> 전진·후진 · <b>A/D</b> 선회 · 노란 빛기둥이 보물 상자(레이더에도 표시) · 부두 옆에 떠오른 뒤 <b>F</b>로 내리기' + (sv.orca ? ' · <b>G</b> 어뢰 · <b>Q</b>로 <b>소나</b>(바다 전체의 보물을 레이더에)' : ''), 9);
 }
 // surfaced beside the pier: your car is waiting on the deck
 function leaveSub() {
@@ -9741,7 +9799,7 @@ function forBlips(fn) {
   if (HEIST.phase === 'idle') fn(HEIST_DOOR.x, HEIST_DOOR.z, 'heist', true);
   for (const g of NET.ghosts.values()) if (!g.v.dead) fn(g.v.x, g.v.z, 'peer', true);
   for (const b of HEIST.bags) if (b.on) fn(b.x, b.z, 'bag', false);
-  if (P.v && P.v.sub) for (const c of SEA.chests) if (c.on && Math.abs(c.x - P.v.x) < 220 && Math.abs(c.z - P.v.z) < 220) fn(c.x, c.z, 'chest', false);
+  if (P.v && P.v.sub) { const all = SEA.sonarT > 0; for (const c of SEA.chests) if (c.on && (all || (Math.abs(c.x - P.v.x) < 220 && Math.abs(c.z - P.v.z) < 220))) fn(c.x, c.z, 'chest', all); }   // after a sonar ping every chest shows, clamped to the rim
   for (const tr of TRACKS) fn(tr.marker.x, tr.marker.z, 'race', true);
   fn(arenaMarker.position.x, arenaMarker.position.z, 'arena', true);
   for (const r of racers) fn(r.v.x, r.v.z, 'rival', false);
@@ -10287,7 +10345,7 @@ function netEnsure(p) {
     if (s.st === 'ped') v = new Walker(s.of);
     else if (s.st === 'heli') v = s.k === 'gunship' ? new Gunship(hex) : new Heli(hex);
     else if (s.st === 'plane') v = s.k === 'fighter' ? new Fighter(hex) : new Plane(hex);
-    else if (s.st === 'sub') v = new Sub(hex);
+    else if (s.st === 'sub') v = new Sub(hex, s.k === 'orca' ? 'orca' : 'sub');
     else v = new Vehicle(hasOwn(CAR_TYPES, s.k) && !CAR_TYPES[s.k].cop ? s.k : 'sedan', hex, true, ['stock', 'gold', 'neon'].includes(s.tr) ? s.tr : 'stock', s.ne ? (+s.ne & 0xffffff) : null);
   } catch (e) { return null; }
   v.ghost = true; v.peerId = p.peer; v.owned = false; v.ai = null;
