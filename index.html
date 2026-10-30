@@ -539,7 +539,7 @@ body.touch .cl{font-size:12.5px}
 
 <section id="title" class="overlay">
   <div class="t-main">
-    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v28</span></p>
+    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v29</span></p>
     <h1 class="ol">루미나<br><span>시티</span></h1>
     <p class="tag">바다를 낀 도시 하나가 통째로 당신의 도로입니다. 아무 차나 잡아타고, 배달 의뢰를 뛰고, 사이렌을 따돌리세요.</p>
     <div class="actions">
@@ -8489,6 +8489,17 @@ function importCode(txt) {
   if (P.v && P.v.owned && !P.v.heli && !P.v.walker && G.state !== 'title') { const e = ownedCar(); if (e && e.key !== P.v.key) { const at = { x: P.v.x, z: P.v.z, h: P.v.h }; P.v.dispose(); P.v = spawnOwned(at); CAM.init = false; } showCarName(); }
   return { ok: true, money: G.money, cars: G.garage.length };
 }
+// a link can carry a save code: lumina.../#code=LUMINA1.… applies it once on load, then the address is cleaned
+function importFromUrl() {
+  let m = null;
+  try { m = /(?:^|[#?&])code=([^&]+)/.exec(location.hash || '') || /(?:^|[#?&])code=([^&]+)/.exec(location.search || ''); } catch (e) { m = null; }
+  if (!m) return false;
+  let r = { ok: false };
+  try { r = importCode(decodeURIComponent(m[1])); } catch (e) { r = { ok: false }; }
+  try { history.replaceState(null, '', location.pathname); } catch (e) { /* a sandboxed frame */ }
+  if (r.ok) { $('start').textContent = '이어서 달리기 · 저장 코드 적용됨'; saveNote(); const n = $('t-save'); if (n) n.textContent = '링크의 저장 코드를 불러왔습니다 · 보유 ' + fmtMoney(r.money) + ' · 차 ' + r.cars + '대 · ' + n.textContent; }
+  return r.ok;
+}
 const CB = { built: false };
 function openCodeBox() {
   if (G.state === 'paused') { G.state = G.prevState || 'play'; $('pause').hidden = true; }
@@ -11612,6 +11623,7 @@ function boot() {
   bindTouch(); bindUI();
   G.state = 'title';
   $('start').disabled = false; $('start').textContent = '도시로 출발';
+  importFromUrl();          // opened from a link that carries a save code (66_save.js)
   requestAnimationFrame(t => { lastT = t; frame(t); });
   initCloudSave();      // progress from your Claude account, when this view offers it (66_save.js)
   initModels();         // glTF cars: packaged ones, then the ones you loaded in this browser (33_models.js)
