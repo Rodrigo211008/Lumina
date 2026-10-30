@@ -267,7 +267,7 @@ body.touch .only-desk{display:none}
 .tab{flex:1;min-width:0;padding:9px 6px;border:0;border-radius:5px;background:transparent;font-weight:600;font-size:14px;color:var(--dim)}
 .tab[aria-selected="true"]{background:var(--hud);color:var(--ink)}
 .shop-view{display:flex;flex-direction:column;gap:12px}
-.shop-item.trim-neon b{color:#7ff3ff}.shop-item.trim-gold b{color:#f0cf6a}
+.shop-item.trim-neon b{color:#7ff3ff}.shop-item.trim-gold b,.shop-item.trim-chrome b{color:#e8edf3;text-shadow:0 0 8px rgba(255,255,255,.45)}
 .go.gold{background:#ffc53a;box-shadow:0 5px 0 #9c6f0c}
 .go:disabled{box-shadow:none}
 .gacha-banner{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:6px;background:linear-gradient(120deg,rgba(255,95,210,.22),rgba(180,107,255,.2) 45%,rgba(53,232,255,.16));border:1px solid rgba(255,255,255,.14)}
@@ -374,6 +374,8 @@ body.touch #gangs{top:calc(58px + var(--st));font-size:17px;padding:4px 10px}
 body.touch.online #t-chat{display:grid}
 #t-race{display:none;left:calc(86px + var(--sl));bottom:calc(176px + var(--sb));width:64px;height:50px;font-size:14px;border-color:rgba(255,197,58,.8);background:rgba(255,197,58,.25)}
 body.touch.nrace #t-race{display:grid}
+#t-special{display:none;left:calc(86px + var(--sl));bottom:calc(236px + var(--sb));width:64px;height:50px;font-size:14px;border-color:rgba(155,92,255,.8);background:rgba(155,92,255,.25)}
+body.touch.special #t-special{display:grid}
 body.netrace #race-restart{display:none}
 body.touch #chatlog{left:auto;right:calc(12px + var(--sr));top:calc(150px + var(--st));bottom:auto;max-width:min(300px,44vw);align-items:flex-end}
 body.touch .cl{font-size:12.5px}
@@ -533,20 +535,21 @@ body.touch .cl{font-size:12.5px}
     <button class="tb" id="t-back" data-k="back">뒤보기</button>
     <button class="tb" id="t-chat" data-k="chat" aria-label="채팅">💬</button>
     <button class="tb" id="t-race" data-k="race">참가</button>
+    <button class="tb" id="t-special" data-k="special">특수</button>
   </div>
 </div>
 <div id="slowfx"></div>
 
 <section id="title" class="overlay">
   <div class="t-main">
-    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v29</span></p>
+    <p class="eyebrow">Lumina City · 오픈월드 드라이브 <span id="build" style="opacity:.55">v32</span></p>
     <h1 class="ol">루미나<br><span>시티</span></h1>
     <p class="tag">바다를 낀 도시 하나가 통째로 당신의 도로입니다. 아무 차나 잡아타고, 배달 의뢰를 뛰고, 사이렌을 따돌리세요.</p>
     <div class="actions">
       <button id="start" class="go" disabled>도시 만드는 중…</button>
       <button id="snd" class="ghost" aria-pressed="true">사운드 켜짐</button>
       <button id="qbtn" class="ghost">화질 자동</button>
-      <button id="t-code" class="ghost">저장 코드</button>
+      <button id="t-code" class="ghost">저장 코드 · 쿠폰</button>
     </div>
     <p id="t-save" class="savenote" data-s="wait" aria-live="polite">저장 확인 중…</p>
   </div>
@@ -575,6 +578,8 @@ body.touch .cl{font-size:12.5px}
       <li><i class="dot c"></i><span>청록 빛기둥: 서쪽 해변 헬기장</span></li>
       <li><i class="dot o"></i><span>흰 빛기둥: 레이싱 서킷 (GP · 오벌 · 테크니컬 · 도심 스트리트) — 온라인이면 <b>친구 레이스</b>: 게이트에서 열고, 친구는 <b>Y</b>로 참가</span></li>
       <li><i class="dot q"></i><span>주황 빛기둥: <b>콜로세움</b> (고속도로 북쪽, 테크니컬 서킷 옆) — 문으로 들어가면 경찰 부대가 끝없이 밀려옵니다. 안에서는 차가 회복되지 않고, 처치마다 상금 · 6킬마다 다음 라운드 · 문으로 나가면 종료</span></li>
+      <li><i class="dot k"></i><span>새 차 4종 (뽑기): <b>범퍼카</b>(안 다치고 튕김) · <b>PD 크루저</b>(H: 사이렌, 앞차가 비킴) · 콘셉트 <b>램 런처</b>(들이받으면 상대가 하늘로) · 콘셉트 <b>팬텀</b>(H: 8초 은신)</span></li>
+      <li><i class="dot k"></i><span><b>오토바이</b> 3종: <b>스쿠터</b>(일반) · <b>초퍼</b>(레어) · <b>스포츠 바이크</b>(에픽, 280km/h). 코너에서 기울어지고 풀스로틀에 앞바퀴가 들립니다. 세게 부딪히면 라이더가 튕겨 나가요(옆에서 F로 다시 탑승). 1인칭은 라이더 시점이고, 모든 차의 1인칭에서 핸들을 치웠습니다.</span></li>
       <li><i class="dot p"></i><span>궁극 차의 고유 무기 (<b>Q</b>로 전환): 팰컨 <b>폭탄</b>(아래로 떨어짐 · 땅의 붉은 원이 낙하 지점) · 타이탄 <b>충격파</b>(주변 32m 차를 띄워 날림) · 스카이 <b>레이저</b>(빗나가지 않는 광선) · 바이퍼 <b>네이팜</b>(8초 불바다)</span></li>
       <li><i class="dot a"></i><span>하늘색 빛기둥: 서쪽 공항 격납고의 제트기 · 노란 빛기둥(부두 끝): 잠수함 — 해저 동굴과 보물 상자 · <b>오르카</b> 공격 잠수함(2배 빠르고 튼튼, 어뢰·소나)</span></li>
       <li><i class="dot h"></i><span>주황 빛기둥: 카지노 뒷문 — 금고 습격 (드릴 · 돈가방 · 도주)</span></li>
@@ -846,7 +851,7 @@ body.touch .cl{font-size:12.5px}
     <button id="p-sound">사운드 끄기</button>
     <button id="p-minealert">지뢰 폭발 알림: 꺼짐</button>
     <button id="p-online">온라인</button>
-    <button id="p-code">저장 코드 (내보내기·불러오기)</button>
+    <button id="p-code">저장 코드 · 쿠폰</button>
     <button id="p-ctrl">조작: 자동 감지</button>
     <button id="p-autogas" class="only-touch">자동 가속: 꺼짐</button>
     <button id="p-quality">화질: 자동</button>
@@ -857,12 +862,12 @@ body.touch .cl{font-size:12.5px}
 <section id="codebox" class="overlay menu-ov" hidden>
   <div class="menu-panel heli-panel" role="dialog" aria-label="저장 코드">
     <div class="shop-head">
-      <div><p class="eyebrow heli-eyebrow">Save Code</p><h2 class="ol">저장 코드</h2></div>
+      <div><p class="eyebrow heli-eyebrow">Save Code · Coupon</p><h2 class="ol">저장 코드 · 쿠폰</h2></div>
     </div>
-    <p class="heli-desc">돈·차고(튜닝·부품)·무기·보유 탈것·기록을 한 줄의 코드로 담습니다. <b>복사</b>해 두었다가 다른 브라우저나 친구 서버 버전(자체 서버)에서 붙여넣고 <b>불러오기</b>하면 그대로 이어집니다. 불러오면 지금 진행 상황을 코드의 내용으로 바꿉니다.</p>
+    <p class="heli-desc">돈·차고(튜닝·부품)·무기·보유 탈것·기록을 한 줄의 코드로 담습니다. <b>복사</b>해 두었다가 다른 브라우저나 친구 서버 버전(자체 서버)에서 붙여넣고 <b>불러오기</b>하면 그대로 이어집니다. 불러오면 지금 진행 상황을 코드의 내용으로 바꿉니다. <b>쿠폰</b>이 있으면 같은 칸에 입력하고 불러오기를 누르세요.</p>
     <textarea id="code-text" rows="5" spellcheck="false" autocomplete="off" aria-label="저장 코드"></textarea>
     <p id="code-note" class="shop-note"></p>
-    <div class="actions"><button id="code-copy" class="go heli">코드 복사</button><button id="code-load" class="go heli">붙여넣은 코드 불러오기</button><button class="ghost" data-close>닫기</button></div>
+    <div class="actions"><button id="code-copy" class="go heli">코드 복사</button><button id="code-load" class="go heli">불러오기 · 쿠폰 적용</button><button class="ghost" data-close>닫기</button></div>
   </div>
 </section>
 
@@ -2162,14 +2167,162 @@ function applyQuality(mode) {
   ENV.lastNightSent = -1;          // re-run night hooks (street-light glow follows the preset)
   if (typeof onQualityChange === 'function') onQualityChange(q);
 }
+/* ================= surfaces: procedural asphalt, paving, concrete and grass with normal + roughness maps ================= */
+// Everything here is drawn once at start-up into canvases (no downloads): a colour map, a height field turned into a
+// normal map, and a roughness map per surface. Desktops get 1024 px tiles, phones 512 and no normal maps.
+const SURF_Q = LOW ? 512 : 1024;
+const SURF_ANISO = () => renderer ? Math.min(8, renderer.capabilities.getMaxAnisotropy()) : 1;
+function surfCanvas(n) { const c = document.createElement('canvas'); c.width = c.height = n; return c; }
+// tileable value noise: `cells` lattice points per side, bilinear, wraps
+function valueNoise(n, cells, seed) {
+  const tr = mulberry32(seed), g = new Float32Array(cells * cells); for (let i = 0; i < g.length; i++) g[i] = tr();
+  const out = new Float32Array(n * n), s = cells / n;
+  for (let y = 0; y < n; y++) {
+    const fy = y * s, y0 = fy | 0, ty = fy - y0, y1 = (y0 + 1) % cells, wy = ty * ty * (3 - 2 * ty);
+    for (let x = 0; x < n; x++) {
+      const fx = x * s, x0 = fx | 0, tx = fx - x0, x1 = (x0 + 1) % cells, wx = tx * tx * (3 - 2 * tx);
+      const a = g[y0 * cells + x0], b = g[y0 * cells + x1], c = g[y1 * cells + x0], d = g[y1 * cells + x1];
+      out[y * n + x] = (a + (b - a) * wx) * (1 - wy) + (c + (d - c) * wx) * wy;
+    }
+  }
+  return out;
+}
+// fractal noise in [0,1]: octaves of value noise, each half the amplitude
+function fbm(n, base, octaves, seed) {
+  const out = new Float32Array(n * n); let amp = 1, tot = 0, cells = base;
+  for (let o = 0; o < octaves; o++) { const v = valueNoise(n, cells, seed + o * 131); for (let i = 0; i < out.length; i++) out[i] += v[i] * amp; tot += amp; amp *= 0.5; cells = Math.min(n, cells * 2); }
+  for (let i = 0; i < out.length; i++) out[i] /= tot;
+  return out;
+}
+// white speckle (aggregate, sand): per-pixel random
+function speckle(n, seed) { const tr = mulberry32(seed), out = new Float32Array(n * n); for (let i = 0; i < out.length; i++) out[i] = tr(); return out; }
+// a height field (Float32Array, 0..1) → tangent-space normal map texture; `k` = bump strength
+function normalTexFrom(h, n, k) {
+  const cv = surfCanvas(n), g = cv.getContext('2d'), img = g.createImageData(n, n), d = img.data;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const xl = h[y * n + ((x - 1 + n) % n)], xr = h[y * n + ((x + 1) % n)], yu = h[((y - 1 + n) % n) * n + x], yd = h[((y + 1) % n) * n + x];
+    let nx = (xl - xr) * k, ny = (yd - yu) * k, nz = 1; const l = Math.hypot(nx, ny, nz); nx /= l; ny /= l; nz /= l;
+    const i = (y * n + x) * 4; d[i] = (nx * 0.5 + 0.5) * 255; d[i + 1] = (ny * 0.5 + 0.5) * 255; d[i + 2] = (nz * 0.5 + 0.5) * 255; d[i + 3] = 255;
+  }
+  g.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = SURF_ANISO(); return t;
+}
+function greyTexFrom(v, n, lo = 0, hi = 1) {
+  const cv = surfCanvas(n), g = cv.getContext('2d'), img = g.createImageData(n, n), d = img.data;
+  for (let i = 0; i < n * n; i++) { const c = Math.max(0, Math.min(255, (lo + (hi - lo) * v[i]) * 255)); d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = c; d[i * 4 + 3] = 255; }
+  g.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = SURF_ANISO(); return t;
+}
+function colorTexFrom(rgb, n) {   // rgb: Float32Array n*n*3 in 0..1 (sRGB)
+  const cv = surfCanvas(n), g = cv.getContext('2d'), img = g.createImageData(n, n), d = img.data;
+  for (let i = 0; i < n * n; i++) { d[i * 4] = Math.max(0, Math.min(255, rgb[i * 3] * 255)); d[i * 4 + 1] = Math.max(0, Math.min(255, rgb[i * 3 + 1] * 255)); d[i * 4 + 2] = Math.max(0, Math.min(255, rgb[i * 3 + 2] * 255)); d[i * 4 + 3] = 255; }
+  g.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(cv); t.encoding = THREE.sRGBEncoding; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = SURF_ANISO(); return t;
+}
+// draw a wandering crack into a height field (lowers it) and darkens the colour along it
+function crack(h, rgb, n, x, y, len, seed, depth = 0.5, dark = 0.6) {
+  const tr = mulberry32(seed); let a = tr() * TAU;
+  for (let i = 0; i < len; i++) {
+    a += (tr() - 0.5) * 0.9; x = (x + Math.cos(a) + n) % n; y = (y + Math.sin(a) + n) % n;
+    const w = tr() < 0.3 ? 2 : 1;
+    for (let dy = 0; dy < w; dy++) for (let dx = 0; dx < w; dx++) {
+      const px = ((x | 0) + dx) % n, py = ((y | 0) + dy) % n, k = py * n + px;
+      h[k] = Math.max(0, h[k] - depth); rgb[k * 3] *= dark; rgb[k * 3 + 1] *= dark; rgb[k * 3 + 2] *= dark;
+    }
+  }
+}
+/* ---- asphalt: dark aggregate, mottled by age, a few cracks and repair patches; 12 m per tile ---- */
+function makeAsphalt() {
+  const n = SURF_Q, N = n * n, rgb = new Float32Array(N * 3), h = new Float32Array(N);
+  const grain = speckle(n, 11), fine = fbm(n, n / 8, 3, 21), mid = fbm(n, 12, 3, 31), big = fbm(n, 3, 2, 41);
+  for (let i = 0; i < N; i++) {
+    // base tone: a cool dark grey, mottled; the grain reads as the stone chips in the bitumen
+    const tone = 0.30 + (big[i] - 0.5) * 0.09 + (mid[i] - 0.5) * 0.07 + (fine[i] - 0.5) * 0.05 + (grain[i] - 0.5) * 0.11;
+    const warm = (mid[i] - 0.5) * 0.012;
+    rgb[i * 3] = tone + warm; rgb[i * 3 + 1] = tone; rgb[i * 3 + 2] = tone - warm + 0.012;
+    h[i] = 0.5 + (grain[i] - 0.5) * 0.5 + (fine[i] - 0.5) * 0.3;
+  }
+  // repair patches: slightly darker, flatter squares with a raised tar seam
+  const tr = mulberry32(77);
+  for (let p = 0; p < 4; p++) {
+    const x0 = (tr() * n) | 0, y0 = (tr() * n) | 0, w = (n * (0.1 + tr() * 0.2)) | 0, d = (n * (0.08 + tr() * 0.18)) | 0, dk = 0.84 + tr() * 0.1;
+    for (let y = 0; y < d; y++) for (let x = 0; x < w; x++) {
+      const k = ((y0 + y) % n) * n + (x0 + x) % n, edge = x < 3 || y < 3 || x >= w - 3 || y >= d - 3;
+      rgb[k * 3] *= edge ? 0.6 : dk; rgb[k * 3 + 1] *= edge ? 0.6 : dk; rgb[k * 3 + 2] *= edge ? 0.6 : dk; h[k] = edge ? 0.62 : h[k] * 0.6 + 0.2;
+    }
+  }
+  for (let c = 0; c < 7; c++) crack(h, rgb, n, tr() * n, tr() * n, (n * (0.1 + tr() * 0.35)) | 0, 900 + c, 0.5, 0.55);
+  // oil drips: soft dark blots
+  for (let b = 0; b < 10; b++) { const cx = tr() * n, cy = tr() * n, r = n * (0.01 + tr() * 0.03); for (let y = -r; y <= r; y++) for (let x = -r; x <= r; x++) { const dd = Math.hypot(x, y) / r; if (dd > 1) continue; const k = (((cy + y) | 0) % n + n) % n * n + ((((cx + x) | 0) % n) + n) % n, f = 1 - (1 - dd) * 0.35; rgb[k * 3] *= f; rgb[k * 3 + 1] *= f; rgb[k * 3 + 2] *= f; } }
+  const rough = new Float32Array(N); for (let i = 0; i < N; i++) rough[i] = 0.82 + (grain[i] - 0.5) * 0.2 + (big[i] - 0.5) * 0.08;
+  // a neutral light-grey copy of the same pattern, for surfaces that tint it with their own colour (the circuit, the skyway, the highway)
+  const det = new Float32Array(N); for (let i = 0; i < N; i++) det[i] = Math.min(1, rgb[i * 3 + 1] / 0.3 * 0.78);
+  const detail = greyTexFrom(det, n); detail.encoding = THREE.sRGBEncoding;
+  return { map: colorTexFrom(rgb, n), normalMap: LOW ? null : normalTexFrom(h, n, 1.6), roughnessMap: LOW ? null : greyTexFrom(rough, n), detail, tile: 12 };
+}
+/* ---- paving: concrete slabs with grout lines, each slab its own shade; 4 m per tile = 8 slabs ---- */
+function makePaving() {
+  const n = SURF_Q, N = n * n, rgb = new Float32Array(N * 3), h = new Float32Array(N), slabs = 8, sp = n / slabs;
+  const grain = speckle(n, 12), fine = fbm(n, n / 16, 2, 22), tr = mulberry32(55), shade = [];
+  for (let i = 0; i < slabs * slabs; i++) shade.push(0.9 + tr() * 0.2);
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const i = y * n + x, sx = (x / sp) | 0, sy = (y / sp) | 0, lx = x - sx * sp, ly = y - sy * sp, gw = Math.max(2, n / 256);
+    const grout = lx < gw || ly < gw, edge = lx < gw * 2.5 || ly < gw * 2.5 || lx > sp - gw * 1.5 || ly > sp - gw * 1.5;
+    let tone = 0.62 * shade[sy * slabs + sx] + (fine[i] - 0.5) * 0.08 + (grain[i] - 0.5) * 0.07;
+    if (grout) tone *= 0.62; else if (edge) tone *= 0.94;
+    rgb[i * 3] = tone * 1.0; rgb[i * 3 + 1] = tone * 0.985; rgb[i * 3 + 2] = tone * 0.95;
+    h[i] = grout ? 0.1 : 0.55 + (grain[i] - 0.5) * 0.25 + (fine[i] - 0.5) * 0.2 - (edge ? 0.1 : 0);
+  }
+  for (let c = 0; c < 3; c++) crack(h, rgb, n, tr() * n, tr() * n, (n * 0.12) | 0, 700 + c, 0.4, 0.7);
+  const rough = new Float32Array(N); for (let i = 0; i < N; i++) rough[i] = 0.88 + (grain[i] - 0.5) * 0.12;
+  return { map: colorTexFrom(rgb, n), normalMap: LOW ? null : normalTexFrom(h, n, 1.4), roughnessMap: LOW ? null : greyTexFrom(rough, n), tile: 4 };
+}
+/* ---- poured concrete (yards, plazas, curbs): formwork panels, stains; 6 m per tile ---- */
+function makeConcrete() {
+  const n = SURF_Q, N = n * n, rgb = new Float32Array(N * 3), h = new Float32Array(N), grain = speckle(n, 13), mid = fbm(n, 6, 3, 23), stain = fbm(n, 4, 2, 33);
+  const panels = 3, sp = n / panels;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const i = y * n + x, lx = x % sp, ly = y % sp, joint = lx < 2 || ly < 2;
+    let tone = 0.56 + (mid[i] - 0.5) * 0.1 + (grain[i] - 0.5) * 0.05 - Math.max(0, stain[i] - 0.6) * 0.3;
+    if (joint) tone *= 0.7;
+    rgb[i * 3] = tone; rgb[i * 3 + 1] = tone * 0.99; rgb[i * 3 + 2] = tone * 0.96; h[i] = joint ? 0.2 : 0.5 + (grain[i] - 0.5) * 0.2;
+  }
+  const rough = new Float32Array(N); for (let i = 0; i < N; i++) rough[i] = 0.9 - Math.max(0, stain[i] - 0.6) * 0.3;
+  return { map: colorTexFrom(rgb, n), normalMap: LOW ? null : normalTexFrom(h, n, 1.0), roughnessMap: LOW ? null : greyTexFrom(rough, n), tile: 6 };
+}
+/* ---- grass: two greens blended by patchy noise, worn earth showing through here and there; 8 m per tile ---- */
+function makeGrass() {
+  const n = SURF_Q, N = n * n, rgb = new Float32Array(N * 3), h = new Float32Array(N), grain = speckle(n, 14), fine = fbm(n, n / 8, 3, 24), big = fbm(n, 4, 3, 34), bare = fbm(n, 3, 2, 44);
+  for (let i = 0; i < N; i++) {
+    const t = big[i] * 0.7 + fine[i] * 0.3, g = (grain[i] - 0.5) * 0.16, e = Math.max(0, bare[i] - 0.68) * 2.5;   // e: bare earth
+    let r = 0.33 + t * 0.16 + g * 0.5, gr = 0.48 + t * 0.2 + g, b = 0.17 + t * 0.07 + g * 0.3;
+    r = r * (1 - e) + 0.42 * e; gr = gr * (1 - e) + 0.34 * e; b = b * (1 - e) + 0.22 * e;
+    rgb[i * 3] = r; rgb[i * 3 + 1] = gr; rgb[i * 3 + 2] = b; h[i] = 0.5 + g * 1.5 + (fine[i] - 0.5) * 0.4;
+  }
+  return { map: colorTexFrom(rgb, n), normalMap: LOW ? null : normalTexFrom(h, n, 0.7), roughnessMap: null, tile: 8 };
+}
+/* ---- paint wear for road markings: an alpha map, mostly solid, flaking in patches ---- */
+function makePaintWear() {
+  const n = 256, N = n * n, a = new Float32Array(N), f = fbm(n, 6, 3, 61), g = speckle(n, 62);
+  for (let i = 0; i < N; i++) a[i] = Math.max(0, Math.min(1, 1.35 - Math.max(0, f[i] - 0.45) * 2.2 - (g[i] - 0.5) * 0.25));
+  return greyTexFrom(a, n);
+}
+const SURF = { asphalt: makeAsphalt(), paving: makePaving(), concrete: makeConcrete(), grass: makeGrass(), wear: makePaintWear() };
+// a ground material from a surface set; `tint` multiplies the map
+function surfMat(S, o = {}) {
+  const m = LOW
+    ? new THREE.MeshLambertMaterial(Object.assign({ map: S.map, color: o.tint || 0xffffff }, o.lambert || {}))
+    : new THREE.MeshStandardMaterial(Object.assign({ map: S.map, color: o.tint || 0xffffff, normalMap: S.normalMap, normalScale: new THREE.Vector2(o.bump || 0.6, o.bump || 0.6), roughnessMap: S.roughnessMap, roughness: S.roughnessMap ? 1 : (o.rough || 0.95), metalness: 0, envMap: ENVMAP.tex, envMapIntensity: o.env == null ? 0.12 : o.env }, o.standard || {}));
+  return m;
+}
 /* ================= world: geometry builder, layout, roads, collisions ================= */
 const FH = 3.6, CW = 4, TEXN = 8;   // floor height, window bay, cells per texture side
 
 class Geo {
   constructor() { this.p = []; this.n = []; this.u = []; this.c = []; this.i = []; this.v = 0; }
   quad(a, b, c, d, n, col, uv) {
-    const s = this.v;
-    for (const q of [a, b, c, d]) { this.p.push(q[0], q[1], q[2]); this.n.push(n[0], n[1], n[2]); this.c.push(col.r, col.g, col.b); }
+    const s = this.v, many = Array.isArray(col);
+    [a, b, c, d].forEach((q, i) => { const cc = many ? col[i] : col; this.p.push(q[0], q[1], q[2]); this.n.push(n[0], n[1], n[2]); this.c.push(cc.r, cc.g, cc.b); });
     if (uv) this.u.push(uv[0], uv[1], uv[2], uv[1], uv[2], uv[3], uv[0], uv[3]); else this.u.push(0, 0, 1, 0, 1, 1, 0, 1);
     this.i.push(s, s + 1, s + 2, s, s + 2, s + 3); this.v += 4;
   }
@@ -2179,13 +2332,37 @@ class Geo {
     this.i.push(s, s + 1, s + 2); this.v += 3;
   }
   box(x0, y0, z0, x1, y1, z1, col, o = {}) {
-    const f = o.uv;
+    const f = o.uv, sc = o.bottomCol ? [o.bottomCol, o.bottomCol, col, col] : col;   // bottomCol: darker vertices along the ground (contact shade)
     if (o.top !== false) this.quad([x0, y1, z1], [x1, y1, z1], [x1, y1, z0], [x0, y1, z0], [0, 1, 0], o.topCol || col, o.topUV);
     if (o.sides === false) return;
-    this.quad([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1], [0, 0, 1], col, f && f(0, x1 - x0, y0, y1));
-    this.quad([x1, y0, z0], [x0, y0, z0], [x0, y1, z0], [x1, y1, z0], [0, 0, -1], col, f && f(1, x1 - x0, y0, y1));
-    this.quad([x1, y0, z1], [x1, y0, z0], [x1, y1, z0], [x1, y1, z1], [1, 0, 0], col, f && f(2, z1 - z0, y0, y1));
-    this.quad([x0, y0, z0], [x0, y0, z1], [x0, y1, z1], [x0, y1, z0], [-1, 0, 0], col, f && f(3, z1 - z0, y0, y1));
+    this.quad([x0, y0, z1], [x1, y0, z1], [x1, y1, z1], [x0, y1, z1], [0, 0, 1], sc, f && f(0, x1 - x0, y0, y1));
+    this.quad([x1, y0, z0], [x0, y0, z0], [x0, y1, z0], [x1, y1, z0], [0, 0, -1], sc, f && f(1, x1 - x0, y0, y1));
+    this.quad([x1, y0, z1], [x1, y0, z0], [x1, y1, z0], [x1, y1, z1], [1, 0, 0], sc, f && f(2, z1 - z0, y0, y1));
+    this.quad([x0, y0, z0], [x0, y0, z1], [x0, y1, z1], [x0, y1, z0], [-1, 0, 0], sc, f && f(3, z1 - z0, y0, y1));
+    if (o.bottom) this.quad([x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [0, -1, 0], col);
+  }
+  // a prism of n sides from a to b (pipes, poles, tanks, frames), capped
+  tube(a, b, r, c, n = 8, r2) {
+    const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2], l = Math.hypot(dx, dy, dz) || 1e-6, ax = dx / l, ay = dy / l, az = dz / l;
+    const hx = Math.abs(ay) < 0.9 ? 0 : 1, hy = Math.abs(ay) < 0.9 ? 1 : 0;
+    let ux = -az * hy, uy = az * hx, uz = ax * hy - ay * hx; const ul = Math.hypot(ux, uy, uz) || 1; ux /= ul; uy /= ul; uz /= ul;
+    const vx = ay * uz - az * uy, vy = az * ux - ax * uz, vz = ax * uy - ay * ux, rb = r2 == null ? r : r2;
+    const ring = (t, rr) => { const out = []; for (let k = 0; k < n; k++) { const ph = k / n * Math.PI * 2, cx = Math.cos(ph), sx = Math.sin(ph); out.push([t[0] + (ux * cx + vx * sx) * rr, t[1] + (uy * cx + vy * sx) * rr, t[2] + (uz * cx + vz * sx) * rr, ux * cx + vx * sx, uy * cx + vy * sx, uz * cx + vz * sx]); } return out; };
+    const A = ring(a, r), B = ring(b, rb);
+    for (let k = 0; k < n; k++) {
+      const p = A[k], q = A[(k + 1) % n], s = B[(k + 1) % n], t = B[k], nx = (p[3] + q[3]) / 2, ny = (p[4] + q[4]) / 2, nz = (p[5] + q[5]) / 2, nl = Math.hypot(nx, ny, nz) || 1;
+      this.quad([p[0], p[1], p[2]], [t[0], t[1], t[2]], [s[0], s[1], s[2]], [q[0], q[1], q[2]], [nx / nl, ny / nl, nz / nl], c);
+    }
+    for (let k = 1; k < n - 1; k++) { this.tri([A[0][0], A[0][1], A[0][2]], [A[k + 1][0], A[k + 1][1], A[k + 1][2]], [A[k][0], A[k][1], A[k][2]], [-ax, -ay, -az], c); this.tri([B[0][0], B[0][1], B[0][2]], [B[k][0], B[k][1], B[k][2]], [B[k + 1][0], B[k + 1][1], B[k + 1][2]], [ax, ay, az], c); }
+  }
+  // one flat polygon (3 or 4 points) facing the side `hint` points to
+  face(pts, hint, c) {
+    const a = pts[0], b = pts[1], d = pts[2];
+    let nx = (b[1] - a[1]) * (d[2] - a[2]) - (b[2] - a[2]) * (d[1] - a[1]), ny = (b[2] - a[2]) * (d[0] - a[0]) - (b[0] - a[0]) * (d[2] - a[2]), nz = (b[0] - a[0]) * (d[1] - a[1]) - (b[1] - a[1]) * (d[0] - a[0]);
+    const l = Math.hypot(nx, ny, nz); if (l < 1e-9) return;
+    if (nx * hint[0] + ny * hint[1] + nz * hint[2] < 0) { pts = pts.slice().reverse(); nx = -nx; ny = -ny; nz = -nz; }
+    const n = [nx / l, ny / l, nz / l];
+    if (pts.length === 4) this.quad(pts[0], pts[1], pts[2], pts[3], n, c); else this.tri(pts[0], pts[1], pts[2], n, c);
   }
   geometry() {
     const g = new THREE.BufferGeometry();
@@ -2211,6 +2388,8 @@ class ChunkGeo {
   quad(a, b, c, d, n, cl, uv) { this.at((a[0] + c[0]) / 2, (a[2] + c[2]) / 2).quad(a, b, c, d, n, cl, uv); }
   tri(a, b, c, n, cl) { this.at((a[0] + b[0] + c[0]) / 3, (a[2] + b[2] + c[2]) / 3).tri(a, b, c, n, cl); }
   box(x0, y0, z0, x1, y1, z1, cl, o) { this.at((x0 + x1) / 2, (z0 + z1) / 2).box(x0, y0, z0, x1, y1, z1, cl, o); }
+  tube(a, b, r, cl, n, r2) { this.at((a[0] + b[0]) / 2, (a[2] + b[2]) / 2).tube(a, b, r, cl, n, r2); }
+  face(pts, hint, cl) { this.at(pts[0][0], pts[0][2]).face(pts, hint, cl); }
   mesh(mat, shadow = true) { const out = []; for (const g of this.m.values()) if (g.v) out.push(g.mesh(mat, shadow)); return out; }
 }
 const col = hex => new THREE.Color(hex);
@@ -2224,57 +2403,9 @@ function canvasTex(w, h, draw, repeat) {
   if (renderer) t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
   return t;
 }
-// where the windows are on each facade: blue = metallic (mirror glass), green = roughness (walls rough, glass smooth)
-function facadeMaskTex(style) {
-  const t = canvasTex(512, 512, (g) => {
-    g.fillStyle = 'rgb(0,255,0)'; g.fillRect(0, 0, 512, 512);
-    g.fillStyle = 'rgb(0,60,255)';
-    for (let cy = 0; cy < 8; cy++) for (let cx = 0; cx < 8; cx++) {
-      const x = cx * 64, y = cy * 64;
-      if (style === 'glass') g.fillRect(x + 3, y, 61, 52);
-      else if (style === 'ind') { if (cy === 1) g.fillRect(x + 6, y + 20, 52, 16); }
-      else g.fillRect(x + 14, y + 12, 36, 38);
-    }
-  }, true);
-  t.encoding = THREE.LinearEncoding; return t;
-}
-function facadeTex(style, lit) {
-  return canvasTex(512, 512, (g) => {
-    const tr = mulberry32(style.length * 977 + (lit ? 1 : 0) * 0 + 5);
-    g.fillStyle = lit ? '#000' : (style === 'glass' ? '#c9d0d6' : style === 'ind' ? '#d6d4ce' : '#ebe7df');
-    g.fillRect(0, 0, 512, 512);
-    for (let cy = 0; cy < 8; cy++) for (let cx = 0; cx < 8; cx++) {
-      const x = cx * 64, y = cy * 64, on = tr() < (style === 'glass' ? 0.32 : 0.4), hue = tr(), k = 0.65 + tr() * 0.35;
-      const litCol = hue < 0.6 ? `rgba(255,${200 + (k * 20) | 0},${120 + (k * 30) | 0},${k})` : hue < 0.85 ? `rgba(255,243,214,${k})` : `rgba(170,215,255,${k})`;
-      if (style === 'glass') {
-        if (lit) { if (on) { g.fillStyle = hue < 0.5 ? `rgba(225,236,255,${k})` : litCol; g.fillRect(x + 3, y, 61, 52); } continue; }
-        const gr = g.createLinearGradient(0, y, 0, y + 52); gr.addColorStop(0, '#5f7d9a'); gr.addColorStop(1, '#2f465d');
-        g.fillStyle = gr; g.fillRect(x + 3, y, 61, 52);
-        g.fillStyle = 'rgba(255,255,255,.06)'; g.fillRect(x + 3 + tr() * 30, y, 10, 52);
-      } else if (style === 'ind') {
-        if (!lit) { g.fillStyle = '#bdbbb4'; for (let s = 0; s < 64; s += 8) g.fillRect(x + s, y, 3, 64); }
-        if (cy === 1) {
-          if (lit) { if (tr() < 0.5) { g.fillStyle = litCol; g.fillRect(x + 6, y + 20, 52, 16); } }
-          else { g.fillStyle = '#2b3542'; g.fillRect(x + 6, y + 20, 52, 16); }
-        }
-      } else {
-        if (lit) { if (on) { g.fillStyle = litCol; g.fillRect(x + 14, y + 12, 36, 38); } continue; }
-        g.fillStyle = '#c9c4ba'; g.fillRect(x + 11, y + 50, 42, 4);
-        const gr = g.createLinearGradient(0, y + 12, 0, y + 50); gr.addColorStop(0, '#4a5867'); gr.addColorStop(1, '#232d38');
-        g.fillStyle = gr; g.fillRect(x + 14, y + 12, 36, 38);
-        if (tr() < 0.25) { g.fillStyle = 'rgba(230,225,210,.55)'; g.fillRect(x + 14, y + 12, 36, 8 + tr() * 22); }
-        g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x + 31, y + 12, 2, 38);
-      }
-    }
-  }, true);
-}
-const asphaltTex = canvasTex(256, 256, (g) => {
-  g.fillStyle = '#7d7d7d'; g.fillRect(0, 0, 256, 256);
-  const tr = mulberry32(9);
-  for (let k = 0; k < 5000; k++) { const v = 100 + tr() * 70 | 0; g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(tr() * 256, tr() * 256, 1 + tr() * 2, 1 + tr() * 2); }
-  g.globalAlpha = 0.18; for (let k = 0; k < 14; k++) { g.fillStyle = '#4a4a4a'; g.beginPath(); g.arc(tr() * 256, tr() * 256, 6 + tr() * 22, 0, TAU); g.fill(); }
-}, true);
-asphaltTex.repeat.set(70, 70);
+// facades (window walls) are drawn in 21_facades.js
+// the grey asphalt detail (19_surfaces.js) for surfaces that tint it themselves; the city roads use the full-colour set
+const asphaltTex = SURF.asphalt.detail; asphaltTex.repeat.set(70, 70);
 const glowTex = canvasTex(128, 128, (g) => {
   const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
   gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.35, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
@@ -2488,27 +2619,76 @@ function skyAlong(R, s) {
 }
 
 /* ---- ground, roads, sidewalks, markings ---- */
+// world-space UVs for a flat plane geometry: one texture tile every `tile` metres
+function planeWorldUV(geo, tile) { const p = geo.attributes.position, uv = geo.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / tile, p.getY(i) / tile); uv.needsUpdate = true; }
+// a flat quad with world-space UVs (u along x, v along z)
+const flatUV = (x0, z0, x1, z1, T) => [x0 / T, z1 / T, x1 / T, z0 / T];
 {
   const gz0 = -2100, gz1 = BEACH_Z + 6;   // grass stops at the beach so the sea shows
-  // (pushed back in depth: a 5 km triangle's interpolated depth is coarse enough on some GPUs to poke through the asphalt)
-  const grass = new THREE.Mesh(new THREE.PlaneGeometry(5000, gz1 - gz0), new THREE.MeshLambertMaterial({ color: 0x5b7843, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 4 }));
+  // (subdivided and pushed back in depth: a 5 km triangle's interpolated depth is coarse enough on some GPUs to poke through the asphalt)
+  const grassGeo = new THREE.PlaneGeometry(5000, gz1 - gz0, 40, 32); planeWorldUV(grassGeo, SURF.grass.tile);
+  const grass = new THREE.Mesh(grassGeo, surfMat(SURF.grass, { bump: 0.5, env: 0.04, standard: { polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 4 }, lambert: { polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 4 } }));
   grass.rotation.x = -Math.PI / 2; grass.position.set(CITY / 2, -0.06, (gz0 + gz1) / 2); grass.receiveShadow = true; scene.add(grass);
-  // Phong (per-pixel) on the big flat surfaces so headlights show on the road
-  const asphalt = new THREE.Mesh(new THREE.PlaneGeometry(CITY + ROAD, CITY + ROAD), new THREE.MeshPhongMaterial({ color: 0x6b6f75, map: asphaltTex, specular: 0x2a2a2a, shininess: 16 }));
+  // the roads: one textured plane under the whole grid (per-pixel lit, so headlights and the sun's sheen show on it)
+  const asphaltGeo = new THREE.PlaneGeometry(CITY + ROAD, CITY + ROAD, 8, 8); planeWorldUV(asphaltGeo, SURF.asphalt.tile);
+  const asphalt = new THREE.Mesh(asphaltGeo, surfMat(SURF.asphalt, { bump: 0.7, env: 0.18 }));
   asphalt.rotation.x = -Math.PI / 2; asphalt.position.set(CITY / 2, 0, CITY / 2); asphalt.receiveShadow = true; scene.add(asphalt);
 
-  const bg = new ChunkGeo();
-  const C_WALK = col(0xa3a29c), C_PAVE = col(0x8e8c86), C_LAWN = col(0x6a9150), C_LOT = col(0x46494f), C_YARD = col(0x777874);
-  const mk = new ChunkGeo(), WHITE = col(0xe4e4dd), YEL = col(0xe0b244);
-  const strip = (x0, z0, x1, z1, c, y = 0.02) => mk.quad([x0, y, z1], [x1, y, z1], [x1, y, z0], [x0, y, z0], [0, 1, 0], c);
+  // sidewalks (paving slabs), curbs (concrete), block interiors (lawn / concrete lot / yard)
+  const walkG = new ChunkGeo(), curbG = new ChunkGeo(), lawnG = new ChunkGeo(), lotG = new ChunkGeo(), yardG = new ChunkGeo(), wearG = new ChunkGeo();
+  const WHITE_V = col(0xffffff), PT = SURF.paving.tile, CT = SURF.concrete.tile, GT = SURF.grass.tile, AT = SURF.asphalt.tile, CB = 0.32;
+  const sideUV = T => (f, w, y0, y1) => [0, y0 / T, w / T, y1 / T];
   for (const row of blocks) for (const b of row) {
-    bg.box(b.bx, 0, b.bz, b.bx + BLOCK, CURB, b.bz + BLOCK, C_WALK);
-    const inC = { park: C_LAWN, res: C_LAWN, plaza: C_LOT, dealer: C_LOT, ind: C_YARD }[b.kind] || C_PAVE;
-    bg.box(b.bx + SW, CURB, b.bz + SW, b.bx + BLOCK - SW, CURB + 0.03, b.bz + BLOCK - SW, inC, { sides: false });
+    const x0 = b.bx, z0 = b.bz, x1 = b.bx + BLOCK, z1 = b.bz + BLOCK;
+    // the slab top, inset behind the curb stones
+    walkG.box(x0 + CB, 0, z0 + CB, x1 - CB, CURB, z1 - CB, WHITE_V, { sides: false, topUV: flatUV(x0 + CB, z0 + CB, x1 - CB, z1 - CB, PT) });
+    // curb stones around the block: a flat top band, a bevel, and the vertical face down to the road
+    const bands = [[x0, z0, x1, z0 + CB, 0, -1], [x0, z1 - CB, x1, z1, 0, 1], [x0, z0, x0 + CB, z1, -1, 0], [x1 - CB, z0, x1, z1, 1, 0]];
+    for (const [a0, c0, a1, c1, nx, nz] of bands) {
+      const alongX = nz !== 0, len = alongX ? a1 - a0 : c1 - c0;
+      curbG.box(a0, 0, c0, a1, CURB - 0.035, c1, WHITE_V, { top: false, uv: sideUV(CT) });
+      // bevelled top: inner edge at full height, outer edge 3.5 cm lower
+      const o = 0.06;   // bevel width
+      if (alongX) {
+        const zi = nz < 0 ? c1 : c0, zo = nz < 0 ? c0 : c1, zb = zo - nz * o;
+        curbG.quad([a0, CURB, Math.max(zi, zb)], [a1, CURB, Math.max(zi, zb)], [a1, CURB, Math.min(zi, zb)], [a0, CURB, Math.min(zi, zb)], [0, 1, 0], WHITE_V, [a0 / CT, 0, a1 / CT, (CB - o) / CT]);
+        const yb = CURB - 0.035, L = Math.hypot(o, CURB - yb);
+        if (nz < 0) curbG.quad([a0, yb, zo], [a1, yb, zo], [a1, CURB, zb], [a0, CURB, zb], [0, o / L, -(CURB - yb) / L], WHITE_V, [a0 / CT, 0, a1 / CT, o / CT]);
+        else curbG.quad([a1, yb, zo], [a0, yb, zo], [a0, CURB, zb], [a1, CURB, zb], [0, o / L, (CURB - yb) / L], WHITE_V, [a0 / CT, 0, a1 / CT, o / CT]);
+      } else {
+        const xi = nx < 0 ? a1 : a0, xo = nx < 0 ? a0 : a1, xb = xo - nx * o;
+        curbG.quad([Math.min(xi, xb), CURB, c1], [Math.max(xi, xb), CURB, c1], [Math.max(xi, xb), CURB, c0], [Math.min(xi, xb), CURB, c0], [0, 1, 0], WHITE_V, [0, c1 / CT, (CB - o) / CT, c0 / CT]);
+        const yb = CURB - 0.035, L = Math.hypot(o, CURB - yb);
+        if (nx < 0) curbG.quad([xo, yb, c1], [xo, yb, c0], [xb, CURB, c0], [xb, CURB, c1], [-(CURB - yb) / L, o / L, 0], WHITE_V, [0, c1 / CT, o / CT, c0 / CT]);
+        else curbG.quad([xo, yb, c0], [xo, yb, c1], [xb, CURB, c1], [xb, CURB, c0], [(CURB - yb) / L, o / L, 0], WHITE_V, [0, c0 / CT, o / CT, c1 / CT]);
+      }
+      void len;
+    }
+    // the gutter: the road is a shade darker and oilier along the curb
+    wearG.quad([x0 - 0.5, 0.012, z1 + 0.5], [x1 + 0.5, 0.012, z1 + 0.5], [x1 + 0.5, 0.012, z1], [x0 - 0.5, 0.012, z1], [0, 1, 0], WHITE_V);
+    wearG.quad([x0 - 0.5, 0.012, z0], [x1 + 0.5, 0.012, z0], [x1 + 0.5, 0.012, z0 - 0.5], [x0 - 0.5, 0.012, z0 - 0.5], [0, 1, 0], WHITE_V);
+    wearG.quad([x0 - 0.5, 0.012, z1], [x0, 0.012, z1], [x0, 0.012, z0], [x0 - 0.5, 0.012, z0], [0, 1, 0], WHITE_V);
+    wearG.quad([x1, 0.012, z1], [x1 + 0.5, 0.012, z1], [x1 + 0.5, 0.012, z0], [x1, 0.012, z0], [0, 1, 0], WHITE_V);
+    // the inside of the block
+    const ix0 = x0 + SW, iz0 = z0 + SW, ix1 = x1 - SW, iz1 = z1 - SW, k = b.kind;
+    const G = k === 'park' || k === 'res' ? lawnG : k === 'plaza' || k === 'dealer' ? lotG : k === 'ind' ? yardG : walkG;
+    const T = G === lawnG ? GT : G === lotG ? AT : G === yardG ? CT : PT;
+    G.box(ix0, CURB, iz0, ix1, CURB + 0.03, iz1, WHITE_V, { sides: false, topUV: flatUV(ix0, iz0, ix1, iz1, T) });
+  }
+  walkG.mesh(surfMat(SURF.paving, { bump: 0.55, env: 0.08 }), false);
+  curbG.mesh(surfMat(SURF.concrete, { tint: 0xd8d8d2, bump: 0.4, env: 0.08 }), false);
+  lawnG.mesh(surfMat(SURF.grass, { tint: 0xe8f0dc, bump: 0.5, env: 0.04 }), false);
+  lotG.mesh(surfMat(SURF.asphalt, { tint: 0xc4c4c0, bump: 0.5, env: 0.12 }), false);
+  yardG.mesh(surfMat(SURF.concrete, { tint: 0xb9b8b2, bump: 0.5, env: 0.08 }), false);
+
+  // markings: worn paint (an alpha map flakes it), world-space UVs so the wear does not stretch with the stripe
+  const mk = new ChunkGeo(), WHITE = col(0xe4e4dd), YEL = col(0xe0b244), MT = 3;
+  const strip = (x0, z0, x1, z1, c, y = 0.02) => mk.quad([x0, y, z1], [x1, y, z1], [x1, y, z0], [x0, y, z0], [0, 1, 0], c, flatUV(x0, z0, x1, z1, MT));
+  for (const row of blocks) for (const b of row) {
     if (b.kind === 'plaza') for (let x = b.bx + 9; x < b.bx + BLOCK - 9; x += 3.2) { strip(x, b.bz + 7, x + 0.14, b.bz + 12, WHITE, CURB + 0.05); strip(x, b.bz + BLOCK - 12, x + 0.14, b.bz + BLOCK - 7, WHITE, CURB + 0.05); }
   }
-  bg.mesh(new THREE.MeshPhongMaterial({ vertexColors: true, specular: 0x000000, shininess: 0 }), false);
-
+  // wheel tracks: the lanes are polished darker where the tyres run
+  const track = (x0, z0, x1, z1) => wearG.quad([x0, 0.012, z1], [x1, 0.012, z1], [x1, 0.012, z0], [x0, 0.012, z0], [0, 1, 0], WHITE_V);
   for (let k = 0; k <= NB; k++) {
     const c = k * PITCH;
     for (let s = 0; s < NB; s++) {
@@ -2519,25 +2699,254 @@ function skyAlong(R, s) {
       for (let x = a + 6; x < b - 8; x += 7) { strip(x, c - 4.07, x + 3, c - 3.93, WHITE); strip(x, c + 3.93, x + 3, c + 4.07, WHITE); }
       for (let z = c - 7; z < c + 7; z += 1.25) { strip(a + 0.7, z, a + 3.7, z + 0.62, WHITE); strip(b - 3.7, z, b - 0.7, z + 0.62, WHITE); }
       strip(b - 5, c + 0.4, b - 4.55, c + 7.4, WHITE); strip(a + 4.55, c - 7.4, a + 5, c - 0.4, WHITE);
+      for (const lc of [-5.7, -2.1, 2.1, 5.7]) for (const w of [-0.8, 0.8]) track(a + 4, c + lc + w - 0.24, b - 4, c + lc + w + 0.24);
       // road along z at x=c
       strip(c - 0.32, a, c - 0.18, b, YEL); strip(c + 0.18, a, c + 0.32, b, YEL);
       strip(c - 7.5, a, c - 7.36, b, WHITE); strip(c + 7.36, a, c + 7.5, b, WHITE);
       for (let z = a + 6; z < b - 8; z += 7) { strip(c - 4.07, z, c - 3.93, z + 3, WHITE); strip(c + 3.93, z, c + 4.07, z + 3, WHITE); }
       for (let x = c - 7; x < c + 7; x += 1.25) { strip(x, a + 0.7, x + 0.62, a + 3.7, WHITE); strip(x, b - 3.7, x + 0.62, b - 0.7, WHITE); }
       strip(c - 7.4, b - 5, c - 0.4, b - 4.55, WHITE); strip(c + 0.4, a + 4.55, c + 7.4, a + 5, WHITE);
+      for (const lc of [-5.7, -2.1, 2.1, 5.7]) for (const w of [-0.8, 0.8]) track(c + lc + w - 0.24, a + 4, c + lc + w + 0.24, b - 4);
     }
   }
-  const mm = new THREE.MeshLambertMaterial({ vertexColors: true, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+  const mm = LOW
+    ? new THREE.MeshLambertMaterial({ vertexColors: true, transparent: true, alphaMap: SURF.wear, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 })
+    : new THREE.MeshStandardMaterial({ vertexColors: true, transparent: true, alphaMap: SURF.wear, roughness: 0.7, metalness: 0, envMap: ENVMAP.tex, envMapIntensity: 0.15, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
   mk.mesh(mm, false);
+  wearG.mesh(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }), false);
 }
+/* ================= facades: walls and windows drawn into textures, with depth ================= */
+// A facade texture is TEXN × TEXN cells, one cell per window bay (CW m wide, FH m tall). Besides the colour map
+// each style gets a night map (lit windows), a height field turned into a normal map (recessed glass, sills,
+// mullions, brick courses) and a mask (blue = mirror glass, green = rough wall) for the PBR walls.
+// The textures are light and neutral: each building tints them with its own colour.
+const FQ = LOW ? 512 : 1024, FC = FQ / TEXN;                // texture size, pixels per cell
+const fpx = v => Math.round(v * FC / 128);                 // a length given in 128-px-cell units
+function facadeCanvas() { const c = document.createElement('canvas'); c.width = c.height = FQ; return c; }
+function texOf(cv, srgb = true) { const t = new THREE.CanvasTexture(cv); if (srgb) t.encoding = THREE.sRGBEncoding; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = SURF_ANISO(); return t; }
+// fill a canvas with a noisy wall tone (rgb 0..1) using value noise; returns nothing
+function noisyFill(g, r, gr, b, amt, seed, cells = 48) {
+  const img = g.createImageData(FQ, FQ), d = img.data, n1 = valueNoise(FQ, cells, seed), n2 = speckle(FQ, seed + 7);
+  for (let i = 0; i < FQ * FQ; i++) { const k = 1 + (n1[i] - 0.5) * amt + (n2[i] - 0.5) * amt * 0.6; d[i * 4] = r * k * 255; d[i * 4 + 1] = gr * k * 255; d[i * 4 + 2] = b * k * 255; d[i * 4 + 3] = 255; }
+  g.putImageData(img, 0, 0);
+}
+// height field helpers
+class HField {
+  constructor() { this.h = new Float32Array(FQ * FQ).fill(0.5); }
+  rect(x, y, w, hh, v) { x |= 0; y |= 0; const x1 = Math.min(FQ, x + w | 0), y1 = Math.min(FQ, y + hh | 0); for (let yy = Math.max(0, y); yy < y1; yy++) for (let xx = Math.max(0, x); xx < x1; xx++) this.h[yy * FQ + xx] = v; }
+  add(x, y, w, hh, dv) { x |= 0; y |= 0; const x1 = Math.min(FQ, x + w | 0), y1 = Math.min(FQ, y + hh | 0); for (let yy = Math.max(0, y); yy < y1; yy++) for (let xx = Math.max(0, x); xx < x1; xx++) this.h[yy * FQ + xx] += dv; }
+  normal(k) { return normalTexFrom(this.h, FQ, k); }
+}
+// a mask canvas: starts as rough wall (green), glass painted blue
+function maskStart() { const cv = facadeCanvas(), g = cv.getContext('2d'); g.fillStyle = 'rgb(0,255,0)'; g.fillRect(0, 0, FQ, FQ); return cv; }
+const glassMask = (mg, x, y, w, h) => { mg.fillStyle = 'rgb(0,40,255)'; mg.fillRect(x, y, w, h); };
+
+/* ---- one recessed window: frame, lintel shadow, glass with a sky-to-ground gradient, what is behind it, a sill ---- */
+// variant: 0 dark office, 1 blinds, 2 curtain (warm), 3 lit-looking pale interior, 4 open blinds half
+function drawWindow(g, H, mg, x, y, w, h, o) {
+  const f = fpx(o.frame == null ? 3 : o.frame), v = o.variant | 0;
+  // sill (protrudes) and lintel band
+  if (o.sill !== false) { g.fillStyle = o.sillCol || '#f1efe8'; g.fillRect(x - fpx(3), y + h, w + fpx(6), fpx(5)); g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(x - fpx(3), y + h + fpx(5), w + fpx(6), fpx(3)); H.rect(x - fpx(3), y + h, w + fpx(6), fpx(5), 0.68); }
+  if (o.lintel) { g.fillStyle = o.lintelCol || '#d9d6cd'; g.fillRect(x - fpx(4), y - fpx(7), w + fpx(8), fpx(7)); H.rect(x - fpx(4), y - fpx(7), w + fpx(8), fpx(7), 0.62); }
+  // frame
+  g.fillStyle = o.frameCol || '#d4d4d0'; g.fillRect(x, y, w, h); H.rect(x, y, w, h, 0.42);
+  // glass
+  const gx = x + f, gy = y + f, gw = w - 2 * f, gh = h - 2 * f;
+  const gr = g.createLinearGradient(0, gy, 0, gy + gh);
+  if (v === 2) { gr.addColorStop(0, '#8d9aa8'); gr.addColorStop(1, '#5f6a76'); }
+  else if (v === 3) { gr.addColorStop(0, '#9fb0c0'); gr.addColorStop(1, '#6d7c8c'); }
+  else { gr.addColorStop(0, o.skyTop || '#7f94a9'); gr.addColorStop(0.55, o.skyMid || '#4e6075'); gr.addColorStop(1, o.skyBot || '#2a3542'); }
+  g.fillStyle = gr; g.fillRect(gx, gy, gw, gh); H.rect(gx, gy, gw, gh, 0.2); glassMask(mg, gx, gy, gw, gh);
+  if (v === 1 || v === 4) {   // blinds: fine light slats, maybe only the upper half
+    g.fillStyle = 'rgba(228,226,218,.78)'; const to = v === 4 ? gh * 0.5 : gh;
+    for (let yy = fpx(2); yy < to; yy += fpx(4)) g.fillRect(gx + fpx(1), gy + yy, gw - fpx(2), fpx(2));
+  } else if (v === 2) {        // curtains either side
+    g.fillStyle = o.curtain || 'rgba(236,214,186,.9)'; g.fillRect(gx, gy, gw * 0.3, gh); g.fillRect(gx + gw * 0.7, gy, gw * 0.3, gh);
+  }
+  // a reflection streak and the lintel's shadow inside the reveal
+  g.fillStyle = 'rgba(255,255,255,.07)'; g.fillRect(gx + gw * 0.12, gy, gw * 0.14, gh);
+  const sh = g.createLinearGradient(0, gy, 0, gy + fpx(9)); sh.addColorStop(0, 'rgba(0,0,0,.55)'); sh.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = sh; g.fillRect(gx, gy, gw, fpx(9));
+  const shl = g.createLinearGradient(gx, 0, gx + fpx(5), 0); shl.addColorStop(0, 'rgba(0,0,0,.35)'); shl.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = shl; g.fillRect(gx, gy, fpx(5), gh);
+  // mullions
+  if (o.mullion !== false) { g.fillStyle = o.frameCol || '#d4d4d0'; g.fillRect(x + w / 2 - fpx(1), y, fpx(2), h); if (o.transom) g.fillRect(x, y + h * 0.3, w, fpx(2)); H.rect(x + w / 2 - fpx(1), y, fpx(2), h, 0.42); }
+}
+// the same window at night: a lit rectangle (or nothing)
+function drawLit(gl, x, y, w, h, on, col, variant) {
+  if (!on) return;
+  gl.fillStyle = col; gl.fillRect(x, y, w, h);
+  if (variant === 1 || variant === 4) { gl.fillStyle = 'rgba(0,0,0,.35)'; for (let yy = fpx(2); yy < h; yy += fpx(4)) gl.fillRect(x, y + yy, w, fpx(2)); }
+  gl.fillStyle = 'rgba(0,0,0,.3)'; gl.fillRect(x + w / 2 - fpx(1), y, fpx(2), h);
+}
+const LIT_COLS = (tr) => { const hue = tr(), k = 0.6 + tr() * 0.4; return hue < 0.55 ? `rgba(255,${205 + (k * 20) | 0},${130 + (k * 40) | 0},${k})` : hue < 0.85 ? `rgba(255,244,218,${k})` : `rgba(180,215,255,${k})`; };
+
+/* ---- the upper-floor styles ---- */
+function facadeSet(style) {
+  const cv = facadeCanvas(), g = cv.getContext('2d'), lcv = facadeCanvas(), gl = lcv.getContext('2d'), mcv = maskStart(), mg = mcv.getContext('2d'), H = new HField();
+  const tr = mulberry32(style.length * 977 + 5);
+  gl.fillStyle = '#000'; gl.fillRect(0, 0, FQ, FQ);
+  if (style === 'glass') {
+    // curtain wall: vision glass over a spandrel band, metal mullions on every bay
+    noisyFill(g, 0.46, 0.53, 0.60, 0.05, 3, 32);
+    for (let cy = 0; cy < TEXN; cy++) for (let cx = 0; cx < TEXN; cx++) {
+      const x = cx * FC, y = cy * FC, on = tr() < 0.34, lit = LIT_COLS(tr), variant = tr() < 0.22 ? 1 : 0, m = fpx(3), sp = fpx(34);
+      const gr = g.createLinearGradient(0, y, 0, y + FC - sp); gr.addColorStop(0, '#8ea3b8'); gr.addColorStop(0.5, '#5c7085'); gr.addColorStop(1, '#3a4b5d');
+      g.fillStyle = gr; g.fillRect(x + m, y, FC - 2 * m, FC - sp - m); H.rect(x + m, y, FC - 2 * m, FC - sp - m, 0.4); glassMask(mg, x + m, y, FC - 2 * m, FC - sp - m);
+      if (variant === 1) { g.fillStyle = 'rgba(225,228,224,.7)'; for (let yy = fpx(3); yy < FC - sp - m - fpx(2); yy += fpx(4)) g.fillRect(x + m + fpx(1), y + yy, FC - 2 * m - fpx(2), fpx(2)); }
+      g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x + m + fpx(10), y, fpx(14), FC - sp - m);
+      // spandrel: a darker opaque panel with a sheen
+      const sg = g.createLinearGradient(0, y + FC - sp, 0, y + FC); sg.addColorStop(0, '#39434e'); sg.addColorStop(1, '#262e37'); g.fillStyle = sg; g.fillRect(x + m, y + FC - sp, FC - 2 * m, sp - m); H.rect(x + m, y + FC - sp, FC - 2 * m, sp - m, 0.46);
+      mg.fillStyle = 'rgb(0,90,255)'; mg.fillRect(x + m, y + FC - sp, FC - 2 * m, sp - m);
+      // mullions (the noisy fill shows through as the metal); a cap line along the spandrel top
+      g.fillStyle = 'rgba(255,255,255,.18)'; g.fillRect(x + m, y + FC - sp - m, FC - 2 * m, fpx(2));
+      H.rect(x, y, m, FC, 0.62); H.rect(x + FC - m, y, m, FC, 0.62); H.rect(x, y + FC - m, FC, m, 0.6);
+      drawLit(gl, x + m, y, FC - 2 * m, FC - sp - m, on, lit, variant);
+    }
+  } else if (style === 'ind') {
+    // corrugated cladding with rust streaks; a strip of high windows on the second row
+    noisyFill(g, 0.80, 0.80, 0.78, 0.07, 4, 24);
+    for (let x = 0; x < FQ; x += fpx(8)) { g.fillStyle = 'rgba(0,0,0,.16)'; g.fillRect(x, 0, fpx(3), FQ); g.fillStyle = 'rgba(255,255,255,.14)'; g.fillRect(x + fpx(4), 0, fpx(2), FQ); }
+    for (let x = 0; x < FQ; x += fpx(8)) { H.rect(x, 0, fpx(4), FQ, 0.42); }
+    const rs = mulberry32(99);
+    for (let k = 0; k < 40; k++) { const x = rs() * FQ, y = rs() * FQ, h = fpx(20 + rs() * 60); const rg = g.createLinearGradient(0, y, 0, y + h); rg.addColorStop(0, 'rgba(150,80,40,.35)'); rg.addColorStop(1, 'rgba(150,80,40,0)'); g.fillStyle = rg; g.fillRect(x, y, fpx(3 + rs() * 4), h); }
+    for (let cy = 0; cy < TEXN; cy++) { g.fillStyle = 'rgba(0,0,0,.22)'; g.fillRect(0, cy * FC + FC - fpx(3), FQ, fpx(3)); H.rect(0, cy * FC + FC - fpx(3), FQ, fpx(3), 0.56); }   // sheet joints
+    for (let cy = 0; cy < TEXN; cy++) for (let cx = 0; cx < TEXN; cx++) {
+      const x = cx * FC, y = cy * FC, on = tr() < 0.5, lit = LIT_COLS(tr); tr();
+      if (cy === 1) { drawWindow(g, H, mg, x + fpx(8), y + fpx(34), FC - fpx(16), fpx(30), { frame: 2, frameCol: '#6a6f75', sill: false, variant: 0, skyTop: '#6b7d8f', skyMid: '#3e4b58', skyBot: '#242c35' }); drawLit(gl, x + fpx(8), y + fpx(34), FC - fpx(16), fpx(30), on, lit, 0); }
+      else if (cy === 4 && cx % 3 === 1) { g.fillStyle = '#5a5e63'; g.fillRect(x + fpx(50), y + fpx(40), fpx(28), fpx(28)); for (let k = 0; k < 4; k++) { g.fillStyle = 'rgba(0,0,0,.5)'; g.fillRect(x + fpx(52), y + fpx(44 + k * 6), fpx(24), fpx(2)); } H.rect(x + fpx(50), y + fpx(40), fpx(28), fpx(28), 0.58); }   // a vent
+    }
+  } else if (style === 'brick') {
+    // running-bond brick: course lines and staggered head joints, in a light warm tone the building colour tints
+    noisyFill(g, 0.86, 0.80, 0.76, 0.1, 5, 64);
+    const course = fpx(4), bl = fpx(10), rs = mulberry32(31);
+    for (let y = 0; y < FQ; y += course) {
+      g.fillStyle = 'rgba(255,255,255,.35)'; g.fillRect(0, y, FQ, 1); H.rect(0, y, FQ, 1, 0.42);
+      const off = ((y / course) | 0) % 2 ? bl / 2 : 0;
+      for (let x = -off; x < FQ; x += bl) { const v = rs(); g.fillStyle = v < 0.5 ? `rgba(0,0,0,${(v * 0.16).toFixed(3)})` : `rgba(255,255,255,${((v - 0.5) * 0.14).toFixed(3)})`; g.fillRect(x + 1, y + 1, bl - 1, course - 1); g.fillStyle = 'rgba(255,255,255,.3)'; g.fillRect(x, y, 1, course); }
+    }
+    for (let cy = 0; cy < TEXN; cy++) for (let cx = 0; cx < TEXN; cx++) {
+      const x = cx * FC, y = cy * FC, on = tr() < 0.4, lit = LIT_COLS(tr), variant = tr() < 0.3 ? 2 : tr() < 0.5 ? 1 : 0;
+      const wx = x + fpx(32), wy = y + fpx(18), ww = fpx(64), wh = fpx(86);
+      drawWindow(g, H, mg, wx, wy, ww, wh, { frame: 4, frameCol: '#ecebe6', lintel: true, lintelCol: '#cfc9bf', sillCol: '#d9d3c8', variant, transom: true, curtain: 'rgba(214,196,170,.92)' });
+      drawLit(gl, wx, wy, ww, wh, on, lit, variant);
+    }
+  } else if (style === 'res') {
+    // clapboard siding: fine horizontal boards; windows with shutters
+    noisyFill(g, 0.9, 0.89, 0.86, 0.05, 6, 32);
+    const board = fpx(6);
+    for (let y = 0; y < FQ; y += board) { g.fillStyle = 'rgba(0,0,0,.14)'; g.fillRect(0, y + board - 2, FQ, 2); g.fillStyle = 'rgba(255,255,255,.1)'; g.fillRect(0, y, FQ, 1); H.rect(0, y + board - 2, FQ, 2, 0.4); }
+    for (let cy = 0; cy < TEXN; cy++) for (let cx = 0; cx < TEXN; cx++) {
+      const x = cx * FC, y = cy * FC, on = tr() < 0.45, lit = LIT_COLS(tr), variant = tr() < 0.5 ? 2 : tr() < 0.7 ? 1 : 0;
+      const wx = x + fpx(40), wy = y + fpx(26), ww = fpx(48), wh = fpx(68);
+      g.fillStyle = cx % 2 ? '#56626e' : '#4f5a4a'; g.fillRect(wx - fpx(14), wy - fpx(2), fpx(12), wh + fpx(4)); g.fillRect(wx + ww + fpx(2), wy - fpx(2), fpx(12), wh + fpx(4));   // shutters
+      H.rect(wx - fpx(14), wy - fpx(2), fpx(12), wh + fpx(4), 0.58); H.rect(wx + ww + fpx(2), wy - fpx(2), fpx(12), wh + fpx(4), 0.58);
+      drawWindow(g, H, mg, wx, wy, ww, wh, { frame: 4, frameCol: '#f4f3ee', variant, transom: true });
+      drawLit(gl, wx, wy, ww, wh, on, lit, variant);
+    }
+  } else {
+    // 'win': rendered concrete with slab lines; punched windows with sills
+    noisyFill(g, 0.9, 0.885, 0.86, 0.06, 2, 40);
+    for (let cy = 0; cy < TEXN; cy++) { const y = cy * FC; g.fillStyle = 'rgba(0,0,0,.12)'; g.fillRect(0, y, FQ, fpx(4)); g.fillStyle = 'rgba(255,255,255,.16)'; g.fillRect(0, y + fpx(4), FQ, fpx(2)); H.rect(0, y, FQ, fpx(4), 0.56); }
+    const rs = mulberry32(17);
+    for (let cy = 0; cy < TEXN; cy++) for (let cx = 0; cx < TEXN; cx++) {
+      const x = cx * FC, y = cy * FC, on = tr() < 0.4, lit = LIT_COLS(tr), r = tr(), variant = r < 0.2 ? 1 : r < 0.32 ? 2 : r < 0.42 ? 3 : r < 0.5 ? 4 : 0;
+      const wx = x + fpx(28), wy = y + fpx(24), ww = fpx(72), wh = fpx(76);
+      drawWindow(g, H, mg, wx, wy, ww, wh, { frame: 3, variant, transom: true });
+      // grime running down from the sill corners
+      if (rs() < 0.5) { const gg = g.createLinearGradient(0, wy + wh + fpx(8), 0, wy + wh + fpx(40)); gg.addColorStop(0, 'rgba(60,60,60,.16)'); gg.addColorStop(1, 'rgba(60,60,60,0)'); g.fillStyle = gg; g.fillRect(wx - fpx(2), wy + wh + fpx(8), fpx(5), fpx(32)); g.fillRect(wx + ww - fpx(3), wy + wh + fpx(8), fpx(5), fpx(32)); }
+      drawLit(gl, wx, wy, ww, wh, on, lit, variant);
+    }
+  }
+  return { map: texOf(cv), lit: texOf(lcv), normal: LOW ? null : H.normal(1.3), mask: texOf(mcv, false) };
+}
+/* ---- the ground floor: one row of TEXN cells, each a different street front ---- */
+// cells: 0 shop, 1 cafe with awning stripe, 2 entrance doors, 3 stone plinth with a barred window, 4 shop (second colour),
+//        5 roller door, 6 tower lobby glazing, 7 service wall (vent, utility box)
+function groundSet(order) {
+  const cv = document.createElement('canvas'); cv.width = FQ; cv.height = FC; const g = cv.getContext('2d');
+  const lcv = document.createElement('canvas'); lcv.width = FQ; lcv.height = FC; const gl = lcv.getContext('2d'); gl.fillStyle = '#000'; gl.fillRect(0, 0, FQ, FC);
+  const mcv = document.createElement('canvas'); mcv.width = FQ; mcv.height = FC; const mg = mcv.getContext('2d'); mg.fillStyle = 'rgb(0,255,0)'; mg.fillRect(0, 0, FQ, FC);
+  const h = new Float32Array(FQ * FC).fill(0.5);
+  const hr = (x, y, w, hh, v) => { for (let yy = Math.max(0, y | 0); yy < Math.min(FC, (y + hh) | 0); yy++) for (let xx = Math.max(0, x | 0); xx < Math.min(FQ, (x + w) | 0); xx++) h[yy * FQ + xx] = v; };
+  // rusticated stone base everywhere: blocks with deep horizontal joints
+  const img = g.createImageData(FQ, FC), d = img.data, n1 = valueNoise(FQ, 40, 8), sp = speckle(FQ, 9);
+  for (let y = 0; y < FC; y++) for (let x = 0; x < FQ; x++) { const i = y * FQ + x, k = 1 + (n1[(y * 3) * FQ % (FQ * FQ) + x] - 0.5) * 0.08 + (sp[i % (FQ * FQ)] - 0.5) * 0.05; d[i * 4] = 0.72 * k * 255; d[i * 4 + 1] = 0.70 * k * 255; d[i * 4 + 2] = 0.66 * k * 255; d[i * 4 + 3] = 255; }
+  g.putImageData(img, 0, 0);
+  for (let y = fpx(14); y < FC; y += fpx(18)) { g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(0, y, FQ, fpx(3)); g.fillStyle = 'rgba(255,255,255,.2)'; g.fillRect(0, y + fpx(3), FQ, 1); hr(0, y, FQ, fpx(3), 0.3); }
+  const glass = (x, y, w, hh, top, bot) => { const gr = g.createLinearGradient(0, y, 0, y + hh); gr.addColorStop(0, top); gr.addColorStop(1, bot); g.fillStyle = gr; g.fillRect(x, y, w, hh); hr(x, y, w, hh, 0.25); mg.fillStyle = 'rgb(0,40,255)'; mg.fillRect(x, y, w, hh); };
+  const frame = (x, y, w, hh, c, t) => { g.fillStyle = c; g.fillRect(x, y, w, t); g.fillRect(x, y + hh - t, w, t); g.fillRect(x, y, t, hh); g.fillRect(x + w - t, y, t, hh); };
+  const signCols = ['#8c2f39', '#2b5d8a', '#2f6b4f', '#7a4b2a', '#3d3f6b', '#b0652a'];
+  for (let c = 0; c < TEXN; c++) {
+    const x = c * FC, kind = order[c];
+    if (kind === 0 || kind === 4) {            // shop: sign band, big window with shelves and goods, a door
+      g.fillStyle = signCols[kind === 0 ? 0 : 3]; g.fillRect(x + fpx(2), fpx(8), FC - fpx(4), fpx(22)); hr(x + fpx(2), fpx(8), FC - fpx(4), fpx(22), 0.6);
+      g.fillStyle = 'rgba(255,255,255,.75)'; for (let k = 0; k < 5; k++) g.fillRect(x + fpx(14 + k * 20), fpx(14), fpx(12), fpx(10));   // "letters"
+      glass(x + fpx(8), fpx(36), fpx(76), fpx(82), '#b9c7d2', '#4d5a66');
+      for (let s = 0; s < 3; s++) { g.fillStyle = 'rgba(70,60,50,.8)'; g.fillRect(x + fpx(12), fpx(50 + s * 22), fpx(68), fpx(3)); for (let k = 0; k < 5; k++) { g.fillStyle = ['#c94a3a', '#e0b23a', '#3a8bc9', '#64b05a', '#e8e4dc'][(k + s) % 5]; g.fillRect(x + fpx(16 + k * 13), fpx(40 + s * 22), fpx(8), fpx(10)); } }
+      frame(x + fpx(8), fpx(36), fpx(76), fpx(82), '#2a2d31', fpx(3));
+      glass(x + fpx(90), fpx(40), fpx(30), fpx(78), '#8fa0ae', '#3e4a55'); frame(x + fpx(90), fpx(40), fpx(30), fpx(78), '#2a2d31', fpx(3)); g.fillStyle = '#d8d8d4'; g.fillRect(x + fpx(94), fpx(78), fpx(3), fpx(10));
+      gl.fillStyle = 'rgba(255,236,200,.9)'; gl.fillRect(x + fpx(8), fpx(36), fpx(76), fpx(82)); gl.fillStyle = signCols[kind === 0 ? 0 : 3]; gl.fillRect(x + fpx(2), fpx(8), FC - fpx(4), fpx(22)); gl.fillStyle = 'rgba(255,255,255,.9)'; for (let k = 0; k < 5; k++) gl.fillRect(x + fpx(14 + k * 20), fpx(14), fpx(12), fpx(10));
+    } else if (kind === 1) {                   // cafe: striped awning band over two windows and a door
+      for (let k = 0; k < FC; k += fpx(8)) { g.fillStyle = (k / fpx(8)) % 2 ? '#c9403a' : '#f1ede4'; g.fillRect(x + k, fpx(24), fpx(8), fpx(14)); } hr(x, fpx(24), FC, fpx(14), 0.75);
+      g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x, fpx(38), FC, fpx(6));
+      glass(x + fpx(6), fpx(46), fpx(44), fpx(70), '#a9b7c3', '#55616d'); frame(x + fpx(6), fpx(46), fpx(44), fpx(70), '#3a2d22', fpx(3));
+      glass(x + fpx(78), fpx(46), fpx(44), fpx(70), '#a9b7c3', '#55616d'); frame(x + fpx(78), fpx(46), fpx(44), fpx(70), '#3a2d22', fpx(3));
+      g.fillStyle = '#4a3828'; g.fillRect(x + fpx(54), fpx(46), fpx(20), fpx(72)); glass(x + fpx(57), fpx(50), fpx(14), fpx(40), '#8fa0ae', '#3e4a55'); g.fillStyle = '#d8c070'; g.fillRect(x + fpx(68), fpx(84), fpx(3), fpx(8));
+      g.fillStyle = 'rgba(255,255,255,.8)'; g.fillRect(x + fpx(40), fpx(10), fpx(48), fpx(10));
+      gl.fillStyle = 'rgba(255,220,170,.9)'; gl.fillRect(x + fpx(6), fpx(46), fpx(44), fpx(70)); gl.fillRect(x + fpx(78), fpx(46), fpx(44), fpx(70)); gl.fillStyle = 'rgba(255,230,190,.7)'; gl.fillRect(x + fpx(57), fpx(50), fpx(14), fpx(40));
+    } else if (kind === 2) {                   // entrance: double glass doors under a dark portal, a number plate, lamps
+      g.fillStyle = '#3a3d42'; g.fillRect(x + fpx(28), fpx(20), fpx(72), fpx(100)); hr(x + fpx(28), fpx(20), fpx(72), fpx(100), 0.35);
+      glass(x + fpx(34), fpx(28), fpx(28), fpx(90), '#9aabb9', '#45515d'); glass(x + fpx(66), fpx(28), fpx(28), fpx(90), '#9aabb9', '#45515d');
+      g.fillStyle = '#c9c9c4'; g.fillRect(x + fpx(60), fpx(70), fpx(2), fpx(14)); g.fillRect(x + fpx(66), fpx(70), fpx(2), fpx(14));
+      g.fillStyle = '#e8e6df'; g.fillRect(x + fpx(8), fpx(30), fpx(14), fpx(8)); g.fillStyle = '#222'; g.fillRect(x + fpx(10), fpx(32), fpx(10), fpx(4));
+      g.fillStyle = '#d8d6cf'; g.fillRect(x + fpx(110), fpx(40), fpx(6), fpx(6)); g.fillRect(x + fpx(12), fpx(40), fpx(6), fpx(6));
+      gl.fillStyle = 'rgba(255,240,215,.85)'; gl.fillRect(x + fpx(34), fpx(28), fpx(28), fpx(90)); gl.fillRect(x + fpx(66), fpx(28), fpx(28), fpx(90)); gl.fillStyle = 'rgba(255,230,180,1)'; gl.fillRect(x + fpx(110), fpx(40), fpx(6), fpx(6)); gl.fillRect(x + fpx(12), fpx(40), fpx(6), fpx(6));
+    } else if (kind === 3) {                   // plinth with a small barred window
+      glass(x + fpx(44), fpx(40), fpx(40), fpx(30), '#7d8d9b', '#333d47'); frame(x + fpx(44), fpx(40), fpx(40), fpx(30), '#4a4d52', fpx(3));
+      g.fillStyle = '#3a3d42'; for (let k = 0; k < 4; k++) g.fillRect(x + fpx(50 + k * 9), fpx(40), fpx(2), fpx(30));
+      gl.fillStyle = 'rgba(255,240,215,.6)'; gl.fillRect(x + fpx(44), fpx(40), fpx(40), fpx(30));
+    } else if (kind === 5) {                   // roller door
+      g.fillStyle = '#6d7278'; g.fillRect(x + fpx(10), fpx(16), fpx(108), fpx(104)); hr(x + fpx(10), fpx(16), fpx(108), fpx(104), 0.45);
+      for (let y = fpx(20); y < fpx(118); y += fpx(7)) { g.fillStyle = 'rgba(0,0,0,.3)'; g.fillRect(x + fpx(10), y, fpx(108), fpx(2)); g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(x + fpx(10), y + fpx(2), fpx(108), fpx(2)); }
+      g.fillStyle = '#c9a227'; g.fillRect(x + fpx(10), fpx(110), fpx(108), fpx(4)); g.fillStyle = '#2a2d31'; for (let k = 0; k < 6; k++) g.fillRect(x + fpx(14 + k * 18), fpx(110), fpx(9), fpx(4));
+    } else if (kind === 6) {                   // tower lobby: full-height glazing with slim mullions and a revolving door
+      glass(x + fpx(2), fpx(6), FC - fpx(4), fpx(114), '#aebdcb', '#3f4c59'); frame(x + fpx(2), fpx(6), FC - fpx(4), fpx(114), '#9aa0a6', fpx(2));
+      g.fillStyle = '#9aa0a6'; g.fillRect(x + fpx(42), fpx(6), fpx(2), fpx(114)); g.fillRect(x + fpx(84), fpx(6), fpx(2), fpx(114)); g.fillRect(x + fpx(2), fpx(40), FC - fpx(4), fpx(2));
+      g.fillStyle = 'rgba(40,46,54,.8)'; g.fillRect(x + fpx(50), fpx(48), fpx(28), fpx(72)); g.fillStyle = 'rgba(255,255,255,.4)'; g.fillRect(x + fpx(63), fpx(48), fpx(2), fpx(72));
+      g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x + fpx(10), fpx(6), fpx(16), fpx(114));
+      gl.fillStyle = 'rgba(255,246,228,.75)'; gl.fillRect(x + fpx(2), fpx(6), FC - fpx(4), fpx(114));
+    } else {                                   // service wall: vent grille, a utility cabinet, a drainpipe
+      g.fillStyle = '#5d6065'; g.fillRect(x + fpx(20), fpx(30), fpx(36), fpx(28)); for (let k = 0; k < 5; k++) { g.fillStyle = 'rgba(0,0,0,.5)'; g.fillRect(x + fpx(22), fpx(33 + k * 5), fpx(32), fpx(2)); } hr(x + fpx(20), fpx(30), fpx(36), fpx(28), 0.58);
+      g.fillStyle = '#7a7d82'; g.fillRect(x + fpx(70), fpx(64), fpx(40), fpx(56)); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x + fpx(72), fpx(66), fpx(36), fpx(2)); g.fillRect(x + fpx(88), fpx(66), fpx(2), fpx(52)); hr(x + fpx(70), fpx(64), fpx(40), fpx(56), 0.62);
+      g.fillStyle = '#4e5156'; g.fillRect(x + fpx(8), 0, fpx(4), FC); hr(x + fpx(8), 0, fpx(4), FC, 0.66);
+    }
+  }
+  // the top of the ground floor: a dark band where the upper wall meets it (shadow under the first ledge)
+  const sh = g.createLinearGradient(0, 0, 0, fpx(6)); sh.addColorStop(0, 'rgba(0,0,0,.35)'); sh.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = sh; g.fillRect(0, 0, FQ, fpx(6));
+  const mk = c => { const t = new THREE.CanvasTexture(c); t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.anisotropy = SURF_ANISO(); return t; };
+  const map = mk(cv); map.encoding = THREE.sRGBEncoding; const lit = mk(lcv); lit.encoding = THREE.sRGBEncoding;
+  let normal = null;
+  if (!LOW) {
+    const nc = document.createElement('canvas'); nc.width = FQ; nc.height = FC; const ng = nc.getContext('2d'), im = ng.createImageData(FQ, FC), dd = im.data, k = 1.3;
+    for (let y = 0; y < FC; y++) for (let x = 0; x < FQ; x++) {
+      const xl = h[y * FQ + ((x - 1 + FQ) % FQ)], xr = h[y * FQ + ((x + 1) % FQ)], yu = h[Math.max(0, y - 1) * FQ + x], yd = h[Math.min(FC - 1, y + 1) * FQ + x];
+      let nx = (xl - xr) * k, ny = (yd - yu) * k, nz = 1; const l = Math.hypot(nx, ny, nz); const i = (y * FQ + x) * 4;
+      dd[i] = (nx / l * 0.5 + 0.5) * 255; dd[i + 1] = (ny / l * 0.5 + 0.5) * 255; dd[i + 2] = (nz / l * 0.5 + 0.5) * 255; dd[i + 3] = 255;
+    }
+    ng.putImageData(im, 0, 0); normal = mk(nc);
+  }
+  return { map, lit, normal, mask: mk(mcv) };
+}
+const FACADE = {}; for (const s of ['win', 'glass', 'brick', 'ind', 'res']) FACADE[s] = facadeSet(s);
+// two street-level rows: the urban one (lobby, shops, a cafe, doors, a plinth, a service wall) and the industrial one
+const GROUND_TEX = groundSet([6, 0, 1, 2, 4, 3, 7, 0]), GROUND_IND = groundSet([5, 3, 7, 5, 3, 2, 7, 5]);
+// the names the rest of the city uses
+const TEX = { win: FACADE.win.map, winL: FACADE.win.lit, glass: FACADE.glass.map, glassL: FACADE.glass.lit, ind: FACADE.ind.map, indL: FACADE.ind.lit, brick: FACADE.brick.map, brickL: FACADE.brick.lit, res: FACADE.res.map, resL: FACADE.res.lit };
 /* ================= buildings, houses, port containers ================= */
-const TEX = {
-  win: facadeTex('win', false), winL: facadeTex('win', true),
-  glass: facadeTex('glass', false), glassL: facadeTex('glass', true),
-  ind: facadeTex('ind', false), indL: facadeTex('ind', true)
-};
-const WG = { win: new ChunkGeo(), glass: new ChunkGeo(), ind: new ChunkGeo() };
+// Every building is a street-level floor (shopfronts, lobbies, plinths from GROUND_TEX) under a stack of upper floors
+// (a facade style from 21_facades.js), with ledges, a parapet, a roof slab and its clutter, and a canopy over the door.
+const WG = { win: new ChunkGeo(), glass: new ChunkGeo(), ind: new ChunkGeo(), brick: new ChunkGeo(), res: new ChunkGeo(), ground: new ChunkGeo(), groundInd: new ChunkGeo() };
 const roofG = new ChunkGeo(), propG = roofG;     // roofs and containers share one material
+const trimG = new ChunkGeo();                    // ledges, parapets, canopies: light concrete
 const footprints = [], beacons = [], treeSpots = [];
 const PAL = {
   down: [0x93abc4, 0xa2b5c8, 0x8099b4, 0xbac5cf, 0xcdbb98, 0x7290ad, 0xa8bccf],
@@ -2548,28 +2957,80 @@ const PAL = {
 };
 const GREYS = [0x8d8f92, 0x9a9c9e, 0x7e8083, 0xa8a9a7, 0x6f7377];
 const qf = v => Math.max(CW, Math.floor(v / CW) * CW);
+const ROOF_C = col(0x4a4c50), TRIM_C = col(0xd9d6cf);
 
 function wallUV() {
   const ou = RI(0, 7) / TEXN, ov = RI(0, 7) / TEXN, fo = [0, 3, 5, 2];
   return (f, w, y0, y1) => { const u0 = ou + fo[f] / TEXN; return [u0, y0 / (FH * TEXN) + ov, u0 + w / (CW * TEXN), y1 / (FH * TEXN) + ov]; };
 }
+// the ground floor texture is one row: u runs along the facade (cells picked per style), v is the floor's own height
+// urban row: 0 lobby, 1 shop, 2 cafe, 3 doors, 4 shop, 5 plinth, 6 service, 7 shop. Towers start at the lobby, the rest anywhere.
+function groundUV(style) {
+  const start = style === 'glass' ? 0 : RI(1, 7), fo = [0, 3, 5, 2];
+  return (f, w, y0, y1) => { const u0 = ((start + fo[f]) % TEXN) / TEXN; return [u0, 0, u0 + w / (CW * TEXN), 1]; };
+}
+// which side faces the street: the one closest to the block edge (where the door and canopy go)
+function streetSide(x0, z0, x1, z1) {
+  const bx = Math.floor((x0 + x1) / 2 / PITCH) * PITCH, bz = Math.floor((z0 + z1) / 2 / PITCH) * PITCH;
+  const d = [[z0 - (bz + ROAD / 2), 0, -1], [(bz + PITCH - ROAD / 2) - z1, 0, 1], [x0 - (bx + ROAD / 2), -1, 0], [(bx + PITCH - ROAD / 2) - x1, 1, 0]];
+  d.sort((a, b) => a[0] - b[0]); return d[0];
+}
 function addBuilding(x0, z0, x1, z1, floors, kind, hex, o = {}) {
-  const style = o.style || (kind === 'down' ? (rng() < 0.72 ? 'glass' : 'win') : kind === 'ind' ? 'ind' : 'win');
-  const c = col(hex), y0 = o.y0 == null ? CURB : o.y0, y1 = y0 + floors * FH;
-  WG[style].box(x0, y0, z0, x1, y1, z1, c, { top: false, uv: wallUV() });
-  const rc = col(0x606266).lerp(c, 0.3);
-  roofG.box(x0 - 0.15, y1, z0 - 0.15, x1 + 0.15, y1 + 0.7, z1 + 0.15, rc);
-  const top = y1 + 0.7;
-  if (!o.noCol) { addCollider({ t: 'box', x0, z0, x1, z1, h: top }); footprints.push([x0, z0, x1, z1, kind, top]); }
-  if (floors >= 4) {
-    for (let k = RI(1, 3); k > 0; k--) {
-      const w = R(2, 4.5), d = R(2, 4.5), bh = R(1, 2.8);
-      if (x1 - x0 < w + 4 || z1 - z0 < d + 4) break;
-      const cx = R(x0 + 2 + w / 2, x1 - 2 - w / 2), cz = R(z0 + 2 + d / 2, z1 - 2 - d / 2);
-      roofG.box(cx - w / 2, top, cz - d / 2, cx + w / 2, top + bh, cz + d / 2, col(pickR(GREYS)));
+  const style = o.style || (kind === 'down' ? (rng() < 0.72 ? 'glass' : 'win') : kind === 'ind' ? 'ind' : kind === 'old' ? 'brick' : kind === 'mid' && rng() < 0.4 ? 'brick' : 'win');
+  const c = col(hex), y0 = o.y0 == null ? CURB : o.y0, y1 = y0 + floors * FH, base = o.y0 == null;
+  const W = x1 - x0, D = z1 - z0;
+  if (base && floors >= 1) {
+    // the street floor: stone, shopfronts or a lobby; set 8 cm proud of the wall, darker at the pavement
+    const gc = c.clone().lerp(col(0x9a948c), style === 'glass' ? 0.25 : 0.55), p = 0.08;
+    (style === 'ind' ? WG.groundInd : WG.ground).box(x0 - p, y0, z0 - p, x1 + p, y0 + FH, z1 + p, gc, { top: false, uv: groundUV(style), bottomCol: gc.clone().multiplyScalar(0.72) });
+    WG[style].box(x0, y0 + FH, z0, x1, y1, z1, c, { top: false, uv: wallUV() });
+    // the first ledge over the shopfronts
+    trimG.box(x0 - 0.22, y0 + FH - 0.05, z0 - 0.22, x1 + 0.22, y0 + FH + 0.2, z1 + 0.22, TRIM_C.clone().lerp(c, 0.3));
+    // canopy over the door, on the street side
+    if (style !== 'ind' && W >= 10 && D >= 10) {
+      const [, nx, nz] = streetSide(x0, z0, x1, z1), cy = y0 + 3.0, cw = Math.min(7, Math.max(4, (nx ? D : W) * 0.35)), cx = (x0 + x1) / 2, cz = (z0 + z1) / 2;
+      const dark = col(0x2a2d31);
+      if (nz) trimG.box(cx - cw / 2, cy, nz < 0 ? z0 - 1.7 : z1, cx + cw / 2, cy + 0.14, nz < 0 ? z0 : z1 + 1.7, dark, { bottom: true });
+      else trimG.box(nx < 0 ? x0 - 1.7 : x1, cy, cz - cw / 2, nx < 0 ? x0 : x1 + 1.7, cy + 0.14, cz + cw / 2, dark, { bottom: true });
+    }
+  } else WG[style].box(x0, y0, z0, x1, y1, z1, c, { top: false, uv: wallUV() });
+  // string courses every few floors on masonry; a parapet with a coping on top
+  if (style === 'win' || style === 'brick') for (let f = 4; f < floors; f += 4) trimG.box(x0 - 0.12, y0 + f * FH - 0.04, z0 - 0.12, x1 + 0.12, y0 + f * FH + 0.14, z1 + 0.12, TRIM_C.clone().lerp(c, 0.35));
+  const pc = style === 'glass' ? col(0x6e7a86) : TRIM_C.clone().lerp(c, 0.25);
+  trimG.box(x0 - 0.2, y1 - 0.05, z0 - 0.2, x1 + 0.2, y1 + 0.55, z1 + 0.2, pc, { top: false });
+  trimG.box(x0 - 0.25, y1 + 0.55, z0 - 0.25, x1 + 0.25, y1 + 0.66, z1 + 0.25, pc.clone().multiplyScalar(1.08));
+  roofG.box(x0 - 0.1, y1 + 0.3, z0 - 0.1, x1 + 0.1, y1 + 0.4, z1 + 0.1, ROOF_C.clone().lerp(c, 0.12), { sides: false });   // the roof: dark membrane
+  const top = y1 + 0.4;
+  if (!o.noCol) { addCollider({ t: 'box', x0, z0, x1, z1, h: y1 + 0.66 }); footprints.push([x0, z0, x1, z1, kind, y1 + 0.66]); }
+  if (floors >= 3 && W >= 12 && D >= 12) roofClutter(x0 + 1.2, z0 + 1.2, x1 - 1.2, z1 - 1.2, top, kind);
+  return top;
+}
+// what sits on a roof: plant rooms, air handlers with fans, a water tank on legs, aerials, a stair bulkhead
+function roofClutter(x0, z0, x1, z1, y, kind) {
+  const W = x1 - x0, D = z1 - z0, n = RI(1, 3) + (W * D > 600 ? 1 : 0);
+  for (let k = 0; k < n; k++) {
+    const kindR = rng(), w = R(2, 4.5), d = R(2, 4.5);
+    if (W < w + 2 || D < d + 2) break;
+    const cx = R(x0 + w / 2, x1 - w / 2), cz = R(z0 + d / 2, z1 - d / 2), grey = col(pickR(GREYS));
+    if (kindR < 0.45) {                                   // air handler: a ribbed box with two fan rings on top
+      const h = R(1.2, 1.8);
+      roofG.box(cx - w / 2, y, cz - d / 2, cx + w / 2, y + h, cz + d / 2, grey);
+      for (let s = -1; s <= 1; s += 2) roofG.tube([cx + s * w * 0.25, y + h, cz], [cx + s * w * 0.25, y + h + 0.12, cz], Math.min(w, d) * 0.2, col(0x2a2d31), 10);
+      roofG.box(cx - w / 2 - 0.05, y + h * 0.45, cz - d / 2 - 0.05, cx + w / 2 + 0.05, y + h * 0.5, cz + d / 2 + 0.05, grey.clone().multiplyScalar(0.8));
+    } else if (kindR < 0.7) {                             // plant room / stair bulkhead with a door
+      const h = R(2.4, 3);
+      roofG.box(cx - w / 2, y, cz - d / 2, cx + w / 2, y + h, cz + d / 2, grey.clone().lerp(col(0xc8c4ba), 0.4));
+      roofG.box(cx - 0.45, y, cz + d / 2 - 0.02, cx + 0.45, y + 2.1, cz + d / 2 + 0.06, col(0x3b3e43));
+    } else if (kindR < 0.88 && kind !== 'down') {         // water tank on legs
+      const r = Math.min(w, d) * 0.4, h = R(2.2, 3);
+      for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) roofG.box(cx + sx * r * 0.6 - 0.08, y, cz + sz * r * 0.6 - 0.08, cx + sx * r * 0.6 + 0.08, y + 1.3, cz + sz * r * 0.6 + 0.08, col(0x55585d));
+      roofG.tube([cx, y + 1.3, cz], [cx, y + 1.3 + h, cz], r, col(0x6a4a34), 12);
+      roofG.tube([cx, y + 1.3 + h, cz], [cx, y + 1.3 + h + 0.5, cz], r, col(0x4e3828), 12, 0.3);
+    } else {                                              // aerials / a dish
+      roofG.box(cx - 0.06, y, cz - 0.06, cx + 0.06, y + R(3, 6), cz + 0.06, col(0x8a8d92));
+      roofG.box(cx - 0.6, y + 2, cz - 0.03, cx + 0.6, y + 2.06, cz + 0.03, col(0x8a8d92));
     }
   }
-  return top;
 }
 function addTower(x0, z0, x1, z1, floors, hex) {
   const style = rng() < 0.72 ? 'glass' : 'win', fp = footprints.length;
@@ -2583,7 +3044,7 @@ function addTower(x0, z0, x1, z1, floors, hex) {
   }
   if (top > 72) {
     const ah = R(8, 22);
-    roofG.box(cx - 0.3, top, cz - 0.3, cx + 0.3, top + ah, cz + 0.3, col(0xb0b2b5));
+    roofG.tube([cx, top, cz], [cx, top + ah, cz], 0.35, col(0xb0b2b5), 8, 0.12);
     beacons.push([cx, top + ah + 0.4, cz]);
   } else if (top > 42) beacons.push([cx, top + 0.6, cz]);
   if (footprints[fp]) footprints[fp][5] = top + 3;
@@ -2612,10 +3073,16 @@ function gable(x0, z0, x1, z1, y, rh, rc, wc, alongX) {
 function addHouse(x0, z0, x1, z1, hex) {
   const floors = RI(1, 2) + (rng() < 0.15 ? 1 : 0);
   const c = col(hex), y1 = CURB + floors * FH + 0.4;
-  WG.win.box(x0, CURB, z0, x1, y1, z1, c, { top: false, uv: wallUV() });
+  WG.res.box(x0, CURB, z0, x1, y1, z1, c, { top: false, uv: wallUV(), bottomCol: c.clone().multiplyScalar(0.8) });
   const rc = col(pickR([0x8b4a3c, 0x5d6066, 0x7a5a48, 0x4e5a66, 0x9a6b4f, 0x3f4c5a]));
   roofG.box(x0 - 0.35, y1, z0 - 0.35, x1 + 0.35, y1 + 0.22, z1 + 0.35, rc);
   gable(x0 - 0.35, z0 - 0.35, x1 + 0.35, z1 + 0.35, y1 + 0.22, R(2.2, 3.2), rc, c, (x1 - x0) >= (z1 - z0));
+  // a chimney and a porch step on the street side
+  const alongX = (x1 - x0) >= (z1 - z0), cxm = alongX ? R(x0 + 2, x1 - 2) : (x0 + x1) / 2, czm = alongX ? (z0 + z1) / 2 : R(z0 + 2, z1 - 2);
+  roofG.box(cxm - 0.35, y1, czm - 0.35, cxm + 0.35, y1 + R(3.2, 4.2), czm + 0.35, col(0x6e5a50));
+  const [, nx, nz] = streetSide(x0, z0, x1, z1), mx = (x0 + x1) / 2, mz = (z0 + z1) / 2;
+  if (nz) { trimG.box(mx - 1.2, CURB, nz < 0 ? z0 - 1.1 : z1, mx + 1.2, CURB + 0.18, nz < 0 ? z0 : z1 + 1.1, TRIM_C); trimG.box(mx - 1.4, CURB + 2.6, nz < 0 ? z0 - 1.3 : z1, mx + 1.4, CURB + 2.72, nz < 0 ? z0 : z1 + 1.3, rc, { bottom: true }); }
+  else { trimG.box(nx < 0 ? x0 - 1.1 : x1, CURB, mz - 1.2, nx < 0 ? x0 : x1 + 1.1, CURB + 0.18, mz + 1.2, TRIM_C); trimG.box(nx < 0 ? x0 - 1.3 : x1, CURB + 2.6, mz - 1.4, nx < 0 ? x0 : x1 + 1.3, CURB + 2.72, mz + 1.4, rc, { bottom: true }); }
   addCollider({ t: 'box', x0, z0, x1, z1, h: y1 + 3 }); footprints.push([x0, z0, x1, z1, 'res', y1 + 3]);
 }
 function addContainers(x0, z0, x1, z1) {
@@ -2687,14 +3154,18 @@ for (const row of blocks) for (const b of row) {
 }
 
 const wallMats = {};
-for (const s of ['win', 'glass', 'ind']) {
-  // desktops: physically based walls whose windows mirror the sky (the mask marks the glass); phones keep the cheap shading
-  wallMats[s] = LOW
-    ? new THREE.MeshLambertMaterial({ vertexColors: true, map: TEX[s], emissive: 0xffffff, emissiveMap: TEX[s + 'L'], emissiveIntensity: 0 })
-    : new THREE.MeshStandardMaterial({ vertexColors: true, map: TEX[s], emissive: 0xffffff, emissiveMap: TEX[s + 'L'], emissiveIntensity: 0, metalness: 1, roughness: 1, metalnessMap: facadeMaskTex(s), roughnessMap: facadeMaskTex(s), envMap: ENVMAP.tex, envMapIntensity: 0.6 });
-  WG[s].mesh(wallMats[s]);
+function wallMaterial(S, o = {}) {
+  // desktops: physically based walls whose windows mirror the sky (the mask marks the glass) and whose reveals catch the sun
+  // (the normal map); phones keep the cheap shading
+  return LOW
+    ? new THREE.MeshLambertMaterial({ vertexColors: true, map: S.map, emissive: 0xffffff, emissiveMap: S.lit, emissiveIntensity: 0 })
+    : new THREE.MeshStandardMaterial({ vertexColors: true, map: S.map, emissive: 0xffffff, emissiveMap: S.lit, emissiveIntensity: 0, metalness: 1, roughness: 1, metalnessMap: S.mask, roughnessMap: S.mask, normalMap: S.normal, normalScale: new THREE.Vector2(o.bump || 0.7, o.bump || 0.7), envMap: ENVMAP.tex, envMapIntensity: o.env || 0.6 });
 }
+for (const s of ['win', 'glass', 'ind', 'brick', 'res']) { wallMats[s] = wallMaterial(FACADE[s], { bump: s === 'glass' ? 0.4 : 0.8 }); WG[s].mesh(wallMats[s]); }
+wallMats.ground = wallMaterial(GROUND_TEX, { bump: 0.8, env: 0.7 }); WG.ground.mesh(wallMats.ground);
+wallMats.groundInd = wallMaterial(GROUND_IND, { bump: 0.8, env: 0.4 }); WG.groundInd.mesh(wallMats.groundInd);
 roofG.mesh(new THREE.MeshLambertMaterial({ vertexColors: true }));
+trimG.mesh(LOW ? new THREE.MeshLambertMaterial({ vertexColors: true }) : new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0 }));
 onNight(n => { for (const k in wallMats) wallMats[k].emissiveIntensity = n * 1.1; });
 /* ================= props: trees, street lamps, beach, ramps, landmarks, map ================= */
 const _o = new THREE.Object3D(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion(), _ax = new THREE.Vector3();
@@ -3914,6 +4385,15 @@ const CAR_TYPES = {
   titan:   { name: '최종 병기 · 타이탄 전차', L: 7.6, W: 3.5, H: 2.6, maxSpd: 96, acc: 46, brake: 50, grip: 13, steer: 2.4, mass: 16, hp: 6000, cab: [0.4, 0.6], top: 0.5, colors: [0x2a2d28], cannon: true, turret: true, weapons: ['titan', 'titanquake', 'titangun', 'carrocket', 'carmine'], noWheels: true, wheelR: 0.5, armor: 0.9, pvpArmor: 0.25 },
   skycar:  { name: '비행차 · 루미나 스카이', L: 4.9, W: 2.2, H: 1.12, maxSpd: 100, acc: 50, brake: 48, grip: 13.5, steer: 2.5, mass: 1.0, hp: 400, cab: [0.3, 0.62], top: 0.5, colors: [0xdfe6f0], fly: true, boost: 1.4, jet: true, turret: true, weapons: ['skylaser', 'turret', 'carrocket'], pvpArmor: 0.7 },
   gunship: { name: '전투 헬기 · 루미나 바이퍼', L: 11.5, W: 3.2, H: 3.4, maxSpd: 110, acc: 30, brake: 30, grip: 8, steer: 1.8, mass: 3.6, hp: 900, cab: [0.3, 0.5], top: 0.5, colors: [0x2f3a2c], flyer: 'gunship', weapons: ['heligun', 'helirocket', 'helinapalm'], sky: 420, climb: 20, armor: 0.4, pvpArmor: 0.4 },
+  // the fun shelf: a dodgem, a patrol car of your own, and two concept cars with a trick each (49_concept.js)
+  bumper:  { name: '범퍼카 · 붐붐', L: 2.7, W: 1.95, H: 1.3, maxSpd: 28, acc: 22, brake: 34, grip: 11, steer: 3.3, mass: 1.2, hp: 600, cab: [0.1, 0.9], top: 0.5, colors: [0xff3b30, 0x35e8ff, 0xffd400, 0x6dff5a, 0xff5fd2], bumper: true, armor: 0.9, ev: true, wheelR: 0.3, special: 'bounce' },
+  cruiser: { name: '순찰차 · 루미나 PD 크루저', L: 4.8, W: 1.98, H: 1.52, maxSpd: 68, acc: 25, brake: 34, grip: 9.8, steer: 2.3, mass: 1.25, hp: 240, cab: [0.27, 0.66], top: 0.6, colors: [0xf1f2f4], siren: true, special: 'siren' },
+  ramcar:  { name: '콘셉트 · 램 런처', L: 5.4, W: 2.3, H: 1.3, maxSpd: 78, acc: 30, brake: 40, grip: 10.5, steer: 2.2, mass: 3.0, hp: 700, cab: [0.1, 0.4], top: 0.5, colors: [0xff7a1a], launcher: true, armor: 0.7, special: 'launch' },
+  ghostcar: { name: '콘셉트 · 팬텀', L: 4.7, W: 2.0, H: 1.2, maxSpd: 72, acc: 30, brake: 40, grip: 10.8, steer: 2.3, mass: 1.3, hp: 420, cab: [0.3, 0.7], top: 0.5, colors: [0x2b2f3a], cloak: true, ev: true, special: 'cloak' },
+  // two wheels: light, quick, fragile; they lean into corners and throw the rider in a hard crash (34_bikes.js)
+  scooter:   { name: '스쿠터 · 베스파노 125', L: 1.85, W: 0.7, H: 1.15, maxSpd: 26, acc: 15, brake: 26, grip: 9.5, steer: 3.3, mass: 0.35, hp: 50, cab: [0.3, 0.6], top: 0.5, colors: [0xf2e9d8, 0x9ad0e8, 0xe8747c, 0x8fbf7a, 0xf2c230], bike: true, wheelR: 0.24, lean: 0.75 },
+  chopper:   { name: '초퍼 · 로드킹 1800', L: 2.5, W: 0.85, H: 1.2, maxSpd: 58, acc: 24, brake: 30, grip: 8.6, steer: 2.5, mass: 0.65, hp: 85, cab: [0.3, 0.6], top: 0.5, colors: [0x111214, 0x6b1a22, 0x1f3a5c, 0xd9822b], bike: true, wheelR: 0.34, lean: 0.7, wheelie: 0.35 },
+  sportbike: { name: '스포츠 바이크 · 루미나 R1', L: 2.1, W: 0.75, H: 1.15, maxSpd: 78, acc: 38, brake: 42, grip: 11.8, steer: 2.9, mass: 0.45, hp: 60, cab: [0.3, 0.6], top: 0.5, colors: [0xc8102e, 0x1f4e8c, 0x1c1c1f, 0x35e8ff, 0xf2c230], bike: true, wheelR: 0.32, lean: 1, wheelie: 1 },
   fighter: { name: '전투기 · 루미나 팰컨', L: 12.0, W: 9.0, H: 3.6, maxSpd: 165, acc: 42, brake: 36, grip: 8, steer: 1.6, mass: 4.5, hp: 700, cab: [0.3, 0.5], top: 0.5, colors: [0x3a3f46], flyer: 'fighter', weapons: ['aircannon', 'airmissile', 'airbomb'], stall: 24, takeoff: 36, sky: 900, armor: 0.3, pvpArmor: 0.5 }
 };
 // tuning: five parts, three levels each, kept per car in the garage (62_dealer.js sells them)
@@ -3933,14 +4413,16 @@ function applyTune(T, tune, parts) {
     brake: T.brake * (1 + 0.1 * b), hp: Math.round(T.hp * (1 + 0.2 * a)), nitroPow: 1 + 0.25 * n, nitroRegen: 1 + 0.3 * n,
     tuned: TUNE_KEYS.reduce((s, k) => s + tuneLevel(tune, k), 0), partsN: TUNE_KEYS.reduce((s, k) => s + partLevel(parts, k), 0) });
 }
-const TRAFFIC_MIX = ['sedan', 'sedan', 'sedan', 'taxi', 'taxi', 'suv', 'suv', 'van', 'sports', 'muscle'];
-const GOLD = 0xd8b04a, NEONS = [0x35e8ff, 0xff3df2, 0x6dff5a, 0xffa424];
-const TRIM_NAME = { stock: '', neon: '네온', gold: '골드' };
+const TRAFFIC_MIX = ['sedan', 'sedan', 'sedan', 'taxi', 'taxi', 'suv', 'suv', 'van', 'sports', 'muscle', 'scooter', 'sportbike'];
+const GOLD = 0xd8b04a, CHROME = 0xdfe4ea, NEONS = [0x35e8ff, 0xff3df2, 0x6dff5a, 0xffa424];
+const TRIM_NAME = { stock: '', neon: '네온', chrome: '크롬' };
+// the top trim used to be gold; saves and friends on older builds still say 'gold', and that reads as chrome now
+const normTrim = t => t === 'gold' || t === 'chrome' ? 'chrome' : t === 'neon' ? 'neon' : 'stock';
 // a trim changes stats and the name; the base type stays shared
 function trimType(key, trim, tune, parts) {
   const b = CAR_TYPES[key];
   let T = b;
-  if (trim === 'gold') T = Object.assign({}, b, { maxSpd: b.maxSpd * 1.08, acc: b.acc * 1.06, hp: Math.round(b.hp * 1.25), name: b.name + ' 골드' });
+  if (normTrim(trim) === 'chrome') T = Object.assign({}, b, { maxSpd: b.maxSpd * 1.08, acc: b.acc * 1.06, hp: Math.round(b.hp * 1.25), name: b.name + ' 크롬' });
   else if (trim === 'neon') T = Object.assign({}, b, { name: b.name + ' 네온' });
   return applyTune(T, tune, parts);
 }
@@ -3958,6 +4440,17 @@ const blobMat = shared(new THREE.MeshBasicMaterial({ color: 0x000000, map: glowT
 const brakeMat = shared(new THREE.MeshBasicMaterial({ map: glowTex, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.9 }));
 const tireMat = shared(new THREE.MeshLambertMaterial({ color: 0x18191b }));
 const hubMat = shared(LOW ? new THREE.MeshLambertMaterial({ color: 0xb9bcc0 }) : new THREE.MeshStandardMaterial({ color: 0xc9ccd0, metalness: 0.85, roughness: 0.3, envMap: ENVMAP.tex }));
+// the chrome trim: a mirror finish that shows the sky (phones: the shiniest Phong the sky can give)
+const chromeMat = shared(LOW
+  ? new THREE.MeshPhongMaterial({ vertexColors: true, shininess: 220, specular: 0xffffff, envMap: ENVMAP.tex, reflectivity: 0.7, combine: THREE.MixOperation })
+  : new THREE.MeshPhysicalMaterial({ vertexColors: true, metalness: 1.0, roughness: 0.07, clearcoat: 0.3, clearcoatRoughness: 0.05, envMap: ENVMAP.tex, envMapIntensity: 1.4 }));
+function applyChrome(root) {
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    if (o.material === carBodyMat) o.material = chromeMat;
+    else if (o.userData.paint) { for (const m of Array.isArray(o.material) ? o.material : [o.material]) { if (m.color) m.color.setHex(CHROME); if ('metalness' in m) { m.metalness = 1; m.roughness = 0.08; m.envMapIntensity = 1.4; } } }
+  });
+}
 const sirenGeo = new THREE.BoxGeometry(0.62, 0.16, 0.28); sirenGeo.userData.cached = true;
 onNight(n => { carGlowMat.opacity = n * 0.95; carGlowMat.visible = n > 0.03; });
 
@@ -3968,7 +4461,8 @@ function glowQuad(g, x, y, z, s, c, back) {
   else g.quad([x + s, y - s, z], [x - s, y - s, z], [x - s, y + s, z], [x + s, y + s, z], [0, 0, -1], c);
 }
 // carGeos (the body shapes) lives in 32_carshapes.js
-function buildCar(key, hex, detailed, neon) {
+function buildCar(key, hex, detailed, neon, rider) {
+  if (CAR_TYPES[key].bike) return buildBike(key, hex, detailed, neon, rider);                                  // a motorcycle (34_bikes.js)
   if (modelReady(key, detailed)) { const r = buildModelCar(key, hex, detailed, neon); if (r) return r; }   // a glTF model (33_models.js)
   const T = CAR_TYPES[key], G0 = carGeos(key, hex, detailed), grp = new THREE.Group();
   if (neon) { const u = new THREE.Mesh(cachedGeo('neon' + key, () => new THREE.PlaneGeometry(T.W + 2.2, T.L + 2.4).rotateX(-Math.PI / 2)), neonMat(neon)); u.position.y = 0.06; u.renderOrder = 2; grp.add(u); }
@@ -3992,7 +4486,7 @@ function buildCar(key, hex, detailed, neon) {
     b.position.y = 0.04; b.renderOrder = 1; grp.add(b);
   }
   let siren = null;
-  if (T.cop && !T.army) {
+  if ((T.cop && !T.army) || T.siren) {
     const red = new THREE.MeshBasicMaterial({ color: 0x401010 }), blue = new THREE.MeshBasicMaterial({ color: 0x101a40 });
     const r = new THREE.Mesh(sirenGeo, red); r.position.set(0.36, G0.sirenY, G0.sirenZ);
     const b = new THREE.Mesh(sirenGeo, blue); b.position.set(-0.36, G0.sirenY, G0.sirenZ);
@@ -4138,14 +4632,16 @@ const FLY_STALL = 14, FLY_TAKEOFF = 16, FLY_SKY = 700;                       // 
 const HOLD = { throttle: 0, brake: 0, steer: 0, hand: 1, nitro: 0 };       // stop and stay put (brake alone reverses once stopped)
 
 class Vehicle {
-  constructor(key, hex, detailed, trim, neon, tune, parts) {
-    this.key = key; this.trim = trim || 'stock'; this.neon = this.trim === 'neon' ? (neon || NEONS[0]) : null;
+  constructor(key, hex, detailed, trim, neon, tune, parts, rider) {
+    this.key = key; this.trim = normTrim(trim || 'stock'); this.neon = this.trim === 'neon' ? (neon || NEONS[0]) : null;
     this.tune = tune && typeof tune === 'object' ? tune : null; this.parts = parts && typeof parts === 'object' ? parts : null;
     this.T = trimType(key, this.trim, this.tune, this.parts);
-    this.color = this.trim === 'gold' ? GOLD : hex != null ? hex : pick(this.T.colors || PAINTS);
+    this.color = this.trim === 'chrome' ? CHROME : hex != null ? hex : pick(this.T.colors || PAINTS);
     this.detailed = !!detailed;
-    const m = buildCar(key, this.color, detailed, this.neon);
+    const m = buildCar(key, this.color, detailed, this.neon, rider);
+    if (this.trim === 'chrome') applyChrome(m.grp);
     this.mesh = m.grp; this.wheels = m.wheels; this.siren = m.siren; this.brakeGlow = m.brake; this.turret = m.turret || null; this.steerNode = m.steer || null;
+    this.rider = m.rider || null; this.fork = m.fork || null; this.wheelie = 0; this.thrownT = 0; this.riderless = false;   // motorcycles
     this.wings = m.wings || null; this.flying = false; this.wingK = 0; this.pitchA = 0; this.bank = 0;   // the flying car
     scene.add(this.mesh);
     this.x = 0; this.z = 0; this.y = 0; this.vy = 0; this.h = 0; this.vx = 0; this.vz = 0;
@@ -4189,7 +4685,8 @@ class Vehicle {
   }
   impact(spd, nx, nz, other) {
     if (spd < 2.5) return;
-    if (spd > 8) this.damage((spd - 8) * 1.4 / Math.sqrt(this.T.mass));
+    if (spd > 8 && !this.T.bumper) this.damage((spd - 8) * 1.4 / Math.sqrt(this.T.mass));   // a dodgem is built to crash
+    if (this.T.bike && spd > 11 && !this.riderless) throwRider(this, spd, nx, nz);          // a biker goes over the bars
     const now = performance.now();
     if (now - this.lastHitT > 140) {
       this.lastHitT = now;
@@ -4198,7 +4695,7 @@ class Vehicle {
     }
   }
   update(dt, inp) {
-    const T = this.T, I = this.dead ? NOINPUT : inp;
+    const T = this.T, I = this.dead ? NOINPUT : inp; this.lastInput = I;
     if (T.fly) {                                                            // the flying car: Space at speed lifts off, then it flies
       if (this.flying) { this.flyUpdate(dt, I); return; }
       if (I.hand && this.onGround && this.vf > FLY_TAKEOFF && !this.dead) { this.liftOff(); this.flyUpdate(dt, I); return; }
@@ -4350,15 +4847,17 @@ class Vehicle {
       tp = Math.atan2(gf - gb, hl * 2);
     } else tp = this.flying ? this.pitchA : clamp(this.pitch - dt * 0.22, -0.55, 0.55);
     this.pitch = damp(this.pitch, tp, this.onGround ? 14 : 3, dt);
-    this.roll = damp(this.roll, this.onGround ? clamp(-this.yawV * this.speed * 0.0045, -0.09, 0.09) : this.flying ? this.bank : this.roll, 6, dt);
+    if (this.T.bike) bikeSync(this, dt);                                     // lean, wheelie, rider (34_bikes.js)
+    else this.roll = damp(this.roll, this.onGround ? clamp(-this.yawV * this.speed * 0.0045, -0.09, 0.09) : this.flying ? this.bank : this.roll, 6, dt);
     if (this.wings) {                                                        // wings out in the air, folded on the road; jets glow in flight
       this.wingK = damp(this.wingK, this.flying ? 1 : 0, 4, dt);
       for (const [m, s] of this.wings) { m.scale.x = s * (0.03 + 0.97 * this.wingK); m.rotation.z = -s * (1 - this.wingK) * 1.1; }
       if (this.flying && dt > 0 && !this.dead && this.boost > 0 && Math.random() < dt * 30) { const fx = Math.sin(this.h), fz = Math.cos(this.h); for (const s of [-1, 1]) fire.emit(this.x - fx * this.T.L * 0.5 + fz * s * 0.42, this.y + 0.62, this.z - fz * this.T.L * 0.5 - fx * s * 0.42, -fx * 10 + rnd(-1, 1), rnd(-0.3, 0.3), -fz * 10 + rnd(-1, 1), rnd(0.25, 0.45), 0.9, -3, [0.5, 0.8, 1], 1, 2.2); }
     }
     this.visOff = damp(this.visOff, 0, 16, dt);
-    this.mesh.position.set(this.x, this.y + this.visOff, this.z);
-    this.mesh.rotation.set(-this.pitch, this.h, this.roll, 'YXZ');
+    const wl = this.wheelie || 0;                                            // a wheelie pivots on the rear wheel
+    this.mesh.position.set(this.x, this.y + this.visOff + (wl ? Math.sin(wl) * this.T.L * 0.33 : 0), this.z);
+    this.mesh.rotation.set(-this.pitch - wl, this.h, this.roll, 'YXZ');
     if (this.wheels.length) {
       this.spin += this.vf * dt / (this.T.wheelR || 0.37);
       for (const w of this.wheels) { w.spin.rotation.x = this.spin; if (w.front) w.pivot.rotation.y = -this.steer * 0.5; }
@@ -4418,7 +4917,8 @@ function resolveStatic(v) {
       v.x += nx * pen; v.z += nz * pen;
       const vn = v.vx * nx + v.vz * nz;
       if (vn < 0) {
-        v.vx -= 1.32 * vn * nx; v.vz -= 1.32 * vn * nz;
+        const e = v.T.bumper ? 1.95 : 1.32;                 // the dodgem springs off walls
+        v.vx -= e * vn * nx; v.vz -= e * vn * nz;
         v.vx *= 0.95; v.vz *= 0.95;
         v.yawV += s * (fx * nz - fz * nx) * vn * 0.09;
         v.impact(-vn, nx, nz, null);
@@ -4442,11 +4942,21 @@ function collideCars(a, b) {
     a.x -= nx * pen * ia / it; a.z -= nz * pen * ia / it; b.x += nx * pen * ib / it; b.z += nz * pen * ib / it;
     const rvn = (b.vx - a.vx) * nx + (b.vz - a.vz) * nz;
     if (rvn < 0) {
-      const imp = -1.3 * rvn / it;
+      const e = a.T.bumper || b.T.bumper ? 2.6 : 1.3, imp = -e * rvn / it;     // dodgems bounce, hard
       a.vx -= imp * ia * nx; a.vz -= imp * ia * nz; b.vx += imp * ib * nx; b.vz += imp * ib * nz;
       a.yawV += i * (afx * nz - afz * nx) * imp * ia * 0.06;
       b.yawV -= j * (bfx * nz - bfz * nx) * imp * ib * 0.06;
       worst = Math.max(worst, -rvn);
+      // the launcher: whatever it hits at speed rides up the ramp and sails away
+      if ((a.T.launcher || b.T.launcher) && -rvn > 3) {
+        const L = a.T.launcher ? a : b, O = a.T.launcher ? b : a, s = a.T.launcher ? 1 : -1;
+        if (!O.T.launcher && L.speed > 6) {
+          const fx = Math.sin(L.h), fz = Math.cos(L.h), k = clamp(-rvn / 18, 0.35, 1.6) * clamp(L.speed / 20, 0.4, 1.4);
+          O.vy = Math.max(O.vy || 0, 8 + 13 * k); O.onGround = false;
+          O.vx += (fx * 16 + nx * s * 6) * k; O.vz += (fz * 16 + nz * s * 6) * k; O.yawV = (O.yawV || 0) + rnd(-4, 4) * k;
+          if (O.ai && O.ai.mode === 'drive') { O.ai.mode = 'wreck'; O.ai.t = 0; }
+        }
+      }
     }
   }
   return worst;
@@ -4735,6 +5245,38 @@ function carGeos(key, hex, detailed) {
       SB(hw - 0.012, hw + 0.012, 0.26, 0.34, Z(0.14), Z(0.86), C.cyan);
       B(-hw + 0.06, 0.2, hl - 0.08, hw - 0.06, 0.25, hl + 0.1, C.carbon); B(-0.5, 0.3, -hl - 0.06, 0.5, 0.42, -hl, C.carbon);
       mirrors(0.7, 0.84); arches(hw + 0.006);
+    },
+    cruiser() {       // the squad car, yours: white, black doors, push bar and the light bar
+      DESIGNS.police(); lightbar();
+      B(-0.3, 0.95, D.roofZ - 0.1, 0.3, 0.955, D.roofZ + 0.1, C.black);
+    },
+    bumper() {        // dodgem: a low tub, a fat rubber ring all round, one seat, the pole up to the grid
+      body([[0, 0.3, 0.9], [0, 0.58, 0.92], [0.08, 0.7, 0.96], [0.35, 0.74, 1], [0.7, 0.74, 1], [0.95, 0.68, 0.96], [1, 0.56, 0.9], [1, 0.3, 0.88], [0.04, 0.26, 0.9]]);
+      const ring = col(0x1b1d22);
+      B(-hw - 0.12, 0.36, -hl - 0.16, hw + 0.12, 0.58, -hl + 0.08, ring); B(-hw - 0.12, 0.36, hl - 0.08, hw + 0.12, 0.58, hl + 0.16, ring); SB(hw - 0.02, hw + 0.14, 0.36, 0.58, -hl - 0.16, hl + 0.16, ring);
+      B(-0.5, 0.5, Z(0.28), 0.5, 0.742, Z(0.64), C.black);                       // open cockpit
+      B(-0.36, 0.5, Z(0.28), 0.36, 1.0, Z(0.4), col(0x2a2f3a)); B(-0.34, 0.5, Z(0.4), 0.34, 0.62, Z(0.58), col(0x2a2f3a));   // seat
+      B(-0.05, 0.74, Z(0.66), 0.05, 0.92, Z(0.68), C.dark); B(-0.2, 0.9, Z(0.64), 0.2, 0.95, Z(0.7), C.chrome);              // wheel
+      B(-0.04, 0.6, -hl + 0.22, 0.04, 2.3, -hl + 0.3, C.chrome); B(-0.12, 2.3, -hl + 0.18, 0.12, 2.4, -hl + 0.36, C.black);   // the pole and its shoe
+      heads(0.3, 0.62, 0.56, 0.72, hl); tails(0.3, 0.6, 0.58, 0.68, -hl);
+      B(-0.26, 0.745, Z(0.76), 0.26, 0.755, Z(0.96), C.white); B(-0.1, 0.756, Z(0.82), 0.1, 0.76, Z(0.9), C.black);           // number roundel
+      D.roofY = 1.0; D.roofZ = Z(0.45);
+      arches(hw + 0.006, wr * 1.3);
+    },
+    ramcar() {        // the launcher: a doorstop on wheels, the whole nose one ramp plate; the cab sits at the back
+      body([[0, 0.3, 0.95], [0, 0.98, 0.97], [0.06, 1.02, 0.98], [0.3, 1.0, 1], [0.98, 0.3, 0.92], [1, 0.26, 0.9], [0.04, 0.24, 0.94]]);
+      cabin([[0.08, 1.0, 0.72], [0.14, H, 0.64], [0.3, H - 0.02, 0.64], [0.36, 0.96, 0.74]], { roof: C.dark });
+      for (let k = 0; k < 7; k++) { const u = 0.4 + k * 0.08, y = 1.0 - (u - 0.3) / 0.68 * 0.7; B(-hw + 0.08, y + 0.005, Z(u), hw - 0.08, y + 0.03, Z(u + 0.012), C.dark); }   // grip bars down the ramp
+      SB(hw - 0.012, hw + 0.012, 0.3, 0.5, Z(0.1), Z(0.9), C.amber);
+      B(-hw + 0.1, 0.24, hl - 0.08, hw - 0.1, 0.3, hl + 0.16, C.carbon);
+      heads(0.5, 0.86, 0.34, 0.4, hl + 0.01, C.amber); tails(0.3, 0.8, 0.82, 0.94, -hl);
+      for (const x of [-0.5, 0.5]) B(x - 0.08, 0.3, -hl - 0.1, x + 0.08, 0.44, -hl + 0.02, C.chrome);
+      mirrors(0.3, 1.02); arches(hw + 0.006);
+    },
+    ghostcar() {      // the Phantom: the electric body in graphite with violet light bars (it fades out on command)
+      DESIGNS.volt();
+      const violet = col(0x9b5cff);
+      SB(hw - 0.012, hw + 0.014, 0.36, 0.42, Z(0.1), Z(0.9), violet); B(-hw * 0.5, 0.86, Z(0.12), hw * 0.5, 0.875, Z(0.16), violet);
     },
     jet() {           // long, low; a bubble canopy, tail fins and a jet nozzle at the back
       body([[0, 0.3, 0.72], [0, 0.62, 0.72], [0.05, 0.72, 0.78], [0.3, 0.78, 0.9], [0.55, 0.8, 0.95], [0.75, 0.72, 0.9], [1, 0.4, 0.62], [1, 0.28, 0.62], [0.96, 0.22, 0.7], [0.04, 0.22, 0.7]]);
@@ -5093,6 +5635,192 @@ async function initModels() {
 }
 // the garage shows what the selected car type is using
 function modelNote() { if (typeof renderModelRow === 'function' && G.state === 'shop') renderModelRow(); }
+/* ================= motorcycles: two wheels, a rider, a lean into every corner ================= */
+// A bike is a Vehicle (CAR_TYPES entry with `bike: true`) whose body is built here instead of carGeos: tubes for the
+// frame and forks, a tank, a seat, a fairing or a leg shield, real spoked wheels in a fork group that turns with the
+// bars, and the player's own character sitting on it (traffic bikes get a random outfit). 31_vehicle.js leans it
+// into corners, lifts the front under hard throttle, drops it on its side when it is left without a rider at speed,
+// and throws the rider off in a hard crash (throwRider below).
+const BIKE_SEAT = { scooter: 0.8, chopper: 0.66, sportbike: 0.8 };
+function randomOutfit() { const o = {}; for (const k of OUTFIT_KEYS) o[k] = Math.floor(Math.random() * OUTFIT[k].length); if (Math.random() < 0.5) o.hat = OUTFIT.hat.indexOf('헬멧'); return o; }
+const tube = (g, a, b, r, c, n = 8) => g.tube(a, b, r, c, n);
+const panel = (g, pts, hint, c) => g.face(pts, hint, c);
+// a rounded block: a stack of boxes whose width shrinks toward the top and bottom (tanks, tails, scooter bodies)
+function blob(g, x, y0, y1, z0, z1, hw, c, round = 0.5) {
+  const N = 4;
+  for (let k = 0; k < N; k++) {
+    const t0 = k / N, t1 = (k + 1) / N, m = (t0 + t1) / 2, w = hw * (1 - round * (2 * m - 1) ** 2), zi = (hw - w) * 0.5;
+    g.box(x - w, y0 + (y1 - y0) * t0, z0 + zi, x + w, y0 + (y1 - y0) * t1, z1 - zi, c);
+  }
+}
+/* ---- the three bodies; everything that turns with the bars goes into `fork` (local origin = steering head) ---- */
+function bikeGeos(key, hex) {
+  const ck = 'bike|' + key + '|' + hex;
+  if (geoCache.has(ck)) return geoCache.get(ck);
+  const out = (() => {
+    const g = new Geo(), f = new Geo(), gl = new Geo();
+    const C = { paint: col(hex), dark: col(0x1d1f23), black: col(0x0f1012), chrome: col(0xcfd3d8), steel: col(0x6d7177), seat: col(0x26221f), brown: col(0x5a3a26), glass: col(0x1a2733), head: col(0xfff6dc), tail: col(0xc0141c), rubber: col(0x202224), amber: col(0xffa424) };
+    const D = { head: [0, 0.95, 0.42], ax: [-0.68, 0.72], wr: 0.32, heads: [], tails: [], seat: [0, 0.8, -0.3], bars: [0.33, 0.08, -0.02], lamp: 'fixed' };
+    if (key === 'sportbike') {
+      D.ax = [-0.68, 0.72]; D.wr = 0.32; D.head = [0, 0.96, 0.4]; D.seat = [0, 0.8, -0.26]; D.bars = [0.3, 0.02, 0.05];
+      // engine, frame, swingarm
+      g.box(-0.19, 0.3, -0.26, 0.19, 0.64, 0.3, C.dark); g.box(-0.22, 0.46, -0.1, 0.22, 0.56, 0.22, C.steel);
+      for (const s of [-1, 1]) { tube(g, [s * 0.1, 0.92, 0.36], [s * 0.15, 0.62, -0.28], 0.035, C.paint, 6); tube(g, [s * 0.1, 0.9, 0.36], [s * 0.1, 0.62, 0.3], 0.03, C.paint, 6); tube(g, [s * 0.1, 0.45, -0.3], [s * 0.1, 0.32, -0.68], 0.03, C.steel, 6); }
+      // tank, seat, tail
+      blob(g, 0, 0.72, 1.0, -0.12, 0.42, 0.2, C.paint, 0.55);
+      g.box(-0.16, 0.76, -0.62, 0.16, 0.84, -0.1, C.seat);
+      blob(g, 0, 0.66, 0.9, -0.92, -0.58, 0.15, C.paint, 0.5);
+      panel(g, [[-0.14, 0.9, -0.58], [0.14, 0.9, -0.58], [0.13, 0.96, -0.96], [-0.13, 0.96, -0.96]], [0, 1, 0], C.paint);
+      g.box(-0.1, 0.78, -0.98, 0.1, 0.86, -0.92, C.tail); D.tails.push([0, 0.82, -0.97]);
+      // the fairing: nose cowl with a screen, flank panels sweeping back
+      for (const s of [-1, 1]) {
+        panel(g, [[s * 0.2, 0.58, 0.46], [s * 0.26, 0.74, 0.74], [s * 0.2, 1.02, 0.6], [s * 0.1, 0.9, 0.3]], [s, 0, 0], C.paint);
+        panel(g, [[s * 0.2, 0.58, 0.46], [s * 0.1, 0.9, 0.3], [s * 0.18, 0.62, -0.1], [s * 0.2, 0.36, 0.12]], [s, 0, 0], C.paint);
+      }
+      panel(g, [[-0.26, 0.74, 0.74], [0.26, 0.74, 0.74], [0.2, 1.02, 0.6], [-0.2, 1.02, 0.6]], [0, 0.3, 1], C.paint);       // nose
+      panel(g, [[-0.22, 0.6, 0.74], [0.22, 0.6, 0.74], [0.26, 0.74, 0.74], [-0.26, 0.74, 0.74]], [0, 0, 1], C.black);      // intake slit
+      panel(g, [[-0.18, 1.02, 0.6], [0.18, 1.02, 0.6], [0.14, 1.24, 0.3], [-0.14, 1.24, 0.3]], [0, 0.5, 1], C.glass);     // screen
+      g.box(-0.1, 0.8, 0.72, 0.1, 0.9, 0.76, C.head); D.heads.push([0, 0.85, 0.75]);
+      // exhaust
+      tube(g, [0.16, 0.32, 0.1], [0.24, 0.5, -0.86], 0.045, C.chrome, 8); tube(g, [0.24, 0.5, -0.86], [0.24, 0.56, -1.0], 0.06, C.chrome, 8);
+      for (const s of [-1, 1]) g.box(s * 0.28 - 0.06, 0.28, -0.2, s * 0.28 + 0.06, 0.32, -0.08, C.steel);               // pegs
+      // fork (turns): tubes, clip-on bars, mirrors
+      for (const s of [-1, 1]) { tube(f, [s * 0.075, 0.02, 0.0], [s * 0.075, -0.62, 0.32], 0.028, C.chrome, 6); tube(f, [s * 0.075, 0.02, 0.0], [s * 0.075, -0.3, 0.16], 0.04, C.dark, 6); }
+      f.box(-0.12, -0.03, -0.06, 0.12, 0.06, 0.08, C.dark);
+      for (const s of [-1, 1]) { tube(f, [s * 0.1, 0.03, 0.03], [s * 0.32, 0.0, -0.06], 0.018, C.steel, 6); f.box(s * 0.32 - 0.02, -0.03, -0.1, s * 0.32 + 0.02, 0.03, -0.02, C.rubber); tube(f, [s * 0.14, 0.06, 0.12], [s * 0.3, 0.26, 0.1], 0.012, C.dark, 4); f.box(s * 0.3 - 0.06, 0.24, 0.08, s * 0.3 + 0.06, 0.3, 0.1, C.black); }
+      f.box(-0.04, -0.62, 0.3, 0.04, -0.52, 0.52, C.black); f.box(-0.06, -0.6, 0.6, 0.06, -0.56, 0.68, C.black);           // mudguard
+    } else if (key === 'chopper') {
+      D.ax = [-0.82, 0.98]; D.wr = 0.34; D.head = [0, 0.9, 0.32]; D.seat = [0, 0.66, -0.42]; D.bars = [0.3, 0.46, -0.1]; D.lamp = 'fork';
+      // V-twin, frame, rear fender
+      g.box(-0.17, 0.28, -0.2, 0.17, 0.5, 0.22, C.dark);
+      for (const [z, lean] of [[0.12, 0.35], [-0.1, -0.35]]) { tube(g, [0, 0.46, z], [0, 0.82, z + lean], 0.1, C.chrome, 8); tube(g, [0, 0.46, z], [0, 0.78, z + lean * 0.9], 0.115, C.black, 8); }
+      for (const s of [-1, 1]) { tube(g, [s * 0.08, 0.86, 0.28], [s * 0.12, 0.6, -0.5], 0.03, C.paint, 6); tube(g, [s * 0.08, 0.84, 0.28], [s * 0.11, 0.3, 0.1], 0.03, C.paint, 6); tube(g, [s * 0.12, 0.6, -0.5], [s * 0.1, 0.34, -0.82], 0.03, C.paint, 6); }
+      blob(g, 0, 0.74, 0.96, -0.2, 0.3, 0.18, C.paint, 0.6);                                                               // teardrop tank
+      panel(g, [[-0.12, 0.96, -0.2], [0.12, 0.96, -0.2], [0.14, 0.9, 0.3], [-0.14, 0.9, 0.3]], [0, 1, 0], C.paint);
+      g.box(-0.2, 0.64, -0.62, 0.2, 0.72, -0.2, C.brown); g.box(-0.14, 0.68, -0.72, 0.14, 0.82, -0.6, C.brown);           // saddle + sissy pad
+      for (let k = 0; k < 6; k++) { const a0 = Math.PI * (0.1 + k * 0.133), a1 = Math.PI * (0.1 + (k + 1) * 0.133), r = 0.42; panel(g, [[-0.12, 0.34 + Math.sin(a0) * r, -0.82 + Math.cos(a0) * r], [0.12, 0.34 + Math.sin(a0) * r, -0.82 + Math.cos(a0) * r], [0.12, 0.34 + Math.sin(a1) * r, -0.82 + Math.cos(a1) * r], [-0.12, 0.34 + Math.sin(a1) * r, -0.82 + Math.cos(a1) * r]], [0, 1, 0], C.paint); }   // rear fender
+      g.box(-0.08, 0.6, -1.26, 0.08, 0.68, -1.2, C.tail); D.tails.push([0, 0.64, -1.24]);
+      for (const s of [-1, 1]) { tube(g, [s * 0.14, 0.4, 0.1], [s * 0.2, 0.34, -1.0], 0.04, C.chrome, 8); tube(g, [s * 0.2, 0.34, -1.0], [s * 0.2, 0.36, -1.2], 0.05, C.chrome, 8); g.box(s * 0.34 - 0.08, 0.26, 0.18, s * 0.34 + 0.08, 0.3, 0.34, C.chrome); }   // twin pipes, forward boards
+      // raked fork, ape-hanger bars, lamp on the fork
+      for (const s of [-1, 1]) { tube(f, [s * 0.08, 0.0, 0.0], [s * 0.08, -0.56, 0.66], 0.03, C.chrome, 6); tube(f, [s * 0.08, 0.0, 0.0], [s * 0.08, -0.22, 0.26], 0.045, C.chrome, 6); }
+      f.box(-0.13, -0.04, -0.06, 0.13, 0.05, 0.08, C.chrome);
+      tube(f, [-0.1, 0.04, 0], [-0.3, 0.46, -0.1], 0.016, C.chrome, 6); tube(f, [0.1, 0.04, 0], [0.3, 0.46, -0.1], 0.016, C.chrome, 6);
+      for (const s of [-1, 1]) f.box(s * 0.3 - 0.02, 0.42, -0.2, s * 0.3 + 0.02, 0.5, -0.08, C.rubber);
+      tube(f, [0, -0.06, 0.1], [0, -0.06, 0.28], 0.11, C.chrome, 10); f.box(-0.09, -0.15, 0.28, 0.09, 0.03, 0.3, C.head); D.heads.push([0, -0.06, 0.3, 'fork']);
+      f.box(-0.03, -0.56, 0.62, 0.03, -0.46, 0.86, C.chrome);
+    } else {   // scooter
+      D.ax = [-0.6, 0.62]; D.wr = 0.24; D.head = [0, 0.94, 0.4]; D.seat = [0, 0.82, -0.3]; D.bars = [0.3, 0.06, -0.06]; D.lamp = 'fork';
+      g.box(-0.2, 0.24, -0.18, 0.2, 0.32, 0.46, C.black);                                                                 // floorboard
+      g.box(-0.18, 0.2, -0.3, 0.18, 0.4, -0.1, C.dark);                                                                   // engine case
+      blob(g, 0, 0.4, 0.78, -0.86, -0.12, 0.22, C.paint, 0.5);                                                            // rear body
+      blob(g, 0, 0.3, 0.42, -0.3, 0.5, 0.21, C.paint, 0.3);                                                               // sills
+      g.box(-0.18, 0.78, -0.7, 0.18, 0.9, -0.08, C.seat); g.box(-0.1, 0.9, -0.72, 0.1, 0.94, -0.6, C.seat);
+      for (const s of [-1, 1]) panel(g, [[s * 0.21, 0.32, 0.5], [s * 0.2, 0.8, 0.44], [s * 0.06, 0.88, 0.4], [s * 0.1, 0.32, 0.6]], [s, 0, 0.5], C.paint);   // leg shield flanks
+      panel(g, [[-0.21, 0.32, 0.5], [0.21, 0.32, 0.5], [0.2, 0.8, 0.44], [-0.2, 0.8, 0.44]], [0, 0, -1], C.paint);        // shield inside
+      panel(g, [[-0.1, 0.32, 0.6], [0.1, 0.32, 0.6], [0.06, 0.88, 0.4], [-0.06, 0.88, 0.4]], [0, 0, 1], C.paint);         // shield nose
+      g.box(-0.06, 0.52, -0.96, 0.06, 0.6, -0.9, C.tail); D.tails.push([0, 0.56, -0.95]);
+      tube(g, [0.12, 0.34, -0.3], [0.2, 0.3, -0.82], 0.045, C.chrome, 8);
+      g.box(-0.16, 0.6, -0.76, 0.16, 0.66, -0.56, C.chrome);                                                               // grab rail
+      // fork: a single leg, the bar cover with the lamp, mirrors on stalks
+      tube(f, [0, 0.02, 0.0], [0, -0.7, 0.22], 0.04, C.chrome, 6); f.box(-0.05, -0.74, 0.1, 0.05, -0.66, 0.38, C.paint);   // mudguard
+      blob(f, 0, -0.08, 0.1, -0.16, 0.14, 0.17, C.paint, 0.4); f.box(-0.1, -0.08, 0.14, 0.1, 0.06, 0.16, C.head); D.heads.push([0, -0.01, 0.16, 'fork']);
+      for (const s of [-1, 1]) { tube(f, [s * 0.1, 0.06, -0.04], [s * 0.3, 0.06, -0.08], 0.018, C.chrome, 6); f.box(s * 0.3 - 0.02, 0.03, -0.14, s * 0.3 + 0.02, 0.09, -0.04, C.rubber); tube(f, [s * 0.2, 0.08, -0.04], [s * 0.26, 0.3, 0.0], 0.012, C.chrome, 4); f.box(s * 0.26 - 0.05, 0.28, -0.01, s * 0.26 + 0.05, 0.36, 0.01, C.black); }
+    }
+    // night glow: head and tail lamps (the fork lamps glow in the fork group)
+    const warm = col(0xfff0c8), red = col(0xff2a1a), fg = new Geo();
+    for (const [x, y, z, on] of D.heads) glowQuad(on === 'fork' ? fg : gl, x, y, z + 0.08, 0.55, warm, false);
+    for (const [x, y, z] of D.tails) glowQuad(gl, x, y, z - 0.08, 0.4, red, true);
+    const bg = new Geo(); for (const [x, y, z] of D.tails) glowQuad(bg, x, y, z - 0.1, 0.7, red, true);
+    const o = { body: g.geometry(), fork: f.geometry(), glow: gl.geometry(), forkGlow: fg.geometry(), brake: bg.geometry(), D };
+    for (const k of ['body', 'fork', 'glow', 'forkGlow', 'brake']) o[k].userData.cached = true;
+    return o;
+  })();
+  geoCache.set(ck, out);
+  return out;
+}
+// a wheel with a tyre, a rim and spokes; spins about x
+function bikeWheel(wr, sport) {
+  const spin = new THREE.Group();
+  const tyre = new THREE.Mesh(cachedGeo('btyre' + wr, () => new THREE.CylinderGeometry(wr, wr, 0.12, 20).rotateZ(Math.PI / 2)), tireMat); tyre.castShadow = true;
+  const rim = new THREE.Mesh(cachedGeo('brim' + wr, () => new THREE.CylinderGeometry(wr * 0.66, wr * 0.66, 0.07, 16).rotateZ(Math.PI / 2)), hubMat);
+  const hub = new THREE.Mesh(cachedGeo('bhub' + wr, () => new THREE.CylinderGeometry(wr * 0.14, wr * 0.14, 0.2, 8).rotateZ(Math.PI / 2)), hubMat);
+  const disc = new THREE.Mesh(cachedGeo('bdisc' + wr, () => new THREE.CylinderGeometry(wr * 0.5, wr * 0.5, 0.012, 16).rotateZ(Math.PI / 2)), hubMat); disc.position.x = 0.07;
+  spin.add(tyre, rim, hub, disc);
+  const n = sport ? 5 : 8, sg = cachedGeo('bspk' + wr + n, () => new THREE.BoxGeometry(sport ? 0.03 : 0.012, wr * 0.62, sport ? 0.05 : 0.012));
+  for (let k = 0; k < n; k++) { const m = new THREE.Mesh(sg, hubMat); m.rotation.x = k / n * Math.PI * 2; m.position.set(0, Math.cos(k / n * Math.PI * 2) * wr * 0.33, -Math.sin(k / n * Math.PI * 2) * wr * 0.33); spin.add(m); }
+  return spin;
+}
+// the rider: the character, seated, hands to the bars (pose per bike in poseRider)
+function buildRider(outfit, key) {
+  const c = buildCharacter(outfit); c.grp.traverse(o => { if (o.isMesh) o.castShadow = !LOW; });
+  for (const o of c.grp.children) if (o.isMesh && o.position.y > 1.0) o.userData.head = true;    // torso, head, eyes, hair, hat: hidden in first person (the arms stay on the bars)
+  c.key = key; return c;
+}
+function poseRider(r, key, stopped, lean, k) {
+  const P = r.parts, sport = key === 'sportbike', chop = key === 'chopper';
+  const legA = sport ? -0.75 : chop ? -0.82 : -0.9, armA = sport ? -1.12 : chop ? -1.75 : -1.05, armZ = sport ? 0.12 : 0.05;
+  const down = stopped ? 1 : 0;
+  P.legL.rotation.x = damp(P.legL.rotation.x, down ? -0.05 : legA, 6, k); P.legR.rotation.x = damp(P.legR.rotation.x, legA, 6, k);
+  P.legL.rotation.z = damp(P.legL.rotation.z, down ? 0.28 : sport ? 0.22 : 0.04, 6, k); P.legR.rotation.z = sport ? -0.22 : -0.04;
+  P.armL.rotation.x = armA; P.armR.rotation.x = armA; P.armL.rotation.z = armZ; P.armR.rotation.z = -armZ;
+  // the torso tips forward (sport) or back (chopper); the group turns about its feet, so the hips are slid back to stay on the seat
+  const tilt = r.grp.rotation.x = damp(r.grp.rotation.x, sport ? 0.26 + lean * 0.1 : chop ? -0.07 : 0.02, 4, k);
+  r.grp.position.z = r.z0 - Math.sin(tilt) * 0.85; r.grp.position.y = r.y0 + (1 - Math.cos(tilt)) * 0.85;
+}
+function buildBike(key, hex, detailed, neon, rider) {
+  const T = CAR_TYPES[key], B = bikeGeos(key, hex), D = B.D, grp = new THREE.Group();
+  if (neon) { const u = new THREE.Mesh(cachedGeo('neon' + key, () => new THREE.PlaneGeometry(T.W + 1.8, T.L + 2.0).rotateX(-Math.PI / 2)), neonMat(neon)); u.position.y = 0.06; u.renderOrder = 2; grp.add(u); }
+  const body = new THREE.Mesh(B.body, carBodyMat); body.castShadow = true; grp.add(body, new THREE.Mesh(B.glow, carGlowMat));
+  const fork = new THREE.Group(); fork.position.set(D.head[0], D.head[1], D.head[2]); grp.add(fork);
+  const fm = new THREE.Mesh(B.fork, carBodyMat); fm.castShadow = true; fork.add(fm, new THREE.Mesh(B.forkGlow, carGlowMat));
+  const wheels = [];
+  const rear = bikeWheel(D.wr, key === 'sportbike'); rear.position.set(0, D.wr, D.ax[0]); grp.add(rear); wheels.push({ pivot: grp, spin: rear, front: false, bike: true });
+  const front = bikeWheel(D.wr, key === 'sportbike'); front.position.set(0, D.wr - D.head[1], D.ax[1] - D.head[2]); fork.add(front); wheels.push({ pivot: fork, spin: front, front: true });
+  if (LOW) { const b = new THREE.Mesh(cachedGeo('blob' + key, () => new THREE.PlaneGeometry(T.W + 1.0, T.L + 1.0).rotateX(-Math.PI / 2)), blobMat); b.position.y = 0.04; b.renderOrder = 1; grp.add(b); }
+  const brake = new THREE.Mesh(B.brake, brakeMat); brake.visible = false; grp.add(brake);
+  const r = buildRider(rider || (detailed ? G.outfit : randomOutfit()), key);
+  r.y0 = D.seat[1] - 0.86; r.z0 = D.seat[2] + 0.1; r.grp.position.set(0, r.y0, r.z0); grp.add(r.grp); poseRider(r, key, false, 0, 1e9);
+  return { grp, wheels, siren: null, brake, turret: null, wings: null, fork, rider: r, seat: D.seat, bars: D.bars };
+}
+/* ---- a hard crash throws the rider; a bike with nobody on it falls over ---- */
+function throwRider(v, spd, nx, nz) {
+  if (v.dead || v.ghost || v.thrownT > 0) return;
+  v.thrownT = 1.5;
+  // the rider keeps going the way the bike was going before it hit (n points from the obstacle back at the bike)
+  const fx = Math.sin(v.h), fz = Math.cos(v.h), kx = -nx * spd * 0.6 + v.vx * 0.3, kz = -nz * spd * 0.6 + v.vz * 0.3;
+  if (v === P.v) {
+    if (G.state !== 'play') return;
+    if (v.cloakT > 0) uncloak(v); v.sirenOn = false;
+    const w = new Walker(G.outfit); w.place(v.x + fx * 0.6, v.z + fz * 0.6, v.h, v.y + 1); w.y = v.y + 0.9;
+    w.vx = kx; w.vz = kz; w.vy = 3.5 + Math.min(spd, 30) * 0.18; w.onGround = false; w.air = 0;
+    v.rider.grp.visible = false; v.riderless = true; v.fallen = true; v.fallSide = 0; v.vx = kx * 0.5; v.vz = kz * 0.5;
+    const a = { v, mode: 'parked', t: 0, mine: true }; v.ai = a; traffic.push(a);
+    P.v = w; CAM.init = false; showCarName(); setArmed(false);
+    w.damage(Math.min(70, Math.max(0, spd - 9) * 1.6));                      // the fall hurts, never outright kills
+    AudioSys.fx('thud'); G.shake = Math.max(G.shake, 1);
+    subtitle(w.dead ? '오토바이에서 튕겨 나갔습니다.' : '오토바이에서 튕겨 나갔습니다! 다시 타려면 옆에서 <b>' + (IS_TOUCH ? '승하차' : 'F') + '</b>.', 3);
+  } else if (v.ai && v.rider && v.rider.grp.visible) {
+    v.rider.grp.visible = false; v.riderless = true; v.fallen = true; v.fallSide = 0;
+    if (peds.length < PED_MAX + 6) addPed({ mode: 'down', x: v.x + fx * 0.5, z: v.z + fz * 0.5, y: v.y + 0.8, timer: 3.4, vx: kx, vz: kz, vy: 3 + Math.min(spd, 30) * 0.12, spin: rnd(-8, 8) });
+    if (v.ai.mode === 'drive') { v.ai.mode = 'wreck'; v.ai.t = 0; }
+  }
+}
+// per frame, for the bike you ride: wheelie, lean, rider pose (called from Vehicle.sync)
+function bikeSync(v, dt) {
+  const T = v.T, I = v.lastInput || NOINPUT, stopped = v.speed < 0.8 && v.onGround;
+  if (v.thrownT > 0) v.thrownT -= dt;
+  // the front comes up under hard throttle from a standstill (sport bikes, and the chopper a little)
+  const wantW = T.wheelie && v.onGround && !v.dead && I.throttle > 0 && v.vf > 3 && v.vf < T.maxSpd * 0.5 ? T.wheelie * (0.3 + (v.nitroOn ? 0.16 : 0)) * clamp(1.2 - v.vf / (T.maxSpd * 0.5), 0.3, 1) : 0;
+  v.wheelie = damp(v.wheelie || 0, wantW, wantW > (v.wheelie || 0) ? 5 : 7, dt);
+  // the lean: into the corner, as fast as the turn demands; parked bikes rest on the stand; a riderless one lies down
+  let lean;
+  const idle = v.ai && v.ai.mode !== 'drive';
+  if (v.fallen && v.speed < 2) lean = (v.fallSide || (v.fallSide = v.roll >= 0 ? 1 : -1)) * 1.42;
+  else if (idle && v.speed < 0.5) lean = 0.2;
+  else lean = clamp(Math.atan2(v.yawV * v.speed, 9.8) * 0.85, -0.85, 0.85) * (T.lean || 1) + (v.onGround ? 0 : v.steer * 0.25);
+  v.roll = damp(v.roll, lean, v.fallen ? 4 : 8, dt);
+  if (v.rider && v.rider.grp.visible) poseRider(v.rider, v.key, stopped && !idle, Math.abs(v.roll), dt);
+}
 /* ================= AI: lane-following traffic, police pursuit ================= */
 const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]];
 const RIGHT = [[0, 1], [-1, 0], [0, -1], [1, 0]];      // right-hand side of each direction
@@ -5170,6 +5898,7 @@ function spawnTraffic(pv, minD, maxD, forceKey, anyView) {
 function makeWreck(v) { if (v.walker) { v.dispose(); return; } const a = { v, mode: 'wreck', t: 0 }; v.ai = a; traffic.push(a); }
 
 function updateTraffic(dt, pv) {
+  const sirenOn = !!(pv.sirenOn && !pv.dead), sfx = Math.sin(pv.h), sfz = Math.cos(pv.h);
   for (let k = traffic.length - 1; k >= 0; k--) {
     const a = traffic[k], v = a.v, dp = Math.hypot(v.x - pv.x, v.z - pv.z);
     if ((dp > DESPAWN && !a.mine) || v.sunk) { v.dispose(); traffic.splice(k, 1); continue; }     // the car you stepped out of waits wherever you left it, however far you walk (or go inside)
@@ -5177,6 +5906,7 @@ function updateTraffic(dt, pv) {
     if (a.mode !== 'drive') {
       a.t += dt;
       if (v.speed > 0.05 || !v.onGround) { v.update(dt, NOINPUT); v.sync(dt); }
+      else if (v.T.bike) v.sync(dt);                                                    // a stopped bike still settles onto its stand (or its side)
       if (v.dead && Math.random() < dt * 6) burst(v.x + rnd(-1, 1), v.y + 1.2, v.z + rnd(-1, 1), 'smoke', 1, 0.5);
       if (a.t > 25 && dp > 120 && !a.mine) { v.dispose(); traffic.splice(k, 1); }
       continue;
@@ -5197,6 +5927,12 @@ function updateTraffic(dt, pv) {
     }
     let want = a.leg.turn ? Math.min(a.base, 7.5) : a.base;
     if (a.panic > 0) { a.panic -= dt; want = a.leg.turn ? 11 : 24; }
+    // a siren behind or beside them: pull to the right-hand lane and stop until it has passed
+    if (sirenOn && dp < 75) { const rx = v.x - pv.x, rz = v.z - pv.z, fd = rx * sfx + rz * sfz; if (fd > -8 && Math.abs(rx * sfz - rz * sfx) < 16) a.yield = 1.2; }
+    if (a.yield > 0) {
+      a.yield -= dt; want = 0;
+      if (a.phase === 0 && a.lo !== 6 && a.s < a.leg.len - 12) { a.shift += a.lo - 6; a.lo = 6; a.leg = straightLeg(a.i, a.j, a.d, a.lo); }
+    }
     if (near < 24) want = Math.min(want, Math.max(0, (near - 6.5) * 1.1));
     a.braking = want < a.spd - 0.5;
     a.spd = a.spd < want ? Math.min(want, a.spd + 5 * dt) : Math.max(want, a.spd - 14 * dt);
@@ -5325,7 +6061,7 @@ function copDrive(c, dt, pv) {
   const v = c.v, known = G.seenT < 2.5;
   const dist = Math.hypot(pv.x - v.x, pv.z - v.z);
   c.losT -= dt;
-  if (c.losT <= 0) { c.los = dist < 130 && segClear(v.x, v.z, pv.x, pv.z, 1.3); c.losT = 0.2; }
+  if (c.losT <= 0) { c.los = dist < 130 && !pv.cloaked && segClear(v.x, v.z, pv.x, pv.z, 1.3); c.losT = 0.2; }
   let tx, tz, direct = false;
   const deckT = v.y - groundAt(v.x, v.z) > 4 && (dist > 22 || Math.abs(v.y - pv.y) > 3) ? skyChaseTarget(v, pv) : null;
   if (deckT) { tx = deckT[0]; tz = deckT[1]; direct = dist < 60; }
@@ -6130,6 +6866,7 @@ const G = {
 if (!G.flags || typeof G.flags !== 'object') G.flags = {};
 if (!Array.isArray(G.garage) || !G.garage.length) G.garage = [{ key: 'muscle', color: 0xb3202a }];
 G.garage = G.garage.filter(c => c && CAR_TYPES[c.key] && !CAR_TYPES[c.key].cop);
+for (const c of G.garage) if (c.trim) c.trim = normTrim(c.trim);      // older saves say 'gold' for the top trim
 if (!G.garage.length) G.garage = [{ key: 'muscle', color: 0xb3202a }];
 const P = { v: null };
 const SPAWN = { x: 560, z: 798, h: -Math.PI / 2 };            // 해안로, heading west into the sunset
@@ -6174,7 +6911,7 @@ addEventListener('keydown', e => {
     case 'Enter': if (NET.on && G.state === 'play') openChatBar(); else tryCarjack(); break;
     case 'KeyC': cycleCam(); break;
     case 'KeyM': toggleMap(); break;
-    case 'KeyH': AudioSys.horn(1, 0); break;
+    case 'KeyH': if (!carSpecial()) AudioSys.horn(1, 0); break;
     case 'KeyN': toggleRadio(); break;
     case 'KeyP': case 'Escape': togglePause(); break;
     case 'KeyQ': cycleWeapon(); break;
@@ -6226,7 +6963,7 @@ function bindTouch() {
     const down = e => {
       e.preventDefault(); AudioSys.init();
       try { b.setPointerCapture(e.pointerId); } catch (err) { /* older browsers */ }
-      if (k === 'steal') tryCarjack(); else if (k === 'cam') cycleCam(); else if (k === 'arm') toggleArmed(); else if (k === 'swap') cycleWeapon(); else if (k === 'chat') openOnline(); else if (k === 'race') netRaceKey(); else touchK[k] = true;
+      if (k === 'steal') tryCarjack(); else if (k === 'cam') cycleCam(); else if (k === 'arm') toggleArmed(); else if (k === 'swap') cycleWeapon(); else if (k === 'chat') openOnline(); else if (k === 'race') netRaceKey(); else if (k === 'special') carSpecial(); else touchK[k] = true;
       b.classList.add('on');
     };
     const up = () => { touchK[k] = false; b.classList.remove('on'); };
@@ -6268,10 +7005,10 @@ function updateCamera(dt) {
       const e = cockpitEye(v), c = Math.cos(v.pitch), sn = Math.sin(v.pitch), sw = v.walker ? [0, 0] : cockpitSway(v, dt);
       cx = v.x + vf * (e[2] * c) + rx * (e[0] + sw[0]); cz = v.z + vz * (e[2] * c) + rz * (e[0] + sw[0]); cy = v.y + v.visOff + e[1] * c - e[2] * sn * 0.5 + sw[1];
     }
-    CAM.look.set(cx + fx * 12, cy + Math.sin(v.pitch) * 12 - CAM.pitch * 8, cz + fz * 12);
+    CAM.look.set(cx + fx * 12, cy + Math.sin(v.pitch) * 12 - CAM.pitch * 8 - (v.T.bike ? 1.2 : 0), cz + fz * 12);   // a rider looks a little down the road
     CAM.pos.set(cx, cy, cz);
   } else {
-    const big = clamp((v.T.H - 1.45) * 0.9, 0, 1.6), d0 = (m.d + v.speed * 0.045 + clamp((v.T.L - 4.5) * 0.8, 0, 1) + big * 1.3) * (v.walker ? 0.62 : 1), h0 = (m.hgt + big + v.speed * 0.012) * (v.walker ? 0.7 : 1);
+    const big = clamp((v.T.H - 1.45) * 0.9, 0, 1.6), d0 = (m.d + v.speed * 0.045 + clamp((v.T.L - 4.5) * 0.8, 0, 1) + big * 1.3) * (v.walker ? 0.62 : v.T.bike ? 0.8 : 1), h0 = (m.hgt + big + v.speed * 0.012) * (v.walker ? 0.7 : v.T.bike ? 0.85 : 1);
     // drag up and down to swing the camera over the car or down near the road
     const el = clamp(Math.atan2(h0, d0) + CAM.pitch, 0.04, 1.3), r = Math.hypot(h0, d0), d = r * Math.cos(el);
     cx = v.x - fx * d; cz = v.z - fz * d; cy = v.y + r * Math.sin(el);
@@ -6399,6 +7136,7 @@ function updateWanted(dt) {
     if (d < 35 && o.los) seen = true;
     if (d < 4.6 && Math.abs(o.y - pv.y) < 2 && (!pv.heli || grounded(pv))) close = true;
   }
+  if (pv.cloaked) seen = false;                              // the Phantom's cloak: nobody has eyes on you
   if (seen) { G.seenT = 0; G.lastSeen.x = pv.x; G.lastSeen.z = pv.z; G.heatT += dt; }
   else G.seenT += dt;
   G.searching = G.seenT > 2.5;
@@ -6741,13 +7479,20 @@ function updateMissions(dt, t) {
 }
 /* ================= Lumina Motors: buy cars, keep them in your garage ================= */
 const DEALER = [
+  { key: 'scooter', price: 1500, tag: '제일 싼 탈것. 골목을 비집고 다니는 125cc 스쿠터 — 코너에서 기울어지고, 세게 부딪히면 튕겨 나갑니다.' },
   { key: 'sedan', price: 2500, tag: '연비 좋은 출퇴근용 세단. 첫 차로 무난합니다.' },
   { key: 'van', price: 4000, tag: '배달 의뢰 보상이 30% 늘어납니다.' },
   { key: 'suv', price: 6000, tag: '튼튼한 차체. 경찰차와 몸싸움에 강합니다.' },
   { key: 'muscle', price: 9000, tag: '거친 V8. 드리프트가 즐거운 차.' },
+  { key: 'chopper', price: 12000, tag: '1800cc V트윈 초퍼. 낮은 안장, 높은 핸들, 크롬 배기관 두 줄. 느긋하지만 토크는 묵직합니다.' },
   { key: 'rally', price: 13000, tag: '노면을 움켜쥐는 접지력과 순발력.' },
   { key: 'sports', price: 18000, tag: '날카로운 핸들링의 GT.' },
   { key: 'monster', price: 26000, tag: '앞을 막는 차는 밀어 버립니다. 내구도 최강.' },
+  { key: 'sportbike', price: 30000, tag: '280km/h 슈퍼스포츠. 정지에서 풀스로틀이면 앞바퀴가 들립니다. 차 사이를 가르는 가속 — 대신 한 번 넘어지면 라이더가 날아갑니다.' },
+  { key: 'bumper', price: 900000, tag: '놀이공원에서 탈출한 범퍼카. 부딪혀도 안 다치고, 벽이든 차든 튕겨 나갑니다. 기둥 끝에서 불꽃이 튑니다.' },
+  { key: 'cruiser', price: 2500000, tag: '내 순찰차. H로 사이렌을 켜면 앞차들이 오른쪽으로 비켜 서고 행인이 길을 비웁니다.' },
+  { key: 'ramcar', price: 20000000, tag: '콘셉트카 · 램 런처. 코 전체가 경사판 — 속도를 붙여 들이받으면 상대 차가 하늘로 날아갑니다.' },
+  { key: 'ghostcar', price: 22000000, tag: '콘셉트카 · 팬텀. H로 8초 은신: 경찰이 놓치고 총도 못 쏘며 온라인 친구 화면에서도 사라집니다.' },
   { key: 'super', price: 40000, tag: '루미나 시티에서 가장 빠른 양산차.' },
   { key: 'volt', price: 18000000, tag: '전기 하이퍼카. 밟는 순간 튀어 나가는 가속, 소리 없는 질주.' },
   { key: 'xevo', price: 25000000, tag: '루미나 X의 진화형. 뽑기 전설차보다 빠릅니다.' },
@@ -6915,7 +7660,7 @@ function buyTune(k) {
   AudioSys.fx('cash'); renderShop();
 }
 function renderBuy() {
-  const d = DEALER[shop.sel], T = CAR_TYPES[d.key], oi = ownedIndex(d.key), owned = oi >= 0, gold = owned && G.garage[oi].trim === 'gold';
+  const d = DEALER[shop.sel], T = CAR_TYPES[d.key], oi = ownedIndex(d.key), owned = oi >= 0, gold = owned && normTrim(G.garage[oi].trim) === 'chrome';
   DEALER.forEach((x, i) => {
     const el = $('shop-i' + i), own = ownedIndex(x.key) >= 0, tier = gachaTierOf(x.key);
     el.setAttribute('aria-selected', String(i === shop.sel));
@@ -6929,7 +7674,7 @@ function renderBuy() {
   const buy = $('shop-buy'), tier = gachaTierOf(d.key);
   if (owned) { buy.textContent = '이 차 타고 나가기'; buy.disabled = false; }
   else { buy.textContent = '차 뽑기로 가기 · 1회 ' + fmtMoney(GACHA.price1); buy.disabled = false; }
-  $('shop-note').textContent = gold ? '골드 트림 차입니다. 골드 도장은 바꿀 수 없습니다.'
+  $('shop-note').textContent = gold ? '크롬 트림 차입니다. 거울 같은 크롬 도장은 바꿀 수 없습니다.'
     : owned ? '이미 가진 차입니다. 색을 바꿔도 무료입니다.'
     : tier ? `전시 차량입니다. 이 차는 차 뽑기 ${tier.name} 등급(${(tier.p * 100).toFixed(tier.p < 0.1 ? 1 : 0)}%)에서만 나옵니다. 신화 이상은 ${GACHA.pity}회마다 확정.`
     : '전시 차량입니다. 차는 차 뽑기에서만 얻을 수 있습니다.';
@@ -6981,7 +7726,7 @@ function buySelected() {
   const idx = ownedIndex(d.key);
   if (idx < 0) { setShopTab('gacha'); AudioSys.fx('click'); return; }    // not for sale: the showroom points at the gacha
   {
-    if (G.garage[idx].trim !== 'gold') G.garage[idx].color = shop.color;
+    if (normTrim(G.garage[idx].trim) !== 'chrome') G.garage[idx].color = shop.color;
     driveOwned(idx);
     subtitle('차고에서 <b>' + P.v.T.name + '</b>를 꺼냈습니다.', 2.6);
   }
@@ -7009,14 +7754,14 @@ const GACHA = {
     { id: 'U', name: '궁극', p: 0.001, color: '#7dffd8', ring: 0x7dffd8, cars: ['titan', 'skycar', 'fighter', 'gunship'], dupe: 500000000 },
     { id: 'X', name: '초월', p: 0.005, color: '#ff9a86', ring: 0xff5a3d, cars: ['warhead', 'jet'], dupe: 60000000 },
     { id: 'M', name: '신화', p: 0.015, color: '#ff5fd2', ring: 0xff5fd2, cars: ['hyper', 'xevo', 'volt'], dupe: 25000000 },
-    { id: 'L', name: '전설', p: 0.05, color: '#ffc53a', ring: 0xffc53a, cars: ['super'], dupe: 8000000 },
-    { id: 'E', name: '에픽', p: 0.14, color: '#b46bff', ring: 0xb46bff, cars: ['sports', 'monster'], dupe: 3000000 },
-    { id: 'R', name: '레어', p: 0.29, color: '#4b9bff', ring: 0x4b9bff, cars: ['muscle', 'rally'], dupe: 1500000 },
-    { id: 'C', name: '일반', p: 0.499, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi'], dupe: 600000 }
+    { id: 'L', name: '전설', p: 0.05, color: '#ffc53a', ring: 0xffc53a, cars: ['super', 'ramcar', 'ghostcar'], dupe: 8000000 },
+    { id: 'E', name: '에픽', p: 0.14, color: '#b46bff', ring: 0xb46bff, cars: ['sports', 'monster', 'cruiser', 'sportbike'], dupe: 3000000 },
+    { id: 'R', name: '레어', p: 0.29, color: '#4b9bff', ring: 0x4b9bff, cars: ['muscle', 'rally', 'bumper', 'chopper'], dupe: 1500000 },
+    { id: 'C', name: '일반', p: 0.499, color: '#aab3bd', ring: 0xaab3bd, cars: ['sedan', 'van', 'suv', 'taxi', 'scooter'], dupe: 600000 }
   ],
-  trims: [['gold', 0.04], ['neon', 0.18], ['stock', 0.78]]
+  trims: [['chrome', 0.04], ['neon', 0.18], ['stock', 0.78]]
 };
-const TRIM_RANK = { stock: 0, neon: 1, gold: 2 };
+const TRIM_RANK = { stock: 0, neon: 1, chrome: 2, gold: 2 };
 const tierIndex = t => GACHA.tiers.indexOf(t);          // 0 = rarest
 const gachaTierOf = key => GACHA.tiers.find(t => t.cars.includes(key)) || null;
 
@@ -7035,13 +7780,13 @@ function rollGacha() {
 function grantGacha(res) {
   const idx = ownedIndex(res.key), base = CAR_TYPES[res.key];
   if (idx < 0) {
-    G.garage.push({ key: res.key, color: res.trim === 'gold' ? GOLD : base.colors ? base.colors[0] : pick(SHOP_COLORS), trim: res.trim, neon: res.trim === 'neon' ? pick(NEONS) : null });
+    G.garage.push({ key: res.key, color: res.trim === 'chrome' ? CHROME : base.colors ? base.colors[0] : pick(SHOP_COLORS), trim: res.trim, neon: res.trim === 'neon' ? pick(NEONS) : null });
     res.outcome = 'new'; res.idx = G.garage.length - 1;
   } else {
     const e = G.garage[idx]; res.idx = idx;
     if (TRIM_RANK[res.trim] > TRIM_RANK[e.trim || 'stock']) {
       e.trim = res.trim; e.neon = res.trim === 'neon' ? pick(NEONS) : null;
-      if (res.trim === 'gold') e.color = GOLD;
+      if (res.trim === 'chrome') e.color = CHROME;
       res.outcome = 'upgrade';
     } else { setMoney(res.tier.dupe, true); res.outcome = 'dupe'; }
   }
@@ -7104,7 +7849,7 @@ function bindGachaUI() {
     '<table><thead><tr><th>등급</th><th>확률</th><th>차량</th><th>중복 보상</th></tr></thead><tbody>' +
     GACHA.tiers.map(t => `<tr><td style="color:${t.color}">${t.name}</td><td>${pct(t.p)}</td><td>${t.cars.map(k => CAR_TYPES[k].name.split(' · ')[0]).join(', ')}</td><td>${fmtMoney(t.dupe)}</td></tr>`).join('') +
     '</tbody></table>' +
-    `<p>트림: 골드 4% (최고속도 +8%, 가속 +6%, 내구도 +25%) · 네온 18% (차체 밑 네온) · 기본 78%. 같은 차가 더 좋은 트림으로 나오면 업그레이드됩니다.</p>` +
+    `<p>트림: <b>크롬</b> 4% (거울 같은 크롬 도장 · 최고속도 +8%, 가속 +6%, 내구도 +25%) · 네온 18% (차체 밑 네온) · 기본 78%. 같은 차가 더 좋은 트림으로 나오면 업그레이드됩니다.</p>` +
     `<p>${GACHA.pity}회 안에 전설 이상이 안 나오면 ${GACHA.pity}번째에 전설 이상이 확정됩니다. 신화 하이퍼카는 뽑기에서만 나옵니다.</p>` +
     `<p><b style="color:#7dffd8">궁극 (0.1%)</b>: 타이탄 전차(주포 한 발에 뭐든 터짐), 루미나 스카이(날개를 펴고 나는 차), 팰컨 전투기(기관포·미사일), 바이퍼 전투 헬기(기수 기관포·로켓 포드). 확정 뽑기로는 나오지 않습니다.</p>`;
 }
@@ -7300,6 +8045,7 @@ function muzzle(v, W) {     // driver's window (helicopter: the cabin door, belo
   if (v.gunship && W && W.car) return W.rocket ? [v.x + fx * 0.6 + lx * 1.9, v.y + 1.3, v.z + fz * 0.6 + lz * 1.9] : [v.x + fx * 3.2, v.y + 0.75, v.z + fz * 3.2];   // the gunship: rocket pod, chin gun
   if (v.heli) return [v.x + fx * 1.6 + lx * 1.3, v.y + 0.6, v.z + fz * 1.6 + lz * 1.3];
   if (v.walker) return [v.x + fx * 0.35 + lx * 0.3, v.y + 1.4, v.z + fz * 0.35 + lz * 0.3];
+  if (v.T.bike) return [v.x + fx * 0.2 + lx * 0.35, v.y + 1.25, v.z + fz * 0.2 + lz * 0.35];   // from the saddle, one hand off the bars
   if (W && W.car && v.turret) {
     const a = v.h + v.turret.rotation.y, tx = Math.sin(a), tz = Math.cos(a), r = v.T.cannon ? 4.6 : 1.4;
     return [v.x + tx * r + fx * v.turret.position.z, v.y + v.turret.position.y + (v.T.cannon ? 0.6 : 0.4), v.z + tz * r + fz * v.turret.position.z];
@@ -8292,7 +9038,7 @@ if (typeof SAVE.bid !== 'string' || !SAVE.bid) { SAVE.bid = Math.random().toStri
 const progressData = () => JSON.parse(JSON.stringify({ money: G.money, garage: G.garage, carIdx: G.carIdx, pity: G.pity || 0, arms: G.arms, weapon: G.weapon, stats: G.stats, flags: G.flags, outfit: G.outfit }));
 function carWorth(c) {
   const d = DEALER.find(x => x.key === c.key);
-  return (d ? d.price : c.key === 'hyper' ? 90000 : 2500) + (c.trim === 'gold' ? 20000 : c.trim === 'neon' ? 4000 : 0) + tuneSpent(c.tune);
+  return (d ? d.price : c.key === 'hyper' ? 90000 : 2500) + (normTrim(c.trim) === 'chrome' ? 20000 : c.trim === 'neon' ? 4000 : 0) + tuneSpent(c.tune);
 }
 // gifts for every player: each one is paid once per save, and its flag travels with the save to every device
 const GIFTS = [{ id: 'gift20261013', money: 30000000 }, { id: 'gift20261014', money: 100000000 }];
@@ -8365,6 +9111,7 @@ function applyProgress(d, write) {
     if (typeof d.money === 'number' && isFinite(d.money)) G.money = Math.max(0, Math.round(d.money));
     if (Array.isArray(d.garage)) {
       const g = d.garage.filter(c => c && typeof c === 'object' && hasOwn(CAR_TYPES, c.key) && !CAR_TYPES[c.key].cop);
+      for (const c of g) if (c.trim) c.trim = normTrim(c.trim);
       if (g.length) G.garage = g;
     }
     G.carIdx = clamp(Math.round(typeof d.carIdx === 'number' ? d.carIdx : G.carIdx) || 0, 0, G.garage.length - 1);
@@ -8489,6 +9236,46 @@ function importCode(txt) {
   if (P.v && P.v.owned && !P.v.heli && !P.v.walker && G.state !== 'title') { const e = ownedCar(); if (e && e.key !== P.v.key) { const at = { x: P.v.x, z: P.v.z, h: P.v.h }; P.v.dispose(); P.v = spawnOwned(at); CAM.init = false; } showCarName(); }
   return { ok: true, money: G.money, cars: G.garage.length };
 }
+/* ---- coupons: a short code typed into the same box hands out the whole collection. Only the SHA-256 of a coupon lives
+        in the page, each coupon works once per save (its flag travels with the save), and the gift it makes is built
+        from the live car list, so new cars count too. ---- */
+const COUPONS = [{ h: 'ca6cad0563cd6db4909d0168703464416ce534b3167ea7ab79d00ebc96c486f1', id: 'cp_master', name: '마스터 쿠폰' }];
+const couponCanon = s => String(s || '').normalize('NFC').toLowerCase().replace(/[\s\-_.·]/g, '');
+async function sha256hex(s) { const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return Array.from(new Uint8Array(buf), b => b.toString(16).padStart(2, '0')).join(''); }
+async function redeemCoupon(txt) {
+  const c = couponCanon(txt);
+  if (!c || c.length > 64) return { ok: false, why: '저장 코드(LUMINA1. …)도 쿠폰도 아닙니다.' };
+  if (!(window.crypto && crypto.subtle)) return { ok: false, why: '이 브라우저에서는 쿠폰을 확인할 수 없습니다 (https 주소로 열어 주세요).' };
+  let h; try { h = await sha256hex(c); } catch (e) { return { ok: false, why: '쿠폰을 확인할 수 없습니다.' }; }
+  const cp = COUPONS.find(x => x.h === h);
+  if (!cp) return { ok: false, why: '맞는 쿠폰이 아닙니다. 철자를 확인하세요 (대소문자·띄어쓰기·하이픈은 상관없음).' };
+  if (G.flags[cp.id]) return { ok: false, why: '이미 사용한 쿠폰입니다 — 보유한 것들은 그대로입니다.' };
+  grantEverything();
+  G.flags = Object.assign({}, G.flags, { [cp.id]: true }); store.set('flags', G.flags);
+  return { ok: true, name: cp.name, money: G.money, cars: G.garage.length };
+}
+// every car in the city (chrome, full tune, every treasure part), every gun, every boat and aircraft, a trillion in the bank
+function grantEverything() {
+  const full = {}, parts = {}; for (const k of TUNE_KEYS) { full[k] = 3; parts[k] = 6; }
+  const have = new Map(G.garage.map(c => [c.key, c])), garage = [];
+  for (const key of Object.keys(CAR_TYPES)) {
+    const T = CAR_TYPES[key]; if (T.cop) continue;
+    const old = have.get(key) || { key, color: T.colors ? T.colors[0] : 0xb3202a };
+    garage.push(Object.assign({}, old, { trim: 'chrome', tune: full, parts }));
+  }
+  const cur = ownedCar(); G.garage = garage; G.carIdx = Math.max(0, garage.findIndex(c => cur && c.key === cur.key)); saveGarage();
+  for (const k of WKEYS) G.arms[k] = { own: true, ammo: Math.max(99999, (G.arms[k] && G.arms[k].ammo) || 0) }; saveArms();
+  G.flags = Object.assign({}, G.flags, { sub: true, orca: true, heli: true, plane: true }); store.set('flags', G.flags);
+  G.stats.treasure = (G.stats.treasure || 0) + 30; store.set('stats', G.stats);
+  if (G.money < 1000000000000) setMoney(1000000000000 - G.money, true);
+  SAVE.gen++; if (!SAVE.dirty) { SAVE.dirty = true; store.set('saveDirty', true); } queueSave(500);
+  // the car you are in becomes its chrome, fully tuned self on the spot
+  const pv = P.v;
+  if (pv && pv.owned && !pv.heli && !pv.walker && (G.state === 'play' || G.state === 'menu')) { const at = { x: pv.x, z: pv.z, h: pv.h }; pv.dispose(); P.v = spawnOwned(at); CAM.init = false; showCarName(); }
+  else if (G.state === 'title' && !G.everStarted && P.v) { P.v.dispose(); P.v = spawnOwned(SPAWN); }
+  if (G.state === 'shop') { shop.gsel = Math.min(shop.gsel, G.garage.length - 1); renderShop(); }
+  saveNote();
+}
 // a link can carry a save code: lumina.../#code=LUMINA1.… applies it once on load, then the address is cleaned
 function importFromUrl() {
   let m = null;
@@ -8510,14 +9297,15 @@ function openCodeBox() {
       let ok = false; try { await navigator.clipboard.writeText(t.value); ok = true; } catch (e) { try { ok = document.execCommand('copy'); } catch (e2) { ok = false; } }
       $('code-note').textContent = ok ? '복사했습니다. 다른 기기에서 붙여넣고 "불러오기"를 누르세요.' : '자동 복사가 안 됩니다 — 칸을 길게 눌러 전체 선택 후 복사하세요.'; AudioSys.fx('click');
     });
-    $('code-load').addEventListener('click', () => {
-      const r = importCode($('code-text').value);
-      $('code-note').textContent = r.ok ? '불러왔습니다 · 보유 ' + fmtMoney(r.money) + ' · 차 ' + r.cars + '대' : r.why;
-      if (r.ok) { AudioSys.fx('win'); saveNote(); if (G.state === 'title') { $('start').textContent = '이어서 달리기'; } }
+    $('code-load').addEventListener('click', async () => {
+      const txt = $('code-text').value, isCode = txt.replace(/\s+/g, '').startsWith(CODE_TAG);
+      const r = isCode ? importCode(txt) : await redeemCoupon(txt);
+      $('code-note').textContent = r.ok ? (isCode ? '불러왔습니다' : r.name + ' 적용! 모든 차(크롬·풀튜닝·부품 만렙)·무기·탈것·보물 지급') + ' · 보유 ' + fmtMoney(r.money) + ' · 차 ' + r.cars + '대' : r.why;
+      if (r.ok) { AudioSys.fx(isCode ? 'win' : 'fanfare'); saveNote(); if (G.state === 'title') { $('start').textContent = '이어서 달리기'; } }
     });
     document.querySelectorAll('#codebox [data-close]').forEach(b => b.addEventListener('click', () => { if (G.state === 'menu') closeMenu(); else $('codebox').hidden = true; }));
   }
-  $('code-text').value = exportCode(); $('code-note').textContent = '내 진행 상황이 코드로 담겨 있습니다. 다른 코드를 붙여넣고 "불러오기"를 누르면 그 저장으로 바뀝니다.';
+  $('code-text').value = exportCode(); $('code-note').textContent = '내 진행 상황이 코드로 담겨 있습니다. 다른 저장 코드나 쿠폰을 입력하고 "불러오기"를 누르세요.';
   if (G.state === 'title') { $('codebox').hidden = false; return; }      // over the title screen, no game state to pause
   if (G.state !== 'play' && G.state !== 'end') return;
   openMenu('codebox');
@@ -9522,10 +10310,10 @@ function fighterGeo(hex) {
 class Fighter extends Plane {
   constructor(hex, trim, neon, tune, parts) {
     super(hex != null ? hex : CAR_TYPES.fighter.colors[0]);
-    this.key = 'fighter'; this.fighter = true; this.trim = trim || 'stock'; this.neon = null;
+    this.key = 'fighter'; this.fighter = true; this.trim = normTrim(trim || 'stock'); this.neon = null;
     this.tune = tune && typeof tune === 'object' ? tune : null; this.parts = parts && typeof parts === 'object' ? parts : null;
     this.T = trimType('fighter', this.trim, this.tune, this.parts); this.hp = this.T.hp;
-    if (this.trim === 'gold') this.color = GOLD;
+    if (this.trim === 'chrome') { this.color = CHROME; applyChrome(this.mesh); }
     const body = this.mesh.children[0]; body.geometry = fighterGeo(this.color);
     if (this.blob) this.blob.geometry = cachedGeo('blobfighter', () => new THREE.PlaneGeometry(9.5, 12.5).rotateX(-Math.PI / 2));
     this.r = 2.6; this.off = 2.6;
@@ -9561,10 +10349,10 @@ function gunshipGeo(hex) {
 class Gunship extends Heli {
   constructor(hex, trim, neon, tune, parts) {
     super(hex != null ? hex : CAR_TYPES.gunship.colors[0]);
-    this.key = 'gunship'; this.gunship = true; this.trim = trim || 'stock'; this.neon = null;
+    this.key = 'gunship'; this.gunship = true; this.trim = normTrim(trim || 'stock'); this.neon = null;
     this.tune = tune && typeof tune === 'object' ? tune : null; this.parts = parts && typeof parts === 'object' ? parts : null;
     this.T = trimType('gunship', this.trim, this.tune, this.parts); this.hp = this.T.hp;
-    if (this.trim === 'gold') this.color = GOLD;
+    if (this.trim === 'chrome') { this.color = CHROME; applyChrome(this.mesh); }
     const body = this.mesh.children[0]; body.geometry = gunshipGeo(this.color);
     this.rotor.position.y = 2.95; this.disc.position.y = 2.96;
     this.r = 2.0; this.off = 1.6;
@@ -9575,6 +10363,76 @@ makeCar = function (key, hex, detailed, trim, neon, tune, parts) {
   if (key === 'gunship') return new Gunship(hex, trim, neon, tune, parts);
   return new Vehicle(key, hex, detailed, trim, neon, tune, parts);
 };
+/* ================= the fun shelf: the patrol car's siren, the Phantom's cloak, the dodgem's sparks ================= */
+// Each of these cars has one trick on the H key (the horn key; touch: the 특수 button). The dodgem and the launcher
+// need no key: their tricks live in the collision code (31_vehicle.js).
+const SPECIAL_TXT = { siren: '사이렌', cloak: '은신', bounce: '범퍼', launch: '램프' };
+const CLOAK_T = 8, CLOAK_CD = 20;
+function carSpecial() {
+  const v = P.v; if (!v || !v.T || G.state !== 'play') return false;
+  if (v.T.special === 'siren') {
+    v.sirenOn = !v.sirenOn; AudioSys.fx('click');
+    if (v.sirenOn && !G.toldSiren) { G.toldSiren = true; help('<b>사이렌</b>을 켰습니다. 앞의 차들이 오른쪽으로 비켜 서고, 행인은 길을 비웁니다. 다시 누르면 끕니다.', 4); }
+    return true;
+  }
+  if (v.T.special === 'cloak') {
+    if (v.cloakT > 0) { uncloak(v); return true; }
+    if (v.cloakCD > 0) { help('은신 장치 충전 중 · ' + Math.ceil(v.cloakCD) + '초', 1.5); return true; }
+    cloak(v); return true;
+  }
+  return false;
+}
+/* ---- the cloak: the car fades to a shimmer; the police lose you, friends online stop seeing you ---- */
+const cloakMats = new Map();
+function cloakOf(m) {
+  let c = cloakMats.get(m); if (c) return c;
+  c = m.clone(); c.transparent = true; c.opacity = Math.min(0.22, m.transparent ? m.opacity * 0.3 : 0.22); c.depthWrite = false; c.userData.shared = true;
+  if (c.envMapIntensity != null) c.envMapIntensity *= 0.5;
+  cloakMats.set(m, c); return c;
+}
+function cloak(v) {
+  v.cloakT = CLOAK_T; v.cloaked = true;
+  v.mesh.traverse(o => { if (o.isMesh && o.material && !o.userData.mat0) { o.userData.mat0 = o.material; o.material = cloakOf(o.material); } });
+  if (v.siren) { v.siren.red.color.setHex(0x401010); v.siren.blue.color.setHex(0x101a40); }
+  burst(v.x, v.y + 0.8, v.z, 'puff', 12, 1.1); AudioSys.fx('emp');
+  if (!G.toldCloak) { G.toldCloak = true; help('<b>은신</b> ' + CLOAK_T + '초: 경찰은 당신을 놓치고 총도 못 쏘며, 온라인 친구 화면에서도 사라집니다. 다시 누르면 해제, 재충전 ' + CLOAK_CD + '초.', 5); }
+}
+function uncloak(v) {
+  v.cloakT = 0; v.cloaked = false; v.cloakCD = CLOAK_CD;
+  v.mesh.traverse(o => { if (o.isMesh && o.userData.mat0) { o.material = o.userData.mat0; delete o.userData.mat0; } });
+  burst(v.x, v.y + 0.8, v.z, 'spark', 8, 0.8); AudioSys.fx('shine');
+}
+/* ---- every frame ---- */
+function updateSpecials(dt) {
+  const v = P.v; if (!v) return;
+  if (v.cloakCD > 0) v.cloakCD = Math.max(0, v.cloakCD - dt);
+  if (v.cloakT > 0) {
+    v.cloakT -= dt;
+    if (v.cloakT <= 0 || v.dead) uncloak(v);
+    else if (Math.random() < dt * 12) fire.emit(v.x + rnd(-1, 1), v.y + rnd(0.3, 1.2), v.z + rnd(-1.8, 1.8), 0, rnd(0.2, 0.6), 0, 0.3, 0.35, 0, [0.6, 0.4, 1], 0.6, 1, 0);
+  }
+  if (v.sirenOn) {
+    if (v.dead || !v.siren) v.sirenOn = false;
+    else { const ph = (G.t * 6) % 2 < 1; v.siren.red.color.setHex(ph ? 0xff2424 : 0x3a0c0c); v.siren.blue.color.setHex(!ph ? 0x2f62ff : 0x0c143a); if (G.state === 'play' && Math.random() < dt * 2) panicPeds(v.x + Math.sin(v.h) * 20, v.z + Math.cos(v.h) * 20, 26); }
+  } else if (v.siren && v.T.special === 'siren' && !v.cloaked) { v.siren.red.color.setHex(0x401010); v.siren.blue.color.setHex(0x101a40); }
+  if (v.T.bumper && v.speed > 1.5 && Math.random() < dt * 28) {   // the pole shoe arcs on the grid
+    const fx = Math.sin(v.h), fz = Math.cos(v.h);
+    fire.emit(v.x - fx * (v.T.L * 0.5 - 0.3), v.y + 2.36, v.z - fz * (v.T.L * 0.5 - 0.3), rnd(-1.5, 1.5), rnd(0.5, 2.5), rnd(-1.5, 1.5), rnd(0.2, 0.4), 0.22, -0.2, [0.75, 0.9, 1], 1, 1.5, 12);
+  }
+}
+// the touch button and the one-time hint follow the car you are in (called from showCarName)
+function setSpecialUI() {
+  const v = P.v, sp = v && v.T && v.T.special, keyed = sp === 'siren' || sp === 'cloak';
+  if (v && v.T && v.T.bike && G.state === 'play' && !G.toldBike) { G.toldBike = true; help('<b>오토바이</b>: 코너에서 저절로 기울고, 정지에서 풀스로틀이면 앞바퀴가 들립니다. 40km/h 넘게 부딪히면 <b>라이더가 튕겨 나가니</b> 조심 — 다시 타려면 옆에서 ' + (IS_TOUCH ? '<b>승하차</b>' : '<b>F</b>') + '.', 6); }
+  document.body.classList.toggle('special', !!keyed);
+  const b = $('t-special'); if (b) b.textContent = keyed ? SPECIAL_TXT[sp] : '';
+  if (sp && G.state === 'play' && !(G.toldSpecial && G.toldSpecial[sp])) {
+    G.toldSpecial = Object.assign({}, G.toldSpecial, { [sp]: true });
+    const how = IS_TOUCH ? '<b>' + SPECIAL_TXT[sp] + '</b> 버튼' : '<b>H</b> 키';
+    help(sp === 'siren' ? how + ' — 사이렌. 앞차들이 길을 비킵니다.' : sp === 'cloak' ? how + ' — 은신. 8초 동안 경찰과 온라인 친구에게서 사라집니다.'
+      : sp === 'bounce' ? '범퍼카: 부딪혀도 안 다치고 벽과 차에서 튕겨 나갑니다. 마음껏 들이받으세요.' : '램 런처: 속도를 붙여 들이받으면 상대 차가 경사판을 타고 하늘로 날아갑니다.', 5);
+  }
+}
 /* ================= special abilities: slow motion (Franklin-style), jump, shockwave, EMP ================= */
 const ABIL = {
   slow: { name: '슬로모', key: 'T', meter: 1, on: false },
@@ -9713,7 +10571,7 @@ function bigText(main, sub, color, dur = 2.5) {
 }
 function showCashDelta(d) { H.cash_delta.textContent = (d > 0 ? '+' : '-') + fmtMoney(Math.abs(d)); H.cash_delta.classList.toggle('neg', d < 0); H.cash_delta.style.opacity = 1; hudT.delta = 2.2; }
 function pulseStars() { if (H.stars.animate && !REDUCED) H.stars.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' }); }
-function showCarName() { setText(H.carname, 'car', P.v.T.name + (P.v.owned ? ' · 내 차' : '')); }
+function showCarName() { setText(H.carname, 'car', P.v.T.name + (P.v.owned ? ' · 내 차' : '')); if (typeof setSpecialUI === 'function') setSpecialUI(); }
 /* ---- police kills: a counter under the stars and a feed entry for every one ---- */
 const feedEl = $('feed'), killsEl = $('kills'), feedItems = [];
 function killFeed(txt, n, total) {
@@ -9768,7 +10626,7 @@ function updateHUD(dt) {
     if ((area === '순환 고속도로' || area === '루미나 국제공항') && !hudCache.toldOut && G.state === 'play') { hudCache.toldOut = true; help('도시 밖으로 <b>순환 고속도로</b>와 <b>루미나 국제공항</b>이 열렸습니다. 활주로에서 최고 속도를 재 보세요.', 6); }
   }
   if ((hudT.area -= dt) <= 0) H.area.classList.remove('show');
-  setText(H.street, 'street', v.sub ? '수심 ' + Math.round(Math.max(0, -v.y)) + 'm · 보물 ' + ((G.stats && G.stats.treasure) || 0) + '개' : v.heli ? '고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.plane ? (v.onGround ? ' · 지상' : v.vf < (v.T.stall || PLANE_STALL) ? ' · 실속!' : '') : '') : v.flying ? '비행 중 · 고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.vf < FLY_STALL ? ' · 실속!' : '') : G.inside && ROOMS[G.inside] ? ROOMS[G.inside].name + ' 내부' : streetAt(v.x, v.z));
+  setText(H.street, 'street', v.sub ? '수심 ' + Math.round(Math.max(0, -v.y)) + 'm · 보물 ' + ((G.stats && G.stats.treasure) || 0) + '개' : v.heli ? '고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.plane ? (v.onGround ? ' · 지상' : v.vf < (v.T.stall || PLANE_STALL) ? ' · 실속!' : '') : '') : v.flying ? '비행 중 · 고도 ' + Math.round(Math.max(0, v.y)) + 'm' + (v.vf < FLY_STALL ? ' · 실속!' : '') : G.inside && ROOMS[G.inside] ? ROOMS[G.inside].name + ' 내부' : (v.cloakT > 0 ? '은신 중 ' + Math.ceil(v.cloakT) + '초 · ' : v.sirenOn ? '사이렌 · ' : '') + streetAt(v.x, v.z));
   const flyKind = v.sub ? 3 : v.plane ? 2 : v.heli ? 1 : 0;
   if (hudCache.fly !== flyKind) { hudCache.fly = flyKind; setFlyUI(flyKind > 0, flyKind); }
   setText(H.weapon, 'wpn', GUN.armed ? WEAPONS[G.weapon].name + '  ' + (WEAPONS[G.weapon].rate >= 2 && GUN.cd > 0.25 ? '충전 ' + GUN.cd.toFixed(1) + 's' : isFinite(armsOf(G.weapon).ammo) ? armsOf(G.weapon).ammo : '∞') : (IS_TOUCH ? '총 넣어 둠' : '총 넣어 둠 · G'));
@@ -9975,6 +10833,7 @@ function buildCockpit() {
   P.wheel = wheel; grp.add(wheel);
   mk('armL', new THREE.BoxGeometry(1, 1, 1), soft); mk('armR', new THREE.BoxGeometry(1, 1, 1), soft);
   mk('column', new THREE.CylinderGeometry(0.03, 0.03, 0.32, 8), dark);
+  for (const k of ['wheel', 'armL', 'armR', 'column']) P[k].visible = false;   // no steering wheel in the view: the road is the point
   grp.visible = false; scene.add(grp); COCKPIT.grp = grp;
   // the live mirror: a small render target, desktop only
   if (!LOW && renderer) {
@@ -9987,24 +10846,24 @@ function buildCockpit() {
 function fitCockpit(v) {
   const T = v.T, W = T.W, H = T.H, L = T.L, P = COCKPIT.parts, box = (m, w, h, d, x, y, z) => { m.scale.set(w, h, d); m.position.set(x, y, z); };
   const cabin = !!(v.mesh && v.mesh.userData.interior);
-  const e = cockpitEye(v), ey = e[1], ez = e[2], ex = -e[0], dashY = ey - 0.26, roofY = cabin ? ey + 0.3 : ey + 0.36, front = ez + 0.82;   // in a modelled cabin the mirror hangs a little lower, under its headliner   // mesh-local +x is the car's left; the roofline sits a head above the eyes whatever the car
+  const e = cockpitEye(v), ey = e[1], ez = e[2], ex = -e[0], dashY = ey - 0.31, roofY = cabin ? ey + 0.3 : ey + 0.36, front = ez + 0.82;   // in a modelled cabin the mirror hangs a little lower, under its headliner   // mesh-local +x is the car's left; the roofline sits a head above the eyes whatever the car
   box(P.dashTop, W * 0.94, 0.05, 0.62, 0, dashY, front);
   box(P.dash, W * 0.94, 0.3, 0.34, 0, dashY - 0.17, front - 0.12);
   box(P.hood, W * 0.9, 0.04, Math.max(0.4, L * 0.22), 0, dashY - 0.03, front + 0.3 + Math.max(0.4, L * 0.22) / 2);
   P.hood.material.color.setHex(v.color);
   // instrument binnacle behind the wheel: speed left, revs right, digital panel between
-  box(P.binnacle, 0.5, 0.2, 0.08, ex, dashY + 0.1, front - 0.2); P.binnacle.rotation.x = -0.35;
-  const dz = front - 0.236, dy = dashY + 0.115;
-  box(P.speedo, 0.17, 0.17, 1, ex - 0.15, dy, dz); P.speedo.rotation.set(-0.35, Math.PI, 0);
-  box(P.tacho, 0.17, 0.17, 1, ex + 0.15, dy, dz); P.tacho.rotation.set(-0.35, Math.PI, 0);
+  box(P.binnacle, 0.44, 0.13, 0.08, ex, dashY + 0.065, front - 0.2); P.binnacle.rotation.x = -0.35;
+  const dz = front - 0.236, dy = dashY + 0.075;
+  box(P.speedo, 0.12, 0.12, 1, ex - 0.13, dy, dz); P.speedo.rotation.set(-0.35, Math.PI, 0);
+  box(P.tacho, 0.12, 0.12, 1, ex + 0.13, dy, dz); P.tacho.rotation.set(-0.35, Math.PI, 0);
   P.needleS.position.set(ex - 0.15, dy, dz - 0.004); P.needleS.rotation.set(-0.35, 0, 0);
   P.needleR.position.set(ex + 0.15, dy, dz - 0.004); P.needleR.rotation.set(-0.35, 0, 0);
-  box(P.panel, 0.13, 0.05, 1, ex, dy + 0.005, dz); P.panel.rotation.set(-0.35, Math.PI, 0);
+  box(P.panel, 0.11, 0.04, 1, ex, dy + 0.005, dz); P.panel.rotation.set(-0.35, Math.PI, 0);
   // centre console: a nav screen and vents
   box(P.screen, 0.26, 0.16, 1, -ex * 0.1, dashY - 0.02, front - 0.3); P.screen.rotation.set(-0.25, Math.PI, 0);
   box(P.ventL, 0.1, 0.05, 0.03, ex - 0.36, dashY + 0.02, front - 0.28); box(P.ventR, 0.1, 0.05, 0.03, -ex + 0.36, dashY + 0.02, front - 0.28);
   box(P.ventC1, 0.08, 0.05, 0.03, -ex * 0.1 - 0.18, dashY + 0.02, front - 0.28); box(P.ventC2, 0.08, 0.05, 0.03, -ex * 0.1 + 0.18, dashY + 0.02, front - 0.28);
-  for (const [m, s] of [[P.pillarL, -1], [P.pillarR, 1]]) { box(m, 0.06, roofY - dashY + 0.3, 0.1, s * W * 0.47, (roofY + dashY) / 2, front - 0.12); m.rotation.x = -0.5; m.rotation.z = -s * 0.08; }
+  for (const [m, s] of [[P.pillarL, -1], [P.pillarR, 1]]) { box(m, 0.05, roofY - dashY + 0.3, 0.08, s * W * 0.49, (roofY + dashY) / 2, front + 0.22); m.rotation.x = -0.5; m.rotation.z = -s * 0.08; }
   box(P.header, W * 0.94, 0.08, 0.2, 0, roofY, front - 0.15);                             // the windshield's top edge: a thin band along the top of the view
   box(P.visor, W * 0.9, 0.12, 1, 0, roofY - 0.1, front - 0.3); P.visor.rotation.x = -0.5;
   box(P.mirrorFrame, 0.3, 0.1, 0.02, 0, roofY - 0.16, front - 0.3); P.mirrorFrame.rotation.x = -0.15;
@@ -10022,7 +10881,10 @@ function fitCockpit(v) {
   COCKPIT.key = v.key; COCKPIT.hex = v.color; COCKPIT.fitCabin = cabin;
 }
 // where the driver's eyes are, in the car's frame: left seat, well back in the cabin, just over the dashboard
-const cockpitEye = v => [-v.T.W * 0.2, v.T.H * 0.84 + (v.T.lift || 0) * 0.5, -v.T.L * 0.07];
+const BIKE_EYE = { sportbike: [0, 1.56, -0.22], scooter: [0, 1.62, -0.3], chopper: [0, 1.46, -0.5] };
+const cockpitEye = v => v.T.bike ? (BIKE_EYE[v.key] || BIKE_EYE.sportbike) : [-v.T.W * 0.2, v.T.H * 0.84 + (v.T.lift || 0) * 0.5, -v.T.L * 0.07];
+// on a bike there is no cabin: the view is the rider's own, with the helmet (head) out of the way and the arms on the bars
+function setRiderHead(v, on) { if (v.rider) for (const o of v.rider.grp.children) if (o.userData.head && o.visible !== on) o.visible = on; }
 // From the driver's seat the car's own body is hidden and the rig is the whole interior, sized to that car: a glTF shell
 // has an inside (pillars, a roof, dark back faces) that filled the view with black slabs, and the built-in bodies showed
 // their painted sills through the floor. The body comes back the moment the view changes or the car does.
@@ -10032,7 +10894,10 @@ function setModelSteer(grp, on) { grp.traverse(o => { if (o.isMesh && o.userData
 const RIG_SHELL = ['dash', 'dashTop', 'hood', 'screen', 'ventL', 'ventR', 'ventC1', 'ventC2', 'pillarL', 'pillarR', 'header', 'visor', 'mirrorL', 'mirrorR', 'glassL', 'glassR', 'doorL', 'doorR', 'seat', 'carpet'];
 function updateCockpit(v, fp) {
   if (!COCKPIT.grp) buildCockpit();
-  const show = fp && v && !v.heli && !v.walker && !v.dead;
+  const show = fp && v && !v.heli && !v.walker && !v.dead && !v.T.bike;
+  const rider = fp && v && v.T && v.T.bike && v.rider && !v.dead ? v : null;
+  if (COCKPIT.hidHead && COCKPIT.hidHead !== rider) { setRiderHead(COCKPIT.hidHead, true); COCKPIT.hidHead = null; }
+  if (rider && COCKPIT.hidHead !== rider) { setRiderHead(rider, false); COCKPIT.hidHead = rider; }
   const cabin = !!(show && v.mesh && v.mesh.userData.interior);
   const shell = show && v.mesh && !cabin ? v.mesh : null, steer = cabin ? v.mesh : null;
   if (COCKPIT.hid && COCKPIT.hid !== shell) { setCarShell(COCKPIT.hid, true); COCKPIT.hid = null; }
@@ -10384,7 +11249,7 @@ function netSend() {
   const p = { nk: NET.nick, gn: NET.gang, gc: NET.gangC, of: G.outfit, st: v.walker ? 'ped' : v.sub ? 'sub' : v.plane ? 'plane' : v.heli ? 'heli' : 'car', k: v.key, c: v.color, tr: v.trim || 'stock', ne: v.neon || 0,
     x: r2(v.x), y: r2(v.y), z: r2(v.z), h: r3(v.h), vx: r2(v.vx), vz: r2(v.vz), vy: r2(v.vy || 0), f: r1(v.vf), s: r1(v.speed), g: v.onGround ? 1 : 0, d: v.dead ? 1 : 0,
     p: r3(v.pitch || 0), r: r3(v.roll || 0), sw: r2(v.steer || 0), rs: r2(v.rotorSpd || 0), th: r2(v.thr || 0), pa: r3(v.pitchA || 0), b: r3(v.bank || 0), yv: r2(v.yawV || 0), fl: v.flying ? 1 : 0,
-    hp: Math.round(v.hp / v.T.hp * 100), w: G.wanted, md: v.mesh && v.mesh.userData.model ? 1 : 0, kl: NET.pvp, ev: NET.ev.map(e => e.e), fw: null, ax: null, ay: null, az: null,
+    hp: Math.round(v.hp / v.T.hp * 100), w: G.wanted, md: v.mesh && v.mesh.userData.model ? 1 : 0, hd: v.cloaked ? 1 : 0, sr: v.sirenOn ? 1 : 0, kl: NET.pvp, ev: NET.ev.map(e => e.e), fw: null, ax: null, ay: null, az: null,
     rc: netRaceHostState(), rr: netRaceMyState() };
   if (GUN.armed && G.t - (GUN.lastFireT || -99) < 0.2 && hasOwn(WEAPONS, G.weapon)) {       // firing: the others draw my muzzle flash and tracers
     p.fw = G.weapon; const a = aimAlive(GUN.aim) ? aimPoint(GUN.aim) : GUN.free;
@@ -10398,7 +11263,7 @@ const netBytes = o => { try { return new TextEncoder().encode(JSON.stringify(o))
 function netEnsure(p) {
   const s = p.presence;
   if (!s || typeof s !== 'object' || !s.st || typeof s.k !== 'string') return null;
-  const sig = s.st + '|' + s.k + '|' + (s.c | 0) + '|' + s.tr + '|' + (s.ne | 0) + (s.st === 'ped' ? '|' + JSON.stringify(cleanOutfit(s.of)) : '');
+  const sig = s.st + '|' + s.k + '|' + (s.c | 0) + '|' + s.tr + '|' + (s.ne | 0) + (s.st === 'ped' || (s.st === 'car' && hasOwn(CAR_TYPES, s.k) && CAR_TYPES[s.k].bike) ? '|' + JSON.stringify(cleanOutfit(s.of)) : '');
   let g = NET.ghosts.get(p.peer), log = null;
   if (g && g.sig !== sig) { log = g.log; netDrop(p.peer); g = null; }      // a new look (on foot, another car): what we already applied carries over
   if (g) return g;
@@ -10410,7 +11275,7 @@ function netEnsure(p) {
     else if (s.st === 'heli') v = s.k === 'gunship' ? new Gunship(hex) : new Heli(hex);
     else if (s.st === 'plane') v = s.k === 'fighter' ? new Fighter(hex) : new Plane(hex);
     else if (s.st === 'sub') v = new Sub(hex, s.k === 'orca' ? 'orca' : 'sub');
-    else v = new Vehicle(hasOwn(CAR_TYPES, s.k) && !CAR_TYPES[s.k].cop ? s.k : 'sedan', hex, true, ['stock', 'gold', 'neon'].includes(s.tr) ? s.tr : 'stock', s.ne ? (+s.ne & 0xffffff) : null);
+    else v = new Vehicle(hasOwn(CAR_TYPES, s.k) && !CAR_TYPES[s.k].cop ? s.k : 'sedan', hex, true, normTrim(s.tr), s.ne ? (+s.ne & 0xffffff) : null, null, null, cleanOutfit(s.of));   // a biker wears their own outfit
   } catch (e) { return null; }
   v.ghost = true; v.peerId = p.peer; v.owned = false; v.ai = null;
   v.damage = d => netHurt(p.peer, d);              // what lands on a ghost is sent to its owner
@@ -10474,8 +11339,9 @@ function netGhostStep(g, p, dt) {
   if (v.heli) { v.rotorSpd = +s.rs || 0; v.yawV = +s.yv || 0; v.vr = 0; v.thr = +s.th || 0; if (v.plane) { v.pitchA = +s.pa || 0; v.bank = +s.b || 0; } }
   else if (v.walker) { v.running = v.speed > 5; v.fall = s.d ? 1 : 0; }
   else { v.pitch = +s.p || 0; v.roll = +s.r || 0; v.steer = +s.sw || 0; if (v.T.fly) { v.flying = !!s.fl; v.pitchA = +s.p || 0; v.bank = +s.r || 0; v.boost = v.flying && v.speed > 5 ? 1 : 0; } }
-  const show = !s.d || v.walker;
+  const show = (!s.d || v.walker) && !s.hd;                 // dead cars and cloaked Phantoms are not drawn
   if (v.mesh.visible !== show) v.mesh.visible = show;
+  if (v.siren && v.T.special === 'siren') { const on = !!s.sr, ph = (G.t * 6) % 2 < 1; v.siren.red.color.setHex(on && ph ? 0xff2424 : 0x401010); v.siren.blue.color.setHex(on && !ph ? 0x2f62ff : 0x101a40); }
   if (show) { v.sync(dt); if (s.fw) netGhostFire(g, s, dt); }
   const far = Math.hypot(v.x - P.v.x, v.z - P.v.z) > 180;
   g.tag.visible = show && !far;
@@ -10821,11 +11687,12 @@ function leaveCar() {
   if (pv.flying) { help('착륙한 뒤에 내리세요.', 2); return; }
   if (pv.speed > 3) { help('차를 세운 뒤 내리세요.', 2); return; }
   if (pv.y - groundAt(pv.x, pv.z) > 2.5) { help('땅 위에서만 내릴 수 있습니다.', 2); return; }
-  pv.vx = pv.vz = 0; pv.vy = 0; if (pv.plane) pv.thr = 0; pv.sync(0);
+  pv.vx = pv.vz = 0; pv.vy = 0; if (pv.plane) pv.thr = 0; if (pv.cloakT > 0) uncloak(pv); pv.sirenOn = false; pv.sync(0);
   const lx = Math.cos(pv.h), lz = -Math.sin(pv.h), fx = Math.sin(pv.h), fz = Math.cos(pv.h), side = pv.T.W * 0.5 + 0.7;
   const spots = [[pv.x + lx * side, pv.z + lz * side], [pv.x - lx * side, pv.z - lz * side], [pv.x - fx * (pv.T.L * 0.5 + 0.8), pv.z - fz * (pv.T.L * 0.5 + 0.8)], [pv.x + fx * (pv.T.L * 0.5 + 0.8), pv.z + fz * (pv.T.L * 0.5 + 0.8)]];
   let spot = spots.find(s => !walkBlocked(s[0], s[1]) && Math.abs(groundAt(s[0], s[1], pv.y + 1) - pv.y) < 1.5) || spots[0];
   const a = { v: pv, mode: 'parked', t: 0, mine: true }; pv.ai = a; traffic.push(a);
+  if (pv.rider) { pv.rider.grp.visible = false; pv.riderless = true; pv.fallen = false; pv.roll = 0.2; pv.sync(0); }   // a bike left on its stand has nobody on it
   const w = new Walker(G.outfit); w.place(spot[0], spot[1], pv.h, pv.y + 1);
   P.v = w; CAM.init = false; showCarName(); AudioSys.fx('click');
   if (!G.walkedOnce) { G.walkedOnce = true; help(IS_TOUCH ? '내렸습니다. <b>가속</b>으로 걷고 <b>니트로</b>를 같이 누르면 달립니다. <b>드리프트</b>로 점프, 차 옆에서 <b>승하차</b>로 다시 탑니다.' : '내렸습니다. <b>W/S</b> 걷기 · <b>Shift</b>+W 달리기 · <b>Space</b> 점프 · <b>A/D</b> 방향 · 차 옆에서 <b>F</b> 타기 · <b>G</b> 총 꺼내기', 7); }
@@ -11415,6 +12282,7 @@ function carCollisions() {
   const pv = P.v;
   for (const a of traffic) {
     const v = a.v;
+    if (pv.walker && v.thrownT > 0) continue;                                      // the bike that just threw you slides past, it does not run you over
     if (Math.abs(v.x - pv.x) < 9 && Math.abs(v.z - pv.z) < 9) { const hit = collideCars(pv, v); if (hit) contact(pv, v, hit, a); }
     for (const c of cops) if (Math.abs(v.x - c.v.x) < 9 && Math.abs(v.z - c.v.z) < 9) { const hit = collideCars(c.v, v); if (hit) contact(c.v, v, hit, a); }
   }
@@ -11485,6 +12353,7 @@ function simulate(dt) {
     G.lockT -= dt; G.resetCD -= dt; regenPlayer(pdt);
   }
   updateCash(dt, G.t);
+  updateSpecials(dt);
 }
 
 let lastT = performance.now(), audioN = 0;
@@ -11529,7 +12398,7 @@ function frame(now) {
   let nearCop = 1e9; for (const c of cops) if (c.mode === 'chase') nearCop = Math.min(nearCop, Math.hypot(c.v.x - v.x, c.v.z - v.z));
   const inp = G.state === 'play' ? readInput() : NOINPUT;
   AudioSys.live = G.state === 'play' || G.state === 'end';
-  if ((audioN++ & 1) === 0) AudioSys.update({ rpm: v.heli || v.walker ? 0 : engineRpm(v, inp.throttle), load: v.heli || v.walker ? 0 : inp.throttle, speed: v.heli ? v.speed * 0.4 : v.speed, skid: v.skid, siren: nearCop < 160 ? 1 - nearCop / 160 : 0, sirenT: G.t, nitro: v.plane ? v.thr > 0.1 : v.nitroOn, boost: v.plane ? 0.6 + v.thr * 1.6 : v.boost || 0, dead: v.dead || !!v.heli || !!v.walker, heli: v.heli && !v.plane ? Math.max(heliVolume(v), 0.85 * v.rotorSpd) : heliVolume(v), ev: !!v.T.ev || !!v.sub, jet: !!v.T.jet || !!v.plane, gear: v.heli ? 'N' : gearOf(v) });
+  if ((audioN++ & 1) === 0) AudioSys.update({ rpm: v.heli || v.walker ? 0 : engineRpm(v, inp.throttle), load: v.heli || v.walker ? 0 : inp.throttle, speed: v.heli ? v.speed * 0.4 : v.speed, skid: v.skid, siren: Math.max(nearCop < 160 ? 1 - nearCop / 160 : 0, v.sirenOn ? 1 : 0), sirenT: G.t, nitro: v.plane ? v.thr > 0.1 : v.nitroOn, boost: v.plane ? 0.6 + v.thr * 1.6 : v.boost || 0, dead: v.dead || !!v.heli || !!v.walker, heli: v.heli && !v.plane ? Math.max(heliVolume(v), 0.85 * v.rotorSpd) : heliVolume(v), ev: !!v.T.ev || !!v.sub, jet: !!v.T.jet || !!v.plane, gear: v.heli ? 'N' : gearOf(v) });
   renderMirror(v);
   renderFrame();
 }
